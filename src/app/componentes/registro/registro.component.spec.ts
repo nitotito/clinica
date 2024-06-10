@@ -5,6 +5,7 @@ import { SourceTextModule } from 'vm';
 import { ConsultasBackServiceService } from '../../servicio/consultas-back-service.service';
 import { Usuario } from '../../entidades/Usuario';
 
+
 @Component({
   selector: 'app-registro',
   standalone: true,
