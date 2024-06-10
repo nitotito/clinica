@@ -1,0 +1,45 @@
+<div id="div-to-center">
+  <div class="login-container">
+    <h2>Completá tus datos</h2>
+        <div class="form-container">        
+            <form action="#" method="POST" >
+                <input type="text" name="nombre" [(ngModel)]="usuario.nombre" placeholder="Nombre" required #nombre = "ngModel">
+                <div  class="alert alert-danger"[hidden]="nombre.valid || nombre.pristine">
+                    El campo Nombre es obligatorio
+
+                </div>
+                <input type="text" name="apellido" [(ngModel)]="usuario.apellido" placeholder="Apellido" required #apellido="ngModel">
+                <div  class="alert alert-danger"[hidden]="apellido.valid || apellido.pristine">
+                    El campo Apellido es obligatorio
+
+                </div>
+                <input type="text" name="dni" [(ngModel)]="usuario.dni" placeholder="DNI" required>
+                <input type="tel" name="telefono" [(ngModel)]="usuario.telefono" placeholder="Teléfono" required>
+                <input type="password" name="contrasena" [(ngModel)]="usuario.contra" placeholder="Contraseña" required>
+                <input type="password" name="confirmar_contrasena" [(ngModel)]="confirmacontra"
+                    placeholder="Confirmar Contraseña" required>
+                <input type="email" name="email" [(ngModel)]="usuario.email" placeholder="E-mail" required>
+                <input type="email" name="confirmar_email" [(ngModel)]="confirmaemail" placeholder="Confirmar E-mail" required>
+
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="tipo_usuario" [(ngModel)]="usuario.tipoUsuario" value="medico" required> Médico
+
+                    </label>
+                    <label>
+                        <input type="radio" name="tipo_usuario" [(ngModel)]="usuario.tipoUsuario" value="Afiliado" required> Paciente
+
+                    </label>
+                </div>
+
+                <input *ngIf="usuario.tipoUsuario == 'medico'" type="text" name="Especialidad" [(ngModel)]="usuario.especialidad" placeholder="Especialidad">
+
+                <input *ngIf="usuario.tipoUsuario == 'medico'" type="text" name="Matricula" [(ngModel)]="usuario.matricula" placeholder="Matricula">
+
+                <input *ngIf="usuario.tipoUsuario == 'Afiliado'" type="text" name="Credencial" [(ngModel)]="usuario.credencial" placeholder="Credencial">
+
+                <input type="submit" value="REGISTRATE" [disabled]="true"  (click)="registraUsuario()">
+            </form>
+        </div>
+    </div>
+</div>
