@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule,Router } from '@angular/router';
 import { loginUser } from '../../entidades/loginUser';
 import { ConsultasBackServiceService } from '../../servicio/consultas-back-service.service';
+import { Usuario } from '../../entidades/Usuario';
 //import { error } from 'console';
 import { dataToken } from '../../entidades/loginResponse';
 
@@ -17,27 +18,53 @@ import { dataToken } from '../../entidades/loginResponse';
 })
 export class LoginComponent {
 
-  public loginUsuario: loginUser = {
-    dni: '',
+  public usuario:Usuario={ 
+    tipoUsuario:'',
+      email:'', 
+      dni:null, 
+      nombre:'',
+      apellido:'',
+      telefono:null,
+      contra:'',
+      especialidad:'',
+      credencial:'',
+      matricula:'',
+ }
+
+  loginUsuario: loginUser = {
+    dni: null,
     contra: '',
+    tipoUsuario:'',
   }
 
   constructor(private consultaBackApi: ConsultasBackServiceService ,private root:Router) {  // INSTANCIO MI CLASE DE BACK PARA TODOS LOS OOPERADORES
 
   }
 
-  login(){
-    this.consultaBackApi.login(this.loginUsuario).subscribe(
-      consultausuario =>{
-        if((<dataToken>consultausuario).data[0].dni == null ) {
-          console.error ("Usuario inexistente")
+ public login(){
+  this.consultaBackApi.login(this.loginUsuario).subscribe(
+    
+    (consultausuario:loginUser[]) =>{
+      console.log("usuario : " + JSON.stringify(consultausuario));
+      let tipoUser = this.loginUsuario.tipoUsuario;
+      if(consultausuario[0].dni == null ) {
+        console.error ("Usuario inexistente");
 
-        }else{ 
-          this.root.navigateByUrl("/")
-          
-        } // casteo la consultausuario al objeto logiUser 
-        
-
+      }else{ 
+       
+        switch(tipoUser){
+          case "Paciente":
+            this.root.navigateByUrl("/afiliado");
+            break;
+          case "medico":
+            this.root.navigateByUrl("/medico");
+            break;
+          case "admin":
+            this.root.navigateByUrl("/admin");
+            break;
+        }
+      } // casteo la consultausuario al objeto logiUser 
+      
       }
     )
 

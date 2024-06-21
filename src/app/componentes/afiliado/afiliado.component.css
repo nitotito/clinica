@@ -65,10 +65,10 @@ main {
     margin-bottom: 20px;
 }
 
-.main-buttons button {
+.main-buttons input {
     padding: 10px 20px;
     border: none;
-    background-color: #007bff;
+    background-color: #69c99c;
     color: #fff;
     cursor: pointer;
     border-radius: 5px;

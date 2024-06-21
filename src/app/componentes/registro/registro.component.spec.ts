@@ -1,44 +1,23 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { SourceTextModule } from 'vm';
-import { ConsultasBackServiceService } from '../../servicio/consultas-back-service.service';
-import { Usuario } from '../../entidades/Usuario';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { RegistroComponent } from './registro.component';
 
-@Component({
-  selector: 'app-registro',
-  standalone: true,
-  imports: [FormsModule, CommonModule],
-  templateUrl: './registro.component.html',
-  styleUrl: './registro.component.css'
-})
-export class RegistroComponent {
+describe('RegistroComponent', () => {
+  let component: RegistroComponent;
+  let fixture: ComponentFixture<RegistroComponent>;
 
-   public confirmacontra :String= '';
-   public confirmaemail:String='';
-  public usuario:Usuario={
-    tipoUsuario:'',
-      email:'', 
-      dni:null, 
-      nombre:'',
-      apellido:'',
-      telefono:null,
-      contra:'',
-      especialidad:'',
-      credencial:'',
-      matricula:'',
- }
-  registraUsuario() { // funcion registra usuario
-    if (this.usuario.contra != this.confirmacontra || this.usuario.email != this.confirmaemail) {
-      console.error("Por favor verifique los datos ingresados");
-    }
-    this.consultaBackApi.registrar(this.usuario).subscribe()// llamo a lo que ya esta
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [RegistroComponent]
+    })
+    .compileComponents();
     
-    
-  }
-  constructor(private consultaBackApi: ConsultasBackServiceService) {  // INSTANCIO MI CLASE DE BACK PARA TODOS LOS OOPERADORES
+    fixture = TestBed.createComponent(RegistroComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-  }
- 
-}
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

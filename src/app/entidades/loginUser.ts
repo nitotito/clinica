@@ -1,6 +1,6 @@
 export interface loginUser{
 
-    dni:string;
+    dni:Number | null;
     contra:string;
-    
+    tipoUsuario:string,
 }

@@ -7,6 +7,17 @@
             
             <label for="password">Contraseña</label>
             <input type="password" name="password" [(ngModel)]="loginUsuario.contra "placeholder="Ingresa tu contraseña" required>
+
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="tipo_usuario" [(ngModel)]="loginUsuario.tipoUsuario" value="medico" required> Médico
+
+                </label>
+                <label>
+                    <input type="radio" name="tipo_usuario" [(ngModel)]="loginUsuario.tipoUsuario" value="Paciente" required> Paciente
+
+                </label>
+            </div>
             
             <button type="submit" (click)="login()">INGRESA </button>
             

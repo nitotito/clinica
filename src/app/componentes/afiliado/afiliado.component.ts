@@ -8,5 +8,16 @@ import { Component } from '@angular/core';
   styleUrl: './afiliado.component.css'
 })
 export class AfiliadoComponent {
+ public datoUsuario:any = localStorage.getItem('usuario');
+ public datoU:any;
 
+  public obtenerDato(){
+
+ this.datoU = JSON.parse(this.datoUsuario);
+console.log("datos : " + this.datoU.nombre);
+}  
+    
+  
+
+ 
 }
