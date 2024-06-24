@@ -10,7 +10,7 @@ import { throwError } from 'rxjs';
 })
 export class ConsultasBackServiceService {
 
-  private APIURL: string = "http://localhost:3000";
+  private APIURL: string = "https://nitotito-clienteapi.mdbgo.io";
 
 
   constructor(public http: HttpClient) { }

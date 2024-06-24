@@ -31,12 +31,23 @@
 
                 <input *ngIf="usuario.tipoUsuario == 'Paciente'" type="text" name="Credencial" [(ngModel)]="usuario.credencial" placeholder="Credencial">
 
-                <input *ngIf="validar != 'admin'" type="submit" value="REGISTRATE" [disabled]="true"  (click)="registraUsuario()" [(ngModel)]="usuario">
-                 <div *ngIf="validar == 'vacio'" class="alert alert-danger">Complete todos los campos</div>
-                 <div *ngIf="validar == 'contr'" class="alert alert-danger">Contraseñas no coinciden</div> 
-                 <div *ngIf="validar == 'email'" class="alert alert-danger">Email no coinciden</div> 
-                 <div *ngIf="validar == 'admin'">
-                      <input type="submit" value="REGISTRO ADMIN" [disabled]="true"  (click)="registraAdmin()" [(ngModel)]="usuario">  
+
+                <button *ngIf="validar != 'admin'" type="submit" (click)="registraUsuario()" >REGISTRATE </button>
+                
+                <div *ngIf="validar == 'vacio'" >
+                    <h5 class="alert alert-danger">Complete todos los campos</h5>
+                </div>
+                
+                <div *ngIf="validar == 'contr'" class="alert alert-danger">
+                    <h5 class="alert alert-danger">Contraseñas no coinciden</h5>
+                </div> 
+
+                <div *ngIf="validar == 'email'" class="alert alert-danger">
+                    <h5 class="alert alert-danger">Email no coinciden</h5>
+                </div> 
+
+                <div *ngIf="validar == 'admin'">
+                    <button  type="submit" (click)="registraAdmin()">REGISTRO ADMIN </button>
                  </div>
                  
             </form>
