@@ -1,0 +1,56 @@
+<div id="div-to-center">
+  <div class="login-container">
+    <h2>Completá tus datos</h2>
+        <div class="form-container">        
+            <form action="#" method="POST" >
+                <input type="text" name="nombre" [(ngModel)]="usuario.nombre" placeholder="Nombre" required #nombre = "ngModel">
+
+                <input type="text" name="apellido" [(ngModel)]="usuario.apellido" placeholder="Apellido" required #apellido="ngModel">
+                <input type="text" name="dni" [(ngModel)]="usuario.dni" placeholder="DNI" required>
+                <input *ngIf="validar != 'admin'" type="tel" name="telefono" [(ngModel)]="usuario.telefono" placeholder="Teléfono" required>
+                <input *ngIf="validar != 'admin'" type="password" name="contrasena" [(ngModel)]="usuario.contra" placeholder="Contraseña" required>
+                <input *ngIf="validar != 'admin'" type="password" name="confirmar_contrasena" [(ngModel)]="confirmacontra"
+                    placeholder="Confirmar Contraseña" required>
+                <input type="email" name="email" [(ngModel)]="usuario.email" placeholder="E-mail" required>
+                <input type="email" name="confirmar_email" [(ngModel)]="confirmaemail" placeholder="Confirmar E-mail" required>
+
+                <div class="radio-group" *ngIf="validar != 'admin'">
+                    <label>
+                        <input type="radio" name="tipo_usuario" [(ngModel)]="usuario.tipoUsuario" value="medico" required> Médico
+
+                    </label>
+                    <label>
+                        <input type="radio" name="tipo_usuario" [(ngModel)]="usuario.tipoUsuario" value="Paciente" required> Paciente
+
+                    </label>
+                </div>
+
+                <input *ngIf="usuario.tipoUsuario == 'medico'" type="text" name="Especialidad" [(ngModel)]="usuario.especialidad" placeholder="Especialidad">
+
+                <input *ngIf="usuario.tipoUsuario == 'medico'" type="text" name="Matricula" [(ngModel)]="usuario.matricula" placeholder="Matricula">
+
+                <input *ngIf="usuario.tipoUsuario == 'Paciente'" type="text" name="Credencial" [(ngModel)]="usuario.credencial" placeholder="Credencial">
+
+
+                <button *ngIf="validar != 'admin'" type="submit" (click)="registraUsuario()" >REGISTRATE </button>
+                
+                <div *ngIf="validar == 'vacio'" >
+                    <h5 class="alert alert-danger">Complete todos los campos</h5>
+                </div>
+                
+                <div *ngIf="validar == 'contr'" class="alert alert-danger">
+                    <h5 class="alert alert-danger">Contraseñas no coinciden</h5>
+                </div> 
+
+                <div *ngIf="validar == 'email'" class="alert alert-danger">
+                    <h5 class="alert alert-danger">Email no coinciden</h5>
+                </div> 
+
+                <div *ngIf="validar == 'admin'">
+                    <button  type="submit" (click)="registraAdmin()">REGISTRO ADMIN </button>
+                 </div>
+                 
+            </form>
+        </div>
+    </div>
+</div>

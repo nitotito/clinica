@@ -1,0 +1,89 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+.login-container {
+    background-color: #ffffff;
+    padding: 30px 50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center center;
+    width: 25%; 
+    align-items: center;   
+    display: flex;
+    flex-direction: column;
+
+}
+h2{
+    display: flex;
+     justify-content: center;
+     align-items: center;
+     padding-bottom: 20px;
+     color: #69c99c;
+}
+.form-container {
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    
+}
+.form-container h2 {
+    margin-bottom: 20px;
+}
+.form-container form {
+    display: flex;
+    flex-direction: column;
+}
+.form-container form input {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-container form input[type="submit"] {
+    background-color: #69c99c;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.form-container form input[type="submit"]:hover {
+    background-color: #1f774e;
+}
+.radio-group {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+#div-to-center {
+    background-image: url('..\\src\\assets\\font-register.jpg'); 
+    background-size: 100%;
+    background-position: center; 
+    background-repeat: no-repeat;  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    padding-bottom: 2%;
+    padding-top: 2%;
+}
+
+.form-container form button {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-container form button{
+    background-color: #69c99c;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.form-container form button:hover {
+    background-color: #1f774e;
+}

@@ -1,0 +1,87 @@
+
+.login-container {
+    background-color: #ffffff;
+    padding: 30px 50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 50%;    
+
+}
+
+.login-container h1 {
+    margin-bottom: 25px;
+    color: #69c99c;
+}
+
+.login-container label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.login-container input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.login-container input::placeholder {
+    color: #aaa;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #69c99c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.login-container button:hover {
+    background-color: #1f774e;
+    
+}
+
+.login-container .links {
+    margin-top: 20px;
+}
+
+.login-container .links a {
+    display: block;
+    margin-bottom: cover;
+    color: #0d47a1;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.login-container .links a:hover {
+    text-decoration: underline;
+}
+
+.div-to-center{
+    background-image: url('..\\src\\assets\\font-register.jpg'); 
+    background-size: cover;
+    background-position: center; 
+    background-repeat: no-repeat; 
+    display: flex;
+    justify-content: center;
+    text-align: center;
+
+    padding-top: 10%;
+    padding-bottom: 10%;
+
+}
+.radio-group {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
