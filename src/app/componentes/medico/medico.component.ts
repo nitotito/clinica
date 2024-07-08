@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 })
 export class MedicoComponent {
 
-  public datoUsuario:any = localStorage.getItem('usuario');
+  public datoUsuario:any = sessionStorage.getItem('user');
   public datoU:any;
  
    public obtenerDato(){

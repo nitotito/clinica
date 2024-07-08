@@ -68,17 +68,16 @@
 }
 
 .div-to-center{
-    background-image: url('..\\src\\assets\\font-register.jpg'); 
-    background-size: cover;
-    background-position: center; 
-    background-repeat: no-repeat; 
+    background-image: url('..\\src\\assets\\font-register.jpg');
+    background-size: cover; /* Ajusta el tamaño de la imagen al contenedor */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
     display: flex;
     justify-content: center;
-    text-align: center;
-
-    padding-top: 10%;
-    padding-bottom: 10%;
-
+    align-items: center;
+    height: 100vh; /* Ajusta la altura al tamaño de la ventana */
+    padding-top: 10%; /* Espaciado superior */
+    padding-bottom: 10%; /* Espaciado inferior */
 }
 .radio-group {
     display: flex;

@@ -1,4 +1,69 @@
-.carousel-item img{
-    height: 80%;
-
-}
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  /* Hero Section */
+  .hero {
+    background: linear-gradient(to right, #a8e063, #56ab2f); /* Gradiente verde */
+    color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hero h1 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+  }
+  
+  .hero p {
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  /* Carousel */
+  .carousel-inner {
+    height: 500px; /* Ajusta la altura según tus necesidades */
+  }
+  
+  .carousel-inner img {
+    object-fit: cover;
+    height: 100%;
+    border-radius: 15px; /* Redondear bordes de las imágenes */
+  }
+  
+  .carousel-caption {
+    background: rgba(0, 79, 59, 0.5); /* Fondo verde oscuro translúcido */
+    border-radius: 10px;
+  }
+  
+  .carousel-caption h5,
+  .carousel-caption p {
+    color: #fff; /* Blanco */
+  }
+  
+  /* Botones del carrusel */
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    filter: invert(1); /* Asegúrate de que los íconos de control sean visibles */
+  }
+  
+  /* Info Section */
+  .info-section {
+    background-color: #f4f8f7; /* Verde muy claro */
+    color: #004d40; /* Verde más oscuro */
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .info-section h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    color: #007f5f; /* Verde oscuro */
+  }
+  
+  .info-section p {
+    font-family: 'Open Sans', sans-serif;
+    color: #004d40; /* Verde más oscuro */
+  }

@@ -7,12 +7,13 @@ import { ConsultasBackServiceService } from '../../servicio/consultas-back-servi
 import { Usuario } from '../../entidades/Usuario';
 //import { error } from 'console';
 import { dataToken } from '../../entidades/loginResponse';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule,ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -34,7 +35,8 @@ export class LoginComponent {
   loginUsuario: loginUser = {
     dni: null,
     contra: '',
-    tipoUsuario:'',
+    tipoUsuario:'admin',
+    habilitacion:''
   }
 
   constructor(private consultaBackApi: ConsultasBackServiceService ,private root:Router) {  // INSTANCIO MI CLASE DE BACK PARA TODOS LOS OOPERADORES
@@ -51,13 +53,20 @@ export class LoginComponent {
         console.error ("Usuario inexistente");
 
       }else{ 
-       
+       sessionStorage.setItem('user',JSON.stringify(this.loginUsuario));
         switch(tipoUser){
           case "Paciente":
             this.root.navigateByUrl("/afiliado");
             break;
           case "medico":
-            this.root.navigateByUrl("/medico");
+            console.log(" this habitacion : " + consultausuario[0]);
+            console.log(" this habitacion : " + consultausuario[0].habilitacion );
+            if(consultausuario[0].habilitacion == "false"){
+              sessionStorage.removeItem("user");
+              alert("Usuario no habilitado");
+            }else{
+              this.root.navigateByUrl("/medico");
+            }  
             break;
           case "admin":
             this.root.navigateByUrl("/admin");

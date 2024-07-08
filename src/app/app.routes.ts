@@ -7,13 +7,14 @@ import { AdministradorComponent } from './componentes/administrador/administrado
 import { ErrorComponent } from './componentes/error/error.component';
 import { AfiliadoComponent } from './componentes/afiliado/afiliado.component';
 import { MedicoComponent } from './componentes/medico/medico.component';
+import { canActivateGuard, canActivateGuardAfiliado ,canActivateGuardMedico } from './guard/can-activate.guard';
 
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
-    {path:'afiliado',component:AfiliadoComponent},
-    {path:'administrador',component:AdministradorComponent},
+    {path:'afiliado',component:AfiliadoComponent, canActivate:[canActivateGuardAfiliado]},
+    {path:'admin',component:AdministradorComponent, canActivate:[canActivateGuard]},
     {path:'registro', component:RegistroComponent},
-    {path:'medico', component:MedicoComponent},
+    {path:'medico', component:MedicoComponent, canActivate:[canActivateGuardMedico]},
     {path:'',component:PrincipalComponent},
     {path:'**',component:ErrorComponent}
 ];  

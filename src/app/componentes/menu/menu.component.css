@@ -1,0 +1,42 @@
+/* Navbar */
+.navbar {
+  background-color: #4caf50; /* Verde */
+}
+
+.navbar-brand,
+.navbar-nav .nav-link {
+  color: #ffffff; /* Blanco */
+}
+
+.navbar-toggler-icon {
+  filter: brightness(0) invert(1); /* Ícono del toggler en blanco */
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5); /* Borde blanco translúcido para el toggler */
+}
+
+.nav-link {
+  color: #ffffff; /* Blanco para los enlaces */
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: #dcedc8; /* Verde claro al pasar el mouse o enfocar */
+}
+
+.btn-outline-success {
+  color: #4caf50; /* Texto verde */
+  border-color: #4caf50; /* Borde verde */
+}
+
+.btn-outline-success:hover,
+.btn-outline-success:focus {
+  color: #ffffff; /* Texto blanco al pasar el mouse o enfocar */
+  background-color: #4caf50; /* Fondo verde al pasar el mouse o enfocar */
+  border-color: #4caf50; /* Borde verde al pasar el mouse o enfocar */
+}
+
+.btn-outline-success:disabled {
+  opacity: 0.5; /* Opacidad reducida para el botón deshabilitado */
+}

@@ -4,14 +4,16 @@ import { Usuario } from '../entidades/Usuario';
 import { loginUser } from '../entidades/loginUser';
 import { Observable, catchError } from 'rxjs';
 import { throwError } from 'rxjs';
+import { Medico } from '../entidades/Medico';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConsultasBackServiceService {
 
-  private APIURL: string = "http://localhost:3000";
 
+    private APIURL: string = "https://nitotito-clienteapi.mdbgo.io";
+    //private APIURL: string = "http://localhost:3000";
 
   constructor(public http: HttpClient) { }
 
@@ -26,7 +28,7 @@ export class ConsultasBackServiceService {
   public registrarMed(usuario:Usuario) {
     return this.http.post(this.APIURL + "/insertarMed", usuario);
   }
-  
+
   public registrarAdmin(usuario:Usuario) {
     return this.http.post(this.APIURL + "/insertarAdmin", usuario);
   }
@@ -43,6 +45,16 @@ export class ConsultasBackServiceService {
     return this.http.get(this.APIURL + "/getPaciente/" + id);
     
   }
+  public getMedicos(){
+    console.log(this.APIURL+"/medicos")
+    return this.http.get<Medico[]>(this.APIURL + "/medicos/");    
+  }
+
+  public updateMedico(medico: Medico){
+    const url = `${this.APIURL+"/medicos"}`;
+    return this.http.put(url, medico);
+  }
+
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Error desconocido!';
     if (error.error instanceof ErrorEvent) {
