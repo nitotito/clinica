@@ -13,12 +13,12 @@
       <div class="main-buttons">
         <input type="button" value="Nuevo Turno">
         <input type="button" value="Administrar">
-        <input type="button" value="Reportes">
+        <!-- <input type="button" value="Reportes"> -->
         <input type="button" value="Turnos">
       </div>
   
       <input type="text" [(ngModel)]="filtro" placeholder="Buscar médicos">
-      
+      <div class="table-responsive"> 
       <table class="table table-striped">
         <thead>
           <tr>
@@ -49,5 +49,6 @@
           </tr>
         </tbody>
       </table>
+     </div>
     </main>
   </div>

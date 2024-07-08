@@ -1,3 +1,12 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
 
 .login-container {
     background-color: #ffffff;
@@ -6,7 +15,6 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 50%;    
-
 }
 
 .login-container h1 {
@@ -48,7 +56,6 @@
 
 .login-container button:hover {
     background-color: #1f774e;
-    
 }
 
 .login-container .links {
@@ -67,8 +74,8 @@
     text-decoration: underline;
 }
 
-.div-to-center{
-    background-image: url('..\\src\\assets\\font-register.jpg');
+.div-to-center {
+    background-image: url('../../../assets/fontregister.jpg');
     background-size: cover; /* Ajusta el tamaño de la imagen al contenedor */
     background-position: center; /* Centra la imagen */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
@@ -79,8 +86,63 @@
     padding-top: 10%; /* Espaciado superior */
     padding-bottom: 10%; /* Espaciado inferior */
 }
+
 .radio-group {
     display: flex;
     justify-content: space-around;
     margin-bottom: 10px;
+}
+
+.alert-sanatorio {
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f8d7da; /* Fondo rojo suave */
+    border: 1px solid #f5c6cb; /* Borde rojo suave */
+    color: #721c24; /* Texto rojo oscuro */
+    font-family: Arial, sans-serif; /* Tipografía Arial */
+    max-width: 300px; /* Ancho máximo */
+}
+
+.alert-sanatorio .alert-heading {
+    color: #721c24; /* Texto de encabezado rojo oscuro */
+    font-weight: bold; /* Peso de la tipografía */
+}
+
+.alert-sanatorio p {
+    margin-bottom: 0;
+}
+
+/* Media Queries para hacer responsive */
+@media (max-width: 768px) {
+    .login-container {
+        width: 70%; /* Ajustar ancho en tablets */
+        padding: 20px 30px;
+    }
+
+    .login-container input,
+    .login-container button {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .alert-sanatorio {
+        max-width: 80%; /* Ajustar ancho en tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        width: 90%; /* Ajustar ancho en móviles */
+        padding: 15px 20px;
+    }
+
+    .login-container input,
+    .login-container button {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .alert-sanatorio {
+        max-width: 90%; /* Ajustar ancho en móviles */
+    }
 }

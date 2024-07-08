@@ -17,7 +17,9 @@ import { Medico } from '../../entidades/Medico';
 
 export class AdministradorComponent {
   public filtro:String ="";
-
+  public datoUsuario:any = sessionStorage.getItem('user');
+  public datoU:any;
+ 
   
   medico: Medico= {
     email:'', 
@@ -57,12 +59,10 @@ export class AdministradorComponent {
 
 public obtenerDato() {
     this.datoU = JSON.parse(this.datoUsuario);
-    console.log("datos : " + this.datoU.nombre);
+    console.log("datos : " + this.datoUsuario);
   }
 
-  public datoUsuario:any = sessionStorage.getItem('user');
-  public datoU:any;
- 
+
 /*    public obtenerDato(){
  
   this.datoU = JSON.parse(this.datoUsuario);
@@ -83,7 +83,7 @@ this.backservice.updateMedico(medico).subscribe(
       }
     );
     (medico.habilitacion== "true") ? medico.habilitacion ="false" : medico.habilitacion ="true";
-    
+
   medico.color = medico.color === 'red' ? 'green' : 'red';
   medico.glow = true;
   //setTimeout(() => medico.glow = false, 100000);

@@ -11,7 +11,7 @@ import { Medico } from '../entidades/Medico';
 })
 export class ConsultasBackServiceService {
 
-
+  // varirar entre correr el back local o en nube
     private APIURL: string = "https://nitotito-clienteapi.mdbgo.io";
     //private APIURL: string = "http://localhost:3000";
 

@@ -33,21 +33,25 @@
 
                 <button *ngIf="validar != 'admin'" type="submit" (click)="registraUsuario()" >REGISTRATE </button>
                 
-                <div *ngIf="validar == 'vacio'" >
-                    <h5 class="alert-sanatorio">Complete todos los campos</h5>
-                </div>
+                <small *ngIf="validar == 'vacio'" class="text-danger form-text">
+                    Complete todos los campos
+                </small>
                 
-                <div *ngIf="validar == 'contr'" class="alert alert-danger">
-                    <h5 class="alert alert-danger">Contraseñas no coinciden</h5>
-                </div> 
-
-                <div *ngIf="validar == 'email'" class="alert alert-danger">
-                    <h5 class="alert alert-danger">Email no coinciden</h5>
-                </div> 
+                <small *ngIf="validar == 'falta'" class="text-danger form-text">
+                    El DNI debe ser de 8 dígitos
+                </small>
+                
+                <small *ngIf="validar == 'contr'" class="text-danger form-text">
+                    Contraseñas no coinciden
+                </small> 
+                
+                <small *ngIf="validar == 'email'" class="text-danger form-text">
+                    Email no coinciden
+                </small> 
 
                 <div *ngIf="validar == 'admin'">
                     <button  type="submit" (click)="registraAdmin()">REGISTRO ADMIN </button>
-                 </div>
+                </div>
                  
             </form>
         </div>

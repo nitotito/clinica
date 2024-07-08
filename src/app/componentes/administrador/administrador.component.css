@@ -96,6 +96,27 @@ main {
     font-weight: bold;
 }
 
+/* Estilos para los botones */
+.btn-success, .btn-danger {
+    padding: 10px 20px; /* Ajusta el padding según tus preferencias */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 1px 10px; /* Ajusta el padding para cambiar el tamaño */
+    width: 150px; /* Ancho fijo para ambos botones */
+    display: flex; /* Utiliza flexbox para alinear elementos */
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido */
+    text-align: center; /* Centra el texto dentro del botón */
+    position: relative; /* Añade posición relativa para alinear el texto */
+  }
+
+.btn-danger .status-text {
+  position: absolute; /* Posición absoluta para alinear el texto */
+  left: 50%; /* Alinea el texto al centro horizontal */
+  transform: translateX(-50%); /* Centra el texto horizontalmente */
+  bottom: -20px; /* Ajusta el margen inferior según necesites */
+}
 .btn-success {
     background-color: green;
     color: white;
@@ -119,5 +140,20 @@ main {
     }
     100% {
       box-shadow: 0 0 5px green;
+    }
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  @media (max-width: 767px) {
+    .table-responsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      -ms-overflow-style: -ms-autohiding-scrollbar;
+      border: 1px solid #ddd;
     }
   }

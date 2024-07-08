@@ -1,50 +1,53 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Cambiado a center para que el contenido esté centrado */
     align-items: center;
     height: 100vh;
     margin: 0;
     padding: 0;
-    align-items: center;
 }
+
 .login-container {
     background-color: #ffffff;
     padding: 30px 50px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    text-align: center center;
+    text-align: center; /* Centrar texto */
     width: 25%; 
-    align-items: center;   
     display: flex;
     flex-direction: column;
+    align-items: center; 
+}
 
-}
-h2{
+h2 {
     display: flex;
-     justify-content: center;
-     align-items: center;
-     padding-bottom: 20px;
-     color: #69c99c;
-}
-.form-container {
     justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+    color: #69c99c;
+}
+
+.form-container {
     width: 100%;
     padding: 20px;
-    
 }
+
 .form-container h2 {
     margin-bottom: 20px;
 }
+
 .form-container form {
     display: flex;
     flex-direction: column;
 }
+
 .form-container form input {
     margin-bottom: 10px;
     padding: 10px;
     font-size: 16px;
 }
+
 .form-container form button[type="submit"] {
     background-color: #69c99c;
     color: white;
@@ -54,28 +57,29 @@ h2{
     padding: 10px;
     font-size: 16px;
 }
+
 .form-container form button[type="submit"]:hover {
     background-color: #1f774e;
 }
+
 .radio-group {
     display: flex;
     justify-content: space-around;
     margin-bottom: 10px;
 }
 
-.div-to-center{
-    background-image: url('../../../assets/font-register.jpg');
-    background-size: cover; /* Ajusta el tamaño de la imagen al contenedor */
-    background-position: center; /* Centra la imagen */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
+.div-to-center {
+    background-image: url('../../../assets/fontregister.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Ajusta la altura al tamaño de la ventana */
-    padding-top: 10%; /* Espaciado superior */
-    padding-bottom: 10%; /* Espaciado inferior */
+    height: 100vh;
+    padding-top: 10%;
+    padding-bottom: 10%;
 }
-
 
 .alert-sanatorio {
     padding: 15px;
@@ -84,13 +88,49 @@ h2{
     border: 1px solid #f5c6cb; /* Borde rojo suave */
     color: #721c24; /* Texto rojo oscuro */
     font-family: Arial, sans-serif; /* Tipografía Arial */
-  }
-  
-  .alert-sanatorio .alert-heading {
+    max-width: 300px; /* Ancho máximo */
+}
+
+.alert-sanatorio .alert-heading {
     color: #721c24; /* Texto de encabezado rojo oscuro */
     font-weight: bold; /* Peso de la tipografía */
-  }
-  
-  .alert-sanatorio p {
+}
+
+.alert-sanatorio p {
     margin-bottom: 0;
-  }
+}
+
+/* Media Queries para hacer responsive */
+@media (max-width: 768px) {
+    .login-container {
+        width: 50%; /* Ajustar ancho en tablets */
+        padding: 20px 30px;
+    }
+
+    .form-container form input,
+    .form-container form button[type="submit"] {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .alert-sanatorio {
+        max-width: 80%; /* Ajustar ancho en tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        width: 80%; /* Ajustar ancho en móviles */
+        padding: 15px 20px;
+    }
+
+    .form-container form input,
+    .form-container form button[type="submit"] {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .alert-sanatorio {
+        max-width: 90%; /* Ajustar ancho en móviles */
+    }
+}
