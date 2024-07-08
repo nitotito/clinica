@@ -21,7 +21,8 @@ export class MenuComponent {
   dni: null,
   contra:'',
   tipoUsuario:'',
-  habilitacion:''
+  habilitacion:'',
+  nombre:''
 }
 
  public isLoggedIn(): boolean {

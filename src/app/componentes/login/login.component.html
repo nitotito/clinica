@@ -1,30 +1,39 @@
 <div class="div-to-center">
-    <div class="login-container" >
+    <div class="login-container" >    
         <h1>Bienvenido a Clínica Salud</h1>
-        <form>
-            <label for="dni">DNI </label>
-            <input type="text" name="dni"  [(ngModel)]="loginUsuario.dni" placeholder="Ingresa tu DNI" required>
-            
-            <label for="password">Contraseña</label>
-            <input type="password" name="password" [(ngModel)]="loginUsuario.contra "placeholder="Ingresa tu contraseña" required>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <label for="dni">DNI</label>
+      <input type="text" formControlName="dni" placeholder="Ingresa tu DNI">
+      <div *ngIf="loginForm.get('dni')?.invalid && loginForm.get('dni')?.['touched']" class="text-danger">
+        <div *ngIf="loginForm.get('dni')?.errors?.['required']">El DNI es obligatorio.</div>
+        <div *ngIf="loginForm.get('dni')?.errors?.['minlength']">El DNI debe tener al menos 8 caracteres.</div>
+      </div>
+  
+      <label for="password">Contraseña</label>
+      <input type="password" formControlName="password" placeholder="Ingresa tu contraseña">
+      <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.['touched']" class="text-danger">
+        <div *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</div>
+      </div>
+  
+      <div class="radio-group">
+    <label>
+        <input type="radio" name="tipoUsuario" formControlName="tipoUsuario" [(ngModel)]="loginUsuario.tipoUsuario" value="medico"> Médico
 
-            <div class="radio-group">
-                <label>
-                    <input type="radio" name="tipo_usuario" [(ngModel)]="loginUsuario.tipoUsuario" value="medico" required> Médico
+    </label>
+    <label>
+        <input type="radio" name="tipoUsuario" formControlName="tipoUsuario" [(ngModel)]="loginUsuario.tipoUsuario" value="Paciente"> Paciente
 
-                </label>
-                <label>
-                    <input type="radio" name="tipo_usuario" [(ngModel)]="loginUsuario.tipoUsuario" value="Paciente" required> Paciente
-
-                </label>
-            </div>
-            
-            <button type="submit" (click)="login()">INGRESA </button>
-            
-            <div class="links">
-                <a >¿Olvidaste tu contraseña? </a>
-                <a routerLink='/registro' >¿No tienes cuenta? Registrate</a>
-            </div>
-        </form>
-    </div>
+    </label>
+      </div>
+      <small *ngIf="!usuarioEncontrado" class="text-danger form-text">
+        DNI o contraseña no válida
+    </small>
+      <button type="submit">Ingresar</button>
+  
+      <div class="links">
+        <a>¿Olvidaste tu contraseña?</a>
+        <a routerLink='/registro'>¿No tienes cuenta? Regístrate</a>
+      </div>
+    </form>
 </div>
+  </div>

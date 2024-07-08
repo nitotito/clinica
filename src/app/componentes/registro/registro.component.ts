@@ -93,6 +93,13 @@ export class RegistroComponent {
       this.validar = "lleno";
     }
 
+    if (String(this.usuario.dni).length != 8) {
+      this.validar = "falta";
+      return false;
+    } else {
+      this.validar = "lleno";
+    }
+
     if (this.usuario.contra == "" || this.usuario.email == "") {
       this.validar = "vacio";
       return false;
@@ -176,4 +183,5 @@ export class RegistroComponent {
         this.respuestaApi(response);
       });
    }
+
 }
