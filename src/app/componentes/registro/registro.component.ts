@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ConsultasBackServiceService } from '../../servicio/consultas-back-service.service';
 import { Usuario } from '../../entidades/Usuario';
 import { Router } from '@angular/router';
+import { loginUser } from '../../entidades/loginUser';
 
 @Component({
   selector: 'app-registro',
@@ -52,6 +53,8 @@ export class RegistroComponent {
         console.log("registrando paciente");
         this.consultaBackApi.registrar(this.usuario).subscribe(response => {
           this.respuestaApi(response);
+
+          
         });
 
       }
@@ -137,7 +140,7 @@ export class RegistroComponent {
       case "ok":
         console.log("Registro exitoso de usuario");
         this.root.navigateByUrl("/afiliado");
-        localStorage.setItem('usuario', JSON.stringify(this.usuario));
+        sessionStorage.setItem('user', JSON.stringify(this.usuario));
         break;
       case 400:
         console.error("Usuario existente");
@@ -154,13 +157,13 @@ export class RegistroComponent {
         break;
       case "okadmin":
         console.log("Registro exitoso de admin");
-        this.root.navigateByUrl("/administrador");
-        localStorage.setItem('usuario', JSON.stringify(this.usuario));
+        this.root.navigateByUrl("/");
+        sessionStorage.setItem('user', JSON.stringify(this.usuario));
         break;
       case "okmedico":
         console.log("Registro exitoso de medico");
         this.root.navigateByUrl("/medico");
-        localStorage.setItem('usuario', JSON.stringify(this.usuario));
+        sessionStorage.setItem('user', JSON.stringify(this.usuario));
         break;
     }
    }

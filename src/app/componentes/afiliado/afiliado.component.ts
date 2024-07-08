@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './afiliado.component.css'
 })
 export class AfiliadoComponent {
- public datoUsuario:any = localStorage.getItem('usuario');
+ public datoUsuario:any = sessionStorage.getItem('user');
  public datoU:any;
 
   public obtenerDato(){

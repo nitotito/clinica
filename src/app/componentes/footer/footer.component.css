@@ -1,0 +1,13 @@
+/* Estilos para el footer */
+footer {
+    background-color: #343a40; /* Fondo oscuro */
+    color: #ffffff; /* Texto blanco */
+  }
+  
+  footer a {
+    color: #ffffff; /* Enlaces en blanco */
+  }
+  
+  footer a:hover {
+    color: #dcdcdc; /* Cambio de color al pasar el mouse */
+  }

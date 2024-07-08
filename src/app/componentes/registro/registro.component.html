@@ -1,4 +1,4 @@
-<div id="div-to-center">
+ <div class="div-to-center">
   <div class="login-container">
     <h2>Completá tus datos</h2>
         <div class="form-container">        
@@ -31,11 +31,10 @@
 
                 <input *ngIf="usuario.tipoUsuario == 'Paciente'" type="text" name="Credencial" [(ngModel)]="usuario.credencial" placeholder="Credencial">
 
-
                 <button *ngIf="validar != 'admin'" type="submit" (click)="registraUsuario()" >REGISTRATE </button>
                 
                 <div *ngIf="validar == 'vacio'" >
-                    <h5 class="alert alert-danger">Complete todos los campos</h5>
+                    <h5 class="alert-sanatorio">Complete todos los campos</h5>
                 </div>
                 
                 <div *ngIf="validar == 'contr'" class="alert alert-danger">
@@ -53,4 +52,4 @@
             </form>
         </div>
     </div>
-</div>
+</div> 
