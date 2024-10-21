@@ -28,11 +28,11 @@ header {
 .header-links a {
     margin: 0 10px;
     text-decoration: none;
-    color: #007bff;
+    color: #4CAF50;
 }
 
 nav {
-    background-color: #007bff;
+    background-color: #4CAF50;
     color: #fff;
     padding: 10px 20px;
 }
@@ -65,14 +65,62 @@ main {
     margin-bottom: 20px;
 }
 
-.main-buttons input {
+.main-buttons button {
     padding: 10px 20px;
     border: none;
-    background-color: #69c99c;
+    background-color: #4CAF50;
     color: #fff;
     cursor: pointer;
     border-radius: 5px;
 }
+
+li {
+    cursor: pointer;
+}
+
+.main-buttons {
+    display: flex;
+    justify-content: space-around;  /*Distribuye los botones de manera uniforme */
+    margin: 20px 0;
+}
+
+.main-buttons button:hover {
+    background-color: rgb(15, 127, 255); /* Efecto hover más claro */
+    transform: translateY(-2px); /* Efecto de elevar el botón al hacer hover */
+}
+
+.main-buttons button:hover {
+    background-color: rgb(15, 127, 255); /* Efecto hover más claro */
+    transform: translateY(-2px); /* Efecto de elevar el botón al hacer hover */
+}
+#disponibilidad select:hover {
+    border-color: rgb(15, 127, 255); /* Cambiar el borde a un verde más oscuro al pasar el cursor */
+}
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Verde primario */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
+  }
+  
+  button:hover {
+    background-color: #1e247e; 
+    transform: scale(1.05); 
+  }
+  
+  button.selected {
+    background-color: #4CAF50;
+    transform: scale(1.1);
+    animation: pulse 0.5s; 
+  }
+  
+  button:active {
+    transform: scale(0.95); 
+  }
 
 .info-cards {
     display: flex;
@@ -94,4 +142,137 @@ main {
 .card span {
     display: block;
     font-weight: bold;
+}
+
+/* Ajustar el formulario */
+form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #4CAF50;
+    width: 50%;
+    margin: 20px auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Ajustar los campos del formulario */
+form label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+form input[type="time"],
+form select {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+}
+
+form input[type="time"]:focus,
+form select:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 8px rgba(4, 0, 255, 0.2);
+}
+
+/* Botones de formulario */
+form button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 80%;
+}
+
+form button:hover {
+    background-color: #4CAF50;
+    transform: scale(1.05);
+}
+
+form button:active {
+    transform: scale(0.95);
+}
+
+/* Alineación de botones principales */
+.main-buttons button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.main-buttons button:hover {
+    background-color: #4CAF50;
+    transform: scale(1.05);
+}
+
+/* Estilo para el contenedor de las opciones de día */
+#disponibilidad select {
+    width: 80%;
+    height: 100px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#disponibilidad select:hover {
+    border-color: rgb(15, 127, 255);
+}
+
+.dias-container button {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .dias-container button.selected {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
 }

@@ -28,11 +28,11 @@ header {
 .header-links a {
     margin: 0 10px;
     text-decoration: none;
-    color: #007bff;
+    color: #4CAF50;
 }
 
 nav {
-    background-color: #007bff;
+    background-color: #4CAF50;
     color: #fff;
     padding: 10px 20px;
 }
@@ -148,6 +148,21 @@ main {
     -webkit-overflow-scrolling: touch;
   }
   
+  .main-buttons {
+    display: flex;
+    justify-content: space-around;  /*Distribuye los botones de manera uniforme */
+    margin: 20px 0;
+}
+
+.main-buttons button:hover {
+    background-color: #4CAF50; /* Efecto hover más claro */
+    transform: translateY(-2px); /* Efecto de elevar el botón al hacer hover */
+}
+
+.main-buttons button:hover {
+    background-color: #4CAF50; /* Efecto hover más claro */
+    transform: translateY(-2px); /* Efecto de elevar el botón al hacer hover */
+}
   @media (max-width: 767px) {
     .table-responsive {
       width: 100%;

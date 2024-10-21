@@ -5,6 +5,7 @@ import { loginUser } from '../entidades/loginUser';
 import { Observable, catchError } from 'rxjs';
 import { throwError } from 'rxjs';
 import { Medico } from '../entidades/Medico';
+import { Disponibilidad } from '../entidades/Disponibilidad';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,8 @@ import { Medico } from '../entidades/Medico';
 export class ConsultasBackServiceService {
 
   // varirar entre correr el back local o en nube
-    private APIURL: string = "https://nitotito-clienteapi.mdbgo.io";
-    //private APIURL: string = "http://localhost:3000";
+    //private APIURL: string = "https://nitotito-clienteapi.mdbgo.io";
+    private APIURL: string = "http://localhost:3000";
 
   constructor(public http: HttpClient) { }
 
@@ -55,19 +56,75 @@ export class ConsultasBackServiceService {
     return this.http.put(url, medico);
   }
 
+  public getAvailability(specialty: String): Observable<Disponibilidad[]> {
+    return this.http.get<Disponibilidad[]>(`${this.APIURL}/disponibilidadPorEsp/${specialty}`)
+      .pipe(
+        catchError(this.handleError) // Añadir manejo de errores
+      );
+  }
+
+  guardarTurno(turno: { id_paciente: any; id_medico: any;  especialidad: string | null; fecha: string | null; hora: string | null; }): Observable<any> {
+    return this.http.post<any>(`${this.APIURL}/guardarTurno`, turno);
+  }
+
+  getHour(id_medico: number, fecha: string): Observable<any[]> {
+    const url = `${this.APIURL}/turnosTomados?medicoId=${id_medico}&dia=${fecha}`;
+    return this.http.get<any>(url);
+  }
+
+  getHistorialTurnos(id_paciente: number, opcion: number): Observable<any[]> {
+    const url = `${this.APIURL}/historialTurnos/${id_paciente}?opcion=${opcion}`;
+    return this.http.get<any>(url);
+  }
+
+  sendCalification(calificacionn: any): Observable<any[]> {
+    const url = `${this.APIURL}/enviarCalificacion`;
+    const body = calificacionn;
+    return this.http.post<any>(url, body);
+  }
+
+  getCalificacionesPorAfiliado(id_paciente: number): Observable<any[]> {
+    const url = `${this.APIURL}/calificaciones?id_paciente=${id_paciente}`;
+    console.log("url completa : ", url);
+    return this.http.get<any[]>(url);
+  }
+
+  getTurnosPaciente(dni_medico: any): Observable<any[]> {
+    const url = `${this.APIURL}/turnosTomadosCSV?dni_medico=${dni_medico}`;
+    console.log("dni_medico : ", dni_medico);
+    return this.http.get<any[]>(url);
+  }
+
+  getMedicoById(id_medico: number): Observable<any[]> {
+    const url = `${this.APIURL}/medicosById?id_medico=${id_medico}`;
+    return this.http.get<Medico[]>(url);
+  }
+
+  guardarDisponibilidad(disponibilidad: any): Observable<any[]> {
+    console.log("disponibilidad", disponibilidad);
+    return this.http.post<any>(`${this.APIURL}/guardarDisponibilidad`, disponibilidad);
+  }
+
+  updateTurno(id: any,option: any){
+    console.log("update turno", id +"---"+ option);
+    
+    return this.http.put(`${this.APIURL}/updateTurno?id=${id}&option=${option}`,null);
+  }
+  // Función que manejará los errores
   private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Error desconocido!';
+    let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
-      // Error del lado del cliente
-      errorMessage = `Error: ${error.error.message}`;
+      // Error del lado del cliente o red
+      errorMessage = `Error del lado del cliente o red: ${error.error.message}`;
     } else {
       // Error del lado del servidor
       errorMessage = `Error del servidor: ${error.status}\nMensaje: ${error.message}`;
-      if (error.status === 400) {
-        errorMessage = 'El correo ya está registrado.';
-      }
     }
-    return throwError(errorMessage);
+    // Muestra el error por consola (opcionalmente podrías mostrarlo en la UI)
+    console.error(errorMessage);
+    
+    // Retornar un observable con un mensaje de error personalizado para que el suscriptor pueda manejarlo
+    return throwError(() => new Error('Hubo un problema con la solicitud. Intenta nuevamente más tarde.'));
   }
 
 }

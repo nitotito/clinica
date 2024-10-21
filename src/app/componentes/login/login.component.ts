@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
  }
 
   loginUsuario: loginUser = {
+    id: null,
     dni: null,
     contra: '',
     tipoUsuario:'admin',
@@ -57,7 +58,6 @@ export class LoginComponent implements OnInit {
 
  public login(){
   if(this.loginForm.valid){
-
     this.loginUsuario.dni = this.loginForm.value.dni;
     this.loginUsuario.contra = this.loginForm.value.password;
     this.loginUsuario.tipoUsuario = this.loginForm.value.tipoUsuario;
@@ -70,9 +70,10 @@ export class LoginComponent implements OnInit {
         this.usuarioEncontrado = false; 
         return; 
       }else{ 
-       console.log("usuario ingresando: "+ consultausuario[0].tipoUsuario);
-       console.log("usuario : " + JSON.stringify(consultausuario[0].nombre));
+       //console.log("usuario ingresando: "+ consultausuario[0].tipoUsuario);
+       //console.log("usuario : " + JSON.stringify(consultausuario[0].nombre));
        let tipoUser = this.loginUsuario.tipoUsuario;
+       this.loginUsuario.id = consultausuario[0].id;
        this.loginUsuario.nombre = consultausuario[0].nombre;
        sessionStorage.setItem('user',JSON.stringify(this.loginUsuario));
 

@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ConsultasBackServiceService } from '../../servicio/consultas-back-service.service';
 import { Medico } from '../../entidades/Medico';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 
 @Component({
@@ -22,6 +24,7 @@ export class AdministradorComponent {
  
   
   medico: Medico= {
+    id:null,
     email:'', 
     dni:null, 
     nombre:'',
@@ -87,6 +90,49 @@ this.backservice.updateMedico(medico).subscribe(
   medico.color = medico.color === 'red' ? 'green' : 'red';
   medico.glow = true;
   //setTimeout(() => medico.glow = false, 100000);
+}
+
+generarPDF() {  
+  const data = document.getElementById('medicosTable'); // Obtener el elemento de la tabla
+  const logoUrl = 'assets/logo.png'; // Ruta del logo
+
+  // Cargar la imagen del logo antes de generar el PDF
+  const img = new Image();
+  img.src = logoUrl;
+  img.onload = () => {
+    html2canvas(data!).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+
+      const imgWidth = 190; // Ancho del PDF
+      const pageHeight = pdf.internal.pageSize.height; // Altura de la página
+      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Ajustar altura de imagen
+      let heightLeft = imgHeight;
+
+      let position = 0;
+
+      // Agregar el logo en la parte superior del PDF (x: 10, y: 10, tamaño ajustado)
+      pdf.addImage(img, 'PNG', 10, 10, 30, 30); // Cambia el tamaño y posición según tus necesidades
+
+      // Espacio entre el logo y la tabla
+      position = 40; // Espacio desde la parte superior después del logo
+
+      // Agregar la tabla al PDF después del logo
+      pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // Agregar más páginas si la tabla es más larga que una página
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      console.log("PDF generado con logo");
+      pdf.save('medicos.pdf'); // Guardar el PDF con el logo
+    });
+  };
 }
       
 }

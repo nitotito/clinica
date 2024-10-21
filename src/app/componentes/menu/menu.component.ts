@@ -18,6 +18,7 @@ export class MenuComponent {
   public ret:boolean = false;
 
   public user:loginUser = {
+  id: null,
   dni: null,
   contra:'',
   tipoUsuario:'',
@@ -29,10 +30,10 @@ export class MenuComponent {
     const accessToken = sessionStorage.getItem('user');
     if(accessToken != null){
       this.user =JSON.parse(accessToken);
-      console.log("usuario ingresando : " + this.user.tipoUsuario);
+      //console.log("usuario ingresando : " + this.user.tipoUsuario);
     }
     
-    console.log(" content : " + !!accessToken);
+   // console.log(" content : " + !!accessToken);
     return !!accessToken;
   }
 

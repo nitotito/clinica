@@ -1,20 +1,134 @@
 <div class="container">
     <header>
-<!--         <div class="logo">
+        <!-- <div class="logo">
             <img src="logo.png" alt="prueba">
         </div> -->
-        
-       
     </header>
 
     <main>
-        <h1 style="text-align: center;">Bienvenido a la seccion de pacientes {{this.obtenerDato()}} {{this.datoU.nombre}}</h1>
-        <h1 style="text-align: center;">Selecciones una opcion para continuar</h1>
-        <div class="main-buttons">
-            <input type="button" value="Nuevo Turno">
-            <input type="button" value="Historial">
-            <input type="button" value="Mis turnos">         
+        <h1 style="text-align: center;">¡Bienvenido {{ nombrePaciente }}! ¿Qué necesitás hoy?</h1>
+
+        <div *ngIf="!mostrarMensajeExito">
+            <div class="main-buttons">
+                <button id="btnNuevoTurno" (click)="mostrarEspecialidades()">Nuevo Turno</button>
+                <button (click)="mostrarHistorialTurnos()">Historial</button> 
+                <button (click)="misTurnos()">Mis turnos</button>
+            </div>
+
+            <div id="lista-especialidades" *ngIf="especialidadesVisible">
+                <h2>Especialidades disponibles</h2>
+                <div>
+                    <input type="text" [(ngModel)]="inputValue" placeholder="Buscar..." />
+
+                    <ul *ngIf="especialidades">
+                        <li *ngFor="let option of especialidades | filtrarEspecialidad: inputValue"
+                            (click)="handleSelect(option)">
+                            {{ option }}
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="disponibilidad" *ngIf="especialidadSeleccionada">
+                    <h3>Disponibilidad para: {{ especialidadSeleccionada }}</h3>
+
+                    <!-- Selección de fecha -->
+                    <label for="date-select">Fecha disponible:</label>
+                    <input type="date" [(ngModel)]="selectedDate" (change)="onDateSelect()" [min]="minDate" [max]="maxDate"
+                        (keydown)="disableInvalidDays($event)">
+
+                    <!-- Selección de hora -->
+                    <div *ngIf="selectedDate">
+                        <label for="hour-buttons">Hora disponible:</label>
+                        <div id="hour-buttons" class="hour-buttons-container">
+                            <!-- Crear un botón por cada hora disponible -->
+                            <button *ngFor="let hour of availableHours" [class.selected]="hour === selectedHour"
+                                (click)="confirmarTurno(hour)">
+                                {{ hour }}
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-        
+
+        <div *ngIf="mostrarHistorial">
+            <h2>Historial de Turnos</h2>
+            <h5>Seleccione un turno para calificarlo</h5>
+            <table class="historial-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Especialidad</th>
+                        <th>Estado</th>
+                        <th>Calificacion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let turno of historialTurnos"
+                            [ngClass]="{
+                                'estado-cancelado': turno.estado.trim().toLowerCase() === 'cancelado',
+                                'estado-activo': turno.estado.trim().toLowerCase() === 'confirmado'
+                            }">
+                            <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.dia }}</td>
+                            <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.hora }}</td>
+                            <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.especialidad }}</td>
+                            <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.estado }}</td>
+                            <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.calificacion }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="generar-grafico" *ngIf="mostrarHistorial">
+            <button (click)="generarGraficoCalificaciones()">Calificaciones</button>
+        </div>
+        <div *ngIf="mensajeCalificacionVisible" class="calificacion-message">
+            <h3>Agregue calificación</h3>
+            <div class="calificacion-buttons">
+                <button *ngFor="let numero of calificaciones"
+                        [class.selected]="calificacionSeleccionada === numero"
+                        (click)="seleccionarCalificacion(numero)">
+                    {{ numero }}
+                </button>
+            </div>
+            <div class="calificacion-action-buttons"> 
+                <button (click)="enviarCalificacion()" [disabled]="!calificacionSeleccionada">Enviar</button>
+                <button (click)="ocultarMensajeCalificacion()">Cerrar</button>
+            </div>
+        </div>
+        <div *ngIf="mensajeGraciasVisible" class="gracias-message"> 
+            <h3>¡Gracias!</h3>
+        </div>
+
+        <div *ngIf="turnosPropios">
+            <h2>Mis turnos</h2>
+            <table class="historial-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Especialidad</th>
+                        <th>Estado</th>
+                        <th>Calificacion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let turno of historialTurnos">
+                        <td>{{ turno.dia }}</td>
+                        <td>{{ turno.hora }}</td>
+                        <td>{{ turno.especialidad }}</td>
+                        <td>{{ turno.estado }}</td>
+                        <td>{{ turno.calificacion }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mensaje de éxito con animación -->
+        <div class="success-message" [ngClass]="{ 'show': mostrarMensajeExito, 'hidden': !mostrarMensajeExito }">
+            <h2>Turno guardado con éxito</h2>
+            <button (click)="regresar()">Regresar</button>
+        </div>
     </main>
 </div>

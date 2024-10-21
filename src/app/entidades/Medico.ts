@@ -1,4 +1,5 @@
 export interface Medico {
+    id:number | null,
     email: String;
     dni: number | null;
     nombre: String;

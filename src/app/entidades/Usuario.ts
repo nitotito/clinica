@@ -1,5 +1,5 @@
 export interface Usuario {
-
+    
     tipoUsuario: String;
     email: String;
     dni: number | null;

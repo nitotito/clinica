@@ -1,6 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Home</a>
+    <a class="navbar-brand" href="#">
+      <img src="assets/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+      Home
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,20 +15,28 @@
         <li class="nav-item">
           <a class="nav-link disabled" aria-disabled="true">Proximamente</a>
         </li>
-
       </ul>
+
+      <!-- Botón Sección Turnos -->
+      <ng-container>
+        <button *ngIf="isLoggedIn() && user.tipoUsuario == 'Paciente'" class="btn btn-outline-light" routerLink="/afiliado">Sección Turnos</button>
+        <button *ngIf="isLoggedIn() && user.tipoUsuario == 'Medico'" class="btn btn-outline-light" routerLink="/medico">Sección Turnos</button>
+      </ng-container>
+
+      <!-- Botón Administrar para Admin -->
       <ng-container>
         <button id="admin" *ngIf="isLoggedIn() && user.tipoUsuario == 'admin'" class="btn btn-outline-light" routerLink="/admin">Administrar</button>
       </ng-container>
 
+      <!-- Botón para ingresar si no está logueado -->
       <ng-container>
         <button *ngIf="!isLoggedIn()" class="btn btn-outline-light" routerLink="/login">Ingresar</button>
       </ng-container>
 
+      <!-- Botón para cerrar sesión si está logueado -->
       <ng-container>
         <button *ngIf="isLoggedIn()" class="btn btn-outline-light" (click)="cerrarSesion()" routerLink="/">Salir</button>
       </ng-container>
-
       
     </div>
   </div>
