@@ -94,13 +94,19 @@ this.backservice.updateMedico(medico).subscribe(
 
 generarPDF() {  
   const data = document.getElementById('medicosTable'); // Obtener el elemento de la tabla
-  const logoUrl = 'assets/logo.png'; // Ruta del logo
-
+  //const logoUrl = 'essets/logo.jpg'; // Ruta del logo
+  console.log("paso 1");
   // Cargar la imagen del logo antes de generar el PDF
   const img = new Image();
-  img.src = logoUrl;
-  img.onload = () => {
+  
+ console.log("kjsdkflalkjshdf",data);
+  //img.src = logoUrl;
+
+  console.log("paso 2");
+  //img.onload = () => {
+    //console.log("paso 2.2");
     html2canvas(data!).then(canvas => {
+      console.log("paso 3");
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF();
 
@@ -110,13 +116,13 @@ generarPDF() {
       let heightLeft = imgHeight;
 
       let position = 0;
-
+      console.log("paso 4");
       // Agregar el logo en la parte superior del PDF (x: 10, y: 10, tamaño ajustado)
-      pdf.addImage(img, 'PNG', 10, 10, 30, 30); // Cambia el tamaño y posición según tus necesidades
+      //pdf.addImage(img, 'PNG', 10, 10, 30, 30); // Cambia el tamaño y posición según tus necesidades
 
       // Espacio entre el logo y la tabla
       position = 40; // Espacio desde la parte superior después del logo
-
+      console.log("paso 5");
       // Agregar la tabla al PDF después del logo
       pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
@@ -132,7 +138,7 @@ generarPDF() {
       console.log("PDF generado con logo");
       pdf.save('medicos.pdf'); // Guardar el PDF con el logo
     });
-  };
+
+  }
 }
-      
-}
+
