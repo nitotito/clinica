@@ -1,0 +1,187 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: linear-gradient(to right, #f0f4f8, #cfd9df); /* Fondo degradado */
+}
+
+.container {
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
+    height: 100%; /* Ocupa toda la altura del cuerpo */
+}
+
+/* Añadir efecto de opacidad para la animación */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px); /* Comienza un poco abajo para dar un efecto de subida */
+    transition: opacity 1s ease, transform 1s ease; /* Transición suave de 1 segundo */
+}
+
+/* Aparece el contenido */
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0); /* Vuelve a su posición original */
+}
+
+.perfil {
+    background-color: #ffffff;
+    padding: 30px 50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center; /* Centrado del texto dentro del contenedor */
+    width: 90%; /* Ancho flexible */
+    max-width: 500px; /* Ancho máximo */
+}
+
+.perfil:hover {
+    transform: translateY(-5px); /* Elevación al pasar el mouse */
+}
+
+.perfil h2 {
+    margin-bottom: 25px;
+    color: #69c99c; /* Color del título */
+    font-size: 24px; /* Aumentar tamaño del título */
+}
+
+.perfil img.avatar {
+    width: 100px; /* Ajusta el tamaño del avatar */
+    height: 100px;
+    border-radius: 50%; /* Redondea la imagen */
+    margin-bottom: 20px; /* Espaciado inferior */
+    border: 2px solid #69c99c; /* Borde verde alrededor del avatar */
+}
+
+.perfil p {
+    margin: 10px 0; /* Margen vertical */
+    color: #333; /* Color del texto */
+    font-size: 18px; /* Aumentar tamaño de fuente */
+}
+
+.perfil button {
+    margin-left: 10px; /* Espaciado entre el texto y el botón */
+    padding: 5px 10px;
+    background-color: #69c99c; /* Color del botón */
+    color: white; /* Color del texto en el botón */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px; /* Tamaño de fuente en el botón */
+    transition: background-color 0.3s ease; /* Suave cambio de color */
+}
+
+.perfil button:hover {
+    background-color: #1f774e; /* Color del botón al pasar el mouse */
+}
+
+.perfil input[type="file"] {
+    margin: 10px 0; /* Margen superior e inferior */
+}
+
+.avatar-container {
+    display: flex;
+    justify-content: center; /* Centrar la imagen */
+    align-items: center; /* Centrar verticalmente */
+    margin-bottom: 20px; /* Espacio inferior */
+    margin-top: 20px;
+    overflow: hidden; /* Asegura que no se desborde */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+}
+
+
+.avatar {
+    margin-top: 3px;
+    width: 100px; /* Ajusta el tamaño según necesites */
+    height: 100px; /* Ajusta el tamaño según necesites */
+    object-fit: cover; /* Mantiene la relación de aspecto */
+    transition: transform 0.3s ease; /* Transición suave */
+}
+
+.avatar-container:hover .avatar {
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+}
+
+.info-container {
+    margin-bottom: 20px; /* Espacio entre la información y el botón de actualización */
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+    margin-bottom: 10px; /* Espacio entre los grupos */
+}
+
+/* Efecto al pasar el mouse */
+.info-item:hover {
+    transform: translateY(-2px); /* Movimiento sutil hacia arriba */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+}
+
+
+.update-button {
+    width: 100%; /* Botón ocupa todo el ancho */
+    max-width: 300px;
+    padding: 10px 20px;
+    display: inline-block;
+    background-color: #69c99c; /* Color principal */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s; /* Transición suave */
+    margin: 0; 
+}
+
+.update-button:hover {
+    background-color: #1f774e; /* Color en hover */
+}
+
+.update-button-container {
+    display: flex; /* Activar flexbox */
+    justify-content: center; /* Centrar horizontalmente */
+    margin-top: 30px; 
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+/* Media Queries para hacer responsive */
+@media (max-width: 768px) {
+    .perfil {
+        width: 80%; /* Ajustar ancho en tablets */
+        padding: 20px 30px;
+    }
+
+    .perfil img.avatar {
+        width: 80px; /* Ajusta el tamaño del avatar en tablets */
+        height: 80px;
+    }
+
+    .perfil button {
+        font-size: 12px; /* Tamaño de fuente en el botón en tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .perfil {
+        width: 90%; /* Ajustar ancho en móviles */
+        padding: 15px 20px;
+    }
+
+    .perfil img.avatar {
+        width: 60px; /* Ajusta el tamaño del avatar en móviles */
+        height: 60px;
+    }
+
+    .perfil button {
+        font-size: 10px; /* Tamaño de fuente en el botón en móviles */
+    }
+}

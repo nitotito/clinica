@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { ngxCsv } from 'ngx-csv';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { Medico } from '../../entidades/Medico';
   templateUrl: './medico.component.html',
   styleUrls: ['./medico.component.css']
 })
-export class MedicoComponent {
+export class MedicoComponent implements AfterViewInit {
 
   public datoUsuario: any = sessionStorage.getItem('user');
   public datoU: any;
@@ -183,4 +183,12 @@ export class MedicoComponent {
       console.error('Debe seleccionar una opción.');
     }
   }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+        const perfilElement = document.querySelector('.perfil');
+        perfilElement?.classList.add('visible');
+    }, 100); // Espera 100ms para asegurar que el elemento esté en el DOM
+  }
+  
 }

@@ -1,5 +1,5 @@
 export interface Usuario {
-    
+    id: number | null;
     tipoUsuario: String;
     email: String;
     dni: number | null;
@@ -10,6 +10,7 @@ export interface Usuario {
     especialidad: string;
     credencial: string;
     matricula: string;
+    avatar: string;
 
 }
 

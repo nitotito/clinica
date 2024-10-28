@@ -18,25 +18,35 @@
       </ul>
 
       <!-- Botón Sección Turnos -->
-      <ng-container>
-        <button *ngIf="isLoggedIn() && user.tipoUsuario == 'Paciente'" class="btn btn-outline-light" routerLink="/afiliado">Sección Turnos</button>
-        <button *ngIf="isLoggedIn() && user.tipoUsuario == 'Medico'" class="btn btn-outline-light" routerLink="/medico">Sección Turnos</button>
-      </ng-container>
-
-      <!-- Botón Administrar para Admin -->
-      <ng-container>
-        <button id="admin" *ngIf="isLoggedIn() && user.tipoUsuario == 'admin'" class="btn btn-outline-light" routerLink="/admin">Administrar</button>
-      </ng-container>
-
-      <!-- Botón para ingresar si no está logueado -->
-      <ng-container>
-        <button *ngIf="!isLoggedIn()" class="btn btn-outline-light" routerLink="/login">Ingresar</button>
-      </ng-container>
-
-      <!-- Botón para cerrar sesión si está logueado -->
-      <ng-container>
-        <button *ngIf="isLoggedIn()" class="btn btn-outline-light" (click)="cerrarSesion()" routerLink="/">Salir</button>
-      </ng-container>
+      <div class="botones">
+        <ng-container>
+          <button *ngIf="isLoggedIn() && user.tipoUsuario == 'Paciente'" class="btn btn-outline-light"
+            routerLink="/afiliado">Sección Turnos</button>
+          <button *ngIf="isLoggedIn() && user.tipoUsuario == 'medico'" class="btn btn-outline-light"
+            routerLink="/medico">Sección Turnos</button>
+        </ng-container>
+      
+        <ng-container>
+          <button *ngIf="isLoggedIn() && (user.tipoUsuario === 'Paciente' || user.tipoUsuario === 'medico')" class="btn btn-outline-light"
+            routerLink="/perfil">Perfil</button>
+        </ng-container>
+      
+        <!-- Botón Administrar para Admin -->
+        <ng-container>
+          <button id="admin" *ngIf="isLoggedIn() && user.tipoUsuario == 'admin'" class="btn btn-outline-light"
+            routerLink="/admin">Administrar</button>
+        </ng-container>
+      
+        <!-- Botón para ingresar si no está logueado -->
+        <ng-container>
+          <button *ngIf="!isLoggedIn()" class="btn btn-outline-light" routerLink="/login">Ingresar</button>
+        </ng-container>
+      
+        <!-- Botón para cerrar sesión si está logueado -->
+        <ng-container>
+          <button *ngIf="isLoggedIn()" class="btn btn-outline-light" (click)="cerrarSesion()" routerLink="/">Salir</button>
+        </ng-container>
+      </div>
       
     </div>
   </div>

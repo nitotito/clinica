@@ -421,3 +421,15 @@ li {
 #disponibilidad select:hover {
     border-color: #45a049;
 }
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px); /* Comienza un poco abajo para dar un efecto de subida */
+    transition: opacity 1s ease, transform 1s ease; /* Transición suave de 1 segundo */
+}
+
+/* Aparece el contenido */
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0); /* Vuelve a su posición original */
+}

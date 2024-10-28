@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   public usuarioEncontrado = true; 
   
   public usuario:Usuario={ 
+    id:null,
     tipoUsuario:'',
       email:'', 
       dni:null, 
@@ -33,6 +34,7 @@ export class LoginComponent implements OnInit {
       especialidad:'',
       credencial:'',
       matricula:'',
+      avatar:''
  }
 
   loginUsuario: loginUser = {
@@ -73,6 +75,7 @@ export class LoginComponent implements OnInit {
        //console.log("usuario ingresando: "+ consultausuario[0].tipoUsuario);
        //console.log("usuario : " + JSON.stringify(consultausuario[0].nombre));
        let tipoUser = this.loginUsuario.tipoUsuario;
+       console.log("id de consulta : ", consultausuario[0])
        this.loginUsuario.id = consultausuario[0].id;
        this.loginUsuario.nombre = consultausuario[0].nombre;
        sessionStorage.setItem('user',JSON.stringify(this.loginUsuario));
@@ -82,8 +85,6 @@ export class LoginComponent implements OnInit {
             this.root.navigateByUrl("/afiliado");
             break;
           case "medico":
-            console.log(" this habitacion : " + consultausuario[0]);
-            console.log(" this habitacion : " + consultausuario[0].habilitacion );
             if(consultausuario[0].habilitacion == "false"){
               let email = 'administracion@ClinicaSalud.com';
               let subject = 'Habilitacion para turnos';
@@ -116,5 +117,11 @@ export class LoginComponent implements OnInit {
         this.markFormGroupTouched(control);
       }
     });
+  }
+  ngAfterViewInit() {
+    setTimeout(() => {
+        const perfilElement = document.querySelector('.perfil');
+        perfilElement?.classList.add('visible');
+    }, 100); // Espera 100ms para asegurar que el elemento esté en el DOM
   }
 }

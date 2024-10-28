@@ -8,5 +8,6 @@ export interface Medico {
     contra: string;
     especialidad: string,
     matricula: string,
-    habilitacion:string
+    habilitacion:string,
+    avatar:string
 }

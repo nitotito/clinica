@@ -21,6 +21,7 @@ export class RegistroComponent {
    public validar:String="";
    public respo:any="";
    public usuario:Usuario={ 
+    id:null,
     tipoUsuario:'',
       email:'', 
       dni:null, 
@@ -31,6 +32,7 @@ export class RegistroComponent {
       especialidad:'',
       credencial:'',
       matricula:'',
+      avatar:''
  }
 
 /* 
@@ -183,5 +185,13 @@ export class RegistroComponent {
         this.respuestaApi(response);
       });
    }
+
+   ngAfterViewInit() {
+    setTimeout(() => {
+        const perfilElement = document.querySelector('.perfil');
+        perfilElement?.classList.add('visible');
+    }, 100); // Espera 100ms para asegurar que el elemento esté en el DOM
+  }
+  
 
 }

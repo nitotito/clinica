@@ -6,6 +6,7 @@ body {
     height: 100vh;
     margin: 0;
     padding: 0;
+    flex-direction: column;
 }
 
 .login-container {
@@ -13,11 +14,10 @@ body {
     padding: 30px 50px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    text-align: center; /* Centrar texto */
-    width: 25%; 
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
+    text-align: center; 
+    width: 100%; /* Cambia el ancho a 100% */
+    max-width: 400px; /* Establece un ancho máximo */
+    overflow: auto; /* Asegúrate de que el contenido no desborde */
 }
 
 h2 {
@@ -74,11 +74,11 @@ h2 {
     background-position: center;
     background-repeat: no-repeat;
     display: flex;
+    height: 100%;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    padding-top: 10%;
-    padding-bottom: 10%;
+    flex: 1; /* Permite que este contenedor ocupe el espacio disponible */
+    padding: 5% 0; /* Agrega espacio vertical */
 }
 
 .alert-sanatorio {
@@ -100,37 +100,29 @@ h2 {
     margin-bottom: 0;
 }
 
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px); /* Comienza un poco abajo para dar un efecto de subida */
+    transition: opacity 1s ease, transform 1s ease; /* Transición suave de 1 segundo */
+}
+
+/* Aparece el contenido */
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0); /* Vuelve a su posición original */
+}
+
 /* Media Queries para hacer responsive */
 @media (max-width: 768px) {
     .login-container {
-        width: 50%; /* Ajustar ancho en tablets */
+        width: 80%; /* Ajustar ancho en tablets */
         padding: 20px 30px;
-    }
-
-    .form-container form input,
-    .form-container form button[type="submit"] {
-        font-size: 14px;
-        padding: 8px;
-    }
-
-    .alert-sanatorio {
-        max-width: 80%; /* Ajustar ancho en tablets */
     }
 }
 
 @media (max-width: 480px) {
     .login-container {
-        width: 80%; /* Ajustar ancho en móviles */
+        width: 90%; /* Ajustar ancho en móviles */
         padding: 15px 20px;
-    }
-
-    .form-container form input,
-    .form-container form button[type="submit"] {
-        font-size: 12px;
-        padding: 6px;
-    }
-
-    .alert-sanatorio {
-        max-width: 90%; /* Ajustar ancho en móviles */
     }
 }

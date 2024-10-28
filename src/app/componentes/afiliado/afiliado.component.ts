@@ -400,6 +400,13 @@ export class AfiliadoComponent {
     // Ejemplo de redirección si usas rutas
     this.router.navigate(['/calificaciones']);
 }
+
+ngAfterViewInit() {
+  setTimeout(() => {
+      const perfilElement = document.querySelector('.perfil');
+      perfilElement?.classList.add('visible');
+  }, 100); // Espera 100ms para asegurar que el elemento esté en el DOM
+}
 }
 
 

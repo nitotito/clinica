@@ -33,7 +33,8 @@ export class AdministradorComponent {
     contra:'',
     especialidad:'',
     matricula:'',
-    habilitacion:''
+    habilitacion:'',
+    avatar: ''
   }
   public medicos: Medico[] = [];
 

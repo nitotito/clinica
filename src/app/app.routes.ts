@@ -9,6 +9,7 @@ import { AfiliadoComponent } from './componentes/afiliado/afiliado.component';
 import { MedicoComponent } from './componentes/medico/medico.component';
 import { canActivateGuard, canActivateGuardAfiliado ,canActivateGuardMedico } from './guard/can-activate.guard';
 import { GraficoCalificacionesComponent } from './componentes/grafico-calificaciones/grafico-calificaciones.component';
+import { PerfilComponent  } from './componentes/perfil/perfil.component';
 
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
@@ -18,6 +19,7 @@ export const routes: Routes = [
     {path:'medico', component:MedicoComponent, canActivate:[canActivateGuardMedico]},
     {path:'',component:PrincipalComponent},
     {path:'calificaciones', component: GraficoCalificacionesComponent },
+    {path:'perfil', component: PerfilComponent },
     {path:'**',component:ErrorComponent}
 ];  
 /* export const routes: Routes = [

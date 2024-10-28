@@ -112,6 +112,18 @@ body {
     margin-bottom: 0;
 }
 
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px); /* Comienza un poco abajo para dar un efecto de subida */
+    transition: opacity 1s ease, transform 1s ease; /* Transición suave de 1 segundo */
+}
+
+/* Aparece el contenido */
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0); /* Vuelve a su posición original */
+}
+
 /* Media Queries para hacer responsive */
 @media (max-width: 768px) {
     .login-container {

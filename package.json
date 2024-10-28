@@ -21,6 +21,7 @@
     "@angular/router": "^18.0.0",
     "@types/chart.js": "^2.9.41",
     "chart.js": "^4.4.5",
+    "enviroment": "^1.0.0",
     "firebase": "^10.14.1",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",

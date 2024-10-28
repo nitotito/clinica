@@ -40,3 +40,8 @@
 .btn-outline-success:disabled {
   opacity: 0.5; /* Opacidad reducida para el botón deshabilitado */
 }
+
+.botones{
+  display: flex;
+  gap: 5px;
+}

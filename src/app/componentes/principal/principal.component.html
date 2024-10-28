@@ -1,12 +1,12 @@
 <div class="container">
   <!-- Título y Subtítulo -->
-  <div class="hero text-center my-5 p-4">
+  <div class="hero text-center my-5 p-4 fade-in" [ngClass]="{'visible': isVisible[0]}">
     <h1 class="display-4">Bienvenido a Clínica Salud</h1>
     <p class="lead">Comprometidos con tu bienestar y salud integral.</p>
   </div>
 
   <!-- Carrusel -->
-  <div id="carouselExampleAutoplaying" class="carousel slide shadow-lg rounded" data-bs-ride="carousel">
+  <div id="carouselExampleAutoplaying" class="carousel slide shadow-lg rounded fade-in" [ngClass]="{'visible': isVisible[1]}" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="https://pbs.twimg.com/media/C2JOBcoUUAEslEW.jpg" class="d-block w-100" alt="Imagen 1">
@@ -41,7 +41,7 @@
   </div>
 
   <!-- Información Adicional -->
-  <div class="info-section my-5 p-4 text-center shadow-sm rounded">
+  <div class="info-section my-5 p-4 text-center shadow-sm rounded fade-in" [ngClass]="{'visible': isVisible[2]}">
     <h2>Nuestros Servicios</h2>
     <p>En Clínica Salud, ofrecemos una amplia gama de servicios para atender todas tus necesidades médicas. Desde consultas generales hasta especialidades médicas, estamos aquí para cuidarte.</p>
   </div>
