@@ -14,7 +14,7 @@ export class ConsultasBackServiceService {
 
   // varirar entre correr el back local o en nube
    private APIURL: string = "https://nitotito-clienteapi.mdbgo.io";
-   //private APIURL: string = "http://localhost:3000";
+  // private APIURL: string = "http://localhost:3000";
 
   constructor(public http: HttpClient) { }
 
@@ -77,6 +77,11 @@ export class ConsultasBackServiceService {
     return this.http.get<any>(url);
   }
 
+  getHistorialTurnosMed(id_medico: number): Observable<any[]> {
+    const url = `${this.APIURL}/historialTurnosMed/${id_medico}`;
+    return this.http.get<any>(url);
+  }
+
   sendCalification(calificacionn: any): Observable<any[]> {
     const url = `${this.APIURL}/enviarCalificacion`;
     const body = calificacionn;
@@ -110,6 +115,11 @@ export class ConsultasBackServiceService {
     
     return this.http.put(`${this.APIURL}/updateTurno?id=${id}&option=${option}`,null);
   }
+
+  public updateObservaciones(id: any,turno: any){
+    return this.http.put(`${this.APIURL}/updateObservaciones/${id}`,turno);
+  }
+
   // Función que manejará los errores
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '';

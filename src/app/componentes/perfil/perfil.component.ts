@@ -44,14 +44,17 @@ export class PerfilComponent implements OnInit {
   tipoUsuario: string = "";
   dni_medic!: number;
 
+
   constructor( private userService: UserService,  private consultasBackServiceService: ConsultasBackServiceService) {}
 
   ngOnInit(): void {
     const afiliadoData = sessionStorage.getItem('user');
     if (afiliadoData) {
-      const user = JSON.parse(afiliadoData); // Asegúrate de que `user` tiene la estructura correcta
+      const user = JSON.parse(afiliadoData); 
       this.idUser = user.id;
       this.dni_medic = user.dni;
+      this.tipoUsuario = user.tipoUsuario;
+
       switch(user.tipoUsuario){
         case "medico":
           this.loadMedicProfile();
@@ -79,12 +82,14 @@ export class PerfilComponent implements OnInit {
     const currentUser = this.consultasBackServiceService.getMedicoById(this.dni_medic).subscribe(
       (userData: Medico[]) => {
         this.medico = userData[0];
+        console.log("medico obtenido: ", this.medico);
         this.usuario.nombre = this.medico.nombre;
         this.usuario.apellido = this.medico.apellido;
         this.usuario.email = this.medico.email;
         this.usuario.dni = this.medico.dni;
         this.usuario.telefono = this.medico.telefono;
         this.usuario.id =this.medico.id;
+        this.usuario.avatar = this.medico.avatar;
 
       },
       (error) => {
@@ -94,13 +99,16 @@ export class PerfilComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    const file: File = event.target.files[0]; // Obtiene el primer archivo
+    // Obtengo el primer archivo
+    const file: File = event.target.files[0]; 
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.usuario.avatar = reader.result as string; // Actualiza el avatar con la imagen seleccionada
+        // Actualizo el avatar con la imagen seleccionada
+        this.usuario.avatar = reader.result as string; 
       };
-      reader.readAsDataURL(file); // Lee el archivo como URL de datos
+      // Leo el archivo como URL de datos
+      reader.readAsDataURL(file); 
     }
   }
 
@@ -108,15 +116,32 @@ export class PerfilComponent implements OnInit {
     if (this.avatarBase64) {
       this.usuario.avatar = this.avatarBase64; 
     }
-    console.log("this usuario actualizar : ", this.usuario)
-     this.userService.updateUserProfile(this.usuario).subscribe(response => {
-      console.log('Perfil actualizado', response);
-    }); 
+    //valido tipo de usario, realiza consulta de acuerdo al tipo.
+    switch(this.tipoUsuario){
+      case "medico":
+        this.medico.nombre = this.usuario.nombre;
+        this.medico.apellido = this.usuario.apellido;
+        this.medico.email = this.usuario.email;
+        this.medico.dni = this.usuario.dni;
+        this.medico.telefono = this.usuario.telefono;
+        this.medico.id = this.usuario.id;
+        this.medico.avatar = this.usuario.avatar;
+        this.userService.updateMedicProfile(this.medico).subscribe(response => {
+          console.log('Perfil actualizado', response);
+        }); 
+        break;
+      case "Paciente":
+        this.userService.updateUserProfile(this.usuario).subscribe(response => {
+          console.log('Perfil actualizado', response);
+        }); 
+        break;
+    }
+     
   }
 
   selectFile() {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-    fileInput.click(); // Simula el clic en el input de archivo
+    fileInput.click(); 
   }
 
   editField(fieldName: string): void {
@@ -125,8 +150,6 @@ export class PerfilComponent implements OnInit {
         // Actualizar el campo en el objeto usuario
         (this.usuario as any)[fieldName] = newValue;
 
-        // También podrías llamar a un método para guardar los cambios en la base de datos
-        // this.userService.updateUserProfile(this.usuario).subscribe(...);
     }
 }
 
@@ -134,6 +157,6 @@ ngAfterViewInit() {
   setTimeout(() => {
       const perfilElement = document.querySelector('.perfil');
       perfilElement?.classList.add('visible');
-  }, 100); // Espera 100ms para asegurar que el elemento esté en el DOM
+  }, 100); 
 }
 }

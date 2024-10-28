@@ -85,16 +85,16 @@ li {
 }
 
 .main-buttons button:hover {
-    background-color: rgb(15, 127, 255); /* Efecto hover más claro */
+    background-color: rgb(53, 170, 24); /* Efecto hover más claro */
     transform: translateY(-2px); /* Efecto de elevar el botón al hacer hover */
 }
 
 .main-buttons button:hover {
-    background-color: rgb(15, 127, 255); /* Efecto hover más claro */
+    background-color: rgb(53, 170, 24); /* Efecto hover más claro */
     transform: translateY(-2px); /* Efecto de elevar el botón al hacer hover */
 }
 #disponibilidad select:hover {
-    border-color: rgb(15, 127, 255); /* Cambiar el borde a un verde más oscuro al pasar el cursor */
+    border-color: rgb(53, 170, 24); /* Cambiar el borde a un verde más oscuro al pasar el cursor */
 }
 button {
     padding: 10px 20px;
@@ -108,7 +108,7 @@ button {
   }
   
   button:hover {
-    background-color: #1e247e; 
+    background-color: #12eb0b; 
     transform: scale(1.05); 
   }
   
@@ -235,7 +235,7 @@ form button:active {
 }
 
 #disponibilidad select:hover {
-    border-color: rgb(15, 127, 255);
+    border-color: rgb(53, 170, 24);
 }
 
 .dias-container button {
@@ -261,20 +261,40 @@ form button:active {
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
 }
 
 .modal-content {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    width: 300px;
+    width: 90%;
+    max-width: 400px;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .modal-buttons {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; /* Coloca los botones en columna */
+    gap: 10px; /* Espacio entre botones */
     margin-top: 20px;
+}
+
+.modal-buttons button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    background-color: #4CAF50; /* Color del botón */
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-buttons button:hover {
+    background-color: #45a049; /* Efecto hover */
 }
 
 .fade-in {
@@ -287,4 +307,166 @@ form button:active {
 .fade-in.visible {
     opacity: 1;
     transform: translateY(0); /* Vuelve a su posición original */
+}
+
+.historial-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil para la tabla */
+}
+
+.historial-table th,
+.historial-table td {
+    border: 1px solid #ccc; /* Bordes en un gris claro */
+    padding: 10px;
+    text-align: left;
+}
+
+.historial-table th {
+    background-color: #4CAF50; /* Color de fondo verde para los encabezados */
+    color: white; /* Texto blanco */
+    font-weight: bold; /* Negrita para los encabezados */
+}
+
+.historial-table tr {
+    transition: background-color 0.3s; /* Transición suave para el fondo */
+}
+
+.historial-table tr:nth-child(even) {
+    background-color: #f2f2f2; /* Fondo gris claro para filas pares */
+}
+
+.historial-table tr:hover {
+    background-color: #81C784; /* Fondo verde claro al pasar el cursor */
+}
+
+.historial-table td {
+    color: #333; /* Color de texto gris oscuro */
+}
+
+.estado-cancelado {
+    background-color: rgba(255, 0, 0, 0.3); /* Color para estado cancelado */
+}
+
+.estado-activo {
+    background-color: rgba(144, 238, 144, 0.5); /* Color para estado activo */
+}
+
+.clickable {
+    cursor: pointer; /* Cambia el cursor a mano al pasar sobre td */
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+  }
+  
+  .modal-dialog {
+    position: relative;
+    margin: 1.75rem auto;
+  }
+
+.spinner {
+    border: 3px solid #f3f3f3; /* Color de fondo */
+    border-top: 3px solid #3498db; /* Color del spinner */
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+/* Dispositivos móviles (pantallas hasta 600px) */
+@media (max-width: 600px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .logo img {
+        width: 100px; /* Reducir el tamaño del logo */
+    }
+
+    .user-info {
+        text-align: center;
+    }
+
+    nav ul {
+        flex-direction: column;
+    }
+
+    .main-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .main-buttons button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .info-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Ajustes específicos para el modal en pantallas móviles */
+    .modal-content {
+        width: 90%;
+        padding: 15px;
+    }
+}
+
+/* Tablets y pantallas medianas (pantallas de 600px a 1024px) */
+@media (min-width: 600px) and (max-width: 1024px) {
+    .container {
+        padding: 0 20px;
+    }
+
+    header {
+        flex-direction: row;
+        text-align: center;
+    }
+
+    .main-buttons {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .info-cards {
+        justify-content: space-around;
+    }
+}
+
+/* Pantallas grandes (más de 1024px) */
+@media (min-width: 1024px) {
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .main-buttons {
+        justify-content: space-around;
+    }
+
+    .info-cards {
+        justify-content: space-between;
+    }
 }

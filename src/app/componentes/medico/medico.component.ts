@@ -19,11 +19,18 @@ export class MedicoComponent implements AfterViewInit {
   public datoU: any;
   showDisponibilidadForm = false;
   showTurnosList = false;
+  turno: any;
   turnos: any[] = [];
   usuario: any;
   isModalOpen = false;
   opcionSeleccionada = '';
   turnoSeleccionado: any = null;
+  isLoading: boolean = false;
+  mostrarHistorial: boolean = false;
+  historialTurnos: any[] = []; 
+  mostrarTurnosPaciente: boolean = false;
+  mostrarModal: boolean = false;
+  observaciones: string = '';
 
   // Objeto para almacenar la disponibilidad seleccionada
   disponibilidad = {
@@ -63,16 +70,20 @@ export class MedicoComponent implements AfterViewInit {
   toggleDisponibilidadForm() {
     this.showDisponibilidadForm = !this.showDisponibilidadForm;
     if (this.showDisponibilidadForm) {
-      this.showTurnosList = false; // Ocultar la lista de turnos si se muestra el formulario
+      // Ocultar la lista de turnos si se muestra el formulario
+      this.showTurnosList = false; 
+      this.mostrarHistorial = false;
     }
   }
 
   // Método para mostrar u ocultar la lista de turnos
   toggleTurnosList() {
+    this.mostrarHistorial = false;
     this.showTurnosList = !this.showTurnosList;
     if (this.showTurnosList) {
-      this.showDisponibilidadForm = false; // Ocultar el formulario si se muestra la lista de turnos
-      this.obtenerTurnos(); // Obtener turnos solo si se muestra la lista
+      this.showDisponibilidadForm = false;
+      this.isLoading = true;
+      this.obtenerTurnos(); 
     }
   }
 
@@ -84,9 +95,11 @@ export class MedicoComponent implements AfterViewInit {
           (response: any) => {
             this.turnos = response;
             console.log("this.turno :", this.turnos);
+            this.isLoading = false; 
           },
           error => {
             console.error('Error al obtener los turnos:', error);
+            this.isLoading = false; 
           }
         );
       });
@@ -183,6 +196,57 @@ export class MedicoComponent implements AfterViewInit {
       console.error('Debe seleccionar una opción.');
     }
   }
+
+  mostrarHistorialTurnosMed() {
+    this.mostrarHistorial = true; 
+    this.showDisponibilidadForm = false;
+    this.showTurnosList = false;
+    const userData = sessionStorage.getItem('user');
+
+    if (userData) {
+        const usuario = JSON.parse(userData);
+        const medicoId = usuario.id; 
+        console.log("medicoid :", medicoId);
+        // Llama al servicio para obtener el historial de turnos del médico
+        this.consultaBackApi.getHistorialTurnosMed(medicoId).subscribe(
+            (response) => {
+                this.historialTurnos = response; // Guarda el historial obtenido
+                console.log("hitorial turnos : ",this.historialTurnos);
+            },
+            (error) => {
+                console.error('Error al obtener el historial de turnos:', error);
+            }
+        );
+    }
+}
+
+mostrarObservaciones(turno: any) {
+  this.turno = turno;
+    this.mostrarModal = true;
+  console.log('Observaciones para el turno:', turno);
+  
+}
+
+cerrarModal() {
+  this.mostrarModal = false;
+  this.observaciones = ''; // Limpiar el textarea al cerrar
+}
+
+guardarObservaciones(turno: any) {
+  turno.observaciones = this.observaciones;
+  console.log('Guardando observaciones:', this.observaciones, 'para el turno:', turno);
+  this.consultaBackApi.updateObservaciones(turno.id, turno).subscribe(
+    (response) => {
+
+        console.log("Actualizado : ",response);
+    },
+    (error) => {
+        console.error('Error al obtener el historial de turnos:', error);
+    }
+);
+  // Aquí puedes hacer la llamada a tu API para guardar las observaciones
+  this.cerrarModal();
+}
 
   ngAfterViewInit() {
     setTimeout(() => {

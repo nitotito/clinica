@@ -39,6 +39,8 @@ export class AfiliadoComponent {
   turnoSeleccionado: any; 
   calificacionSeleccionada: number | null = null;
   mensajeGraciasVisible: boolean = false;
+  isLoading: boolean = false;
+  isLoadingAux: boolean = false
 
   ngOnInit() {
     const afiliadoData = sessionStorage.getItem('user');
@@ -148,8 +150,6 @@ export class AfiliadoComponent {
         }
     });
 
-
-    // Me encanta la lecheeeeeeeeeeee
     // Convertir el set resultante de nuevo a array
     return Array.from(set1);
 }
@@ -297,6 +297,7 @@ export class AfiliadoComponent {
     this.turnosPropios = false;
     this.mostrarHistorial = true;
     this.especialidadesVisible = false; 
+    this.isLoading = true;
     const myData: string | null = sessionStorage.getItem('user'); 
     console.log(myData);
 
@@ -307,20 +308,22 @@ export class AfiliadoComponent {
           const pacienteId = user.id;
 
           this.consultaBackApi.getHistorialTurnos(pacienteId,1).subscribe((response) => {
-            this.historialTurnos = response; // Guarda el historial obtenido
+            this.historialTurnos = response;
+            this.isLoading = false;
               }, (error) => {
                   console.error("Error al obtener el historial de turnos:", error);
+                  this.isLoading = false;
             });
 
         } catch (error) {
           console.error('Error al parsear el JSON:', error);
+          this.isLoading = false;
       }
     }
   
 }
 
   mostrarMensajeCalificacion(turno: any) {
-    // Puedes usar el objeto `turno` si necesitas información adicional
     this.turnoSeleccionado = turno; 
     this.calificacionSeleccionada = null; 
     this.mensajeCalificacionVisible = true;
@@ -370,6 +373,7 @@ export class AfiliadoComponent {
     this.mostrarHistorial = false;
     this.especialidadesVisible = false; 
     this.turnosPropios = true;
+    this.isLoadingAux = true;
 
     const myData: string | null = sessionStorage.getItem('user'); 
     console.log(myData);
@@ -380,24 +384,21 @@ export class AfiliadoComponent {
           const pacienteId = user.id;
 
           this.consultaBackApi.getHistorialTurnos(pacienteId,2).subscribe((response) => {
-            this.historialTurnos = response; // Guarda el historial obtenido
+            this.historialTurnos = response;
+            this.isLoadingAux = false; 
               }, (error) => {
                   console.error("Error al obtener el historial de turnos:", error);
+                  this.isLoadingAux = false;
             });
 
         } catch (error) {
           console.error('Error al parsear el JSON:', error);
+          this.isLoadingAux = false;
       }
     }
   }
   generarGraficoCalificaciones() {
-    // Aquí puedes agregar la lógica para generar el gráfico de calificaciones
     console.log('Generar gráfico de calificaciones');
-    
-    // Si vas a utilizar una biblioteca como Chart.js, puedes inicializar el gráfico aquí
-    // o redirigir a otra página que contenga el gráfico.
-
-    // Ejemplo de redirección si usas rutas
     this.router.navigate(['/calificaciones']);
 }
 
@@ -405,7 +406,7 @@ ngAfterViewInit() {
   setTimeout(() => {
       const perfilElement = document.querySelector('.perfil');
       perfilElement?.classList.add('visible');
-  }, 100); // Espera 100ms para asegurar que el elemento esté en el DOM
+  }, 100); 
 }
 }
 

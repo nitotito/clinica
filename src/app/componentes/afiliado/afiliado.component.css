@@ -433,3 +433,114 @@ li {
     opacity: 1;
     transform: translateY(0); /* Vuelve a su posición original */
 }
+
+.spinner {
+    border: 3px solid #f3f3f3; /* Color de fondo */
+    border-top: 3px solid #3498db; /* Color del spinner */
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Dispositivos pequeños y móviles (hasta 600px) */
+@media (max-width: 600px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .logo img {
+        width: 80px; /* Reducir el tamaño del logo en móviles */
+    }
+
+    .user-info {
+        text-align: center;
+    }
+
+    nav ul {
+        flex-direction: column;
+    }
+
+    .main-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .main-buttons button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .info-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Tabla historial en pantallas pequeñas */
+    .historial-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    .historial-table th, .historial-table td {
+        font-size: 12px; /* Reducir el tamaño de texto en dispositivos pequeños */
+        padding: 8px; /* Reducir el espacio entre celdas */
+    }
+}
+
+/* Tablets y pantallas medianas (601px a 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .container {
+        padding: 0 20px;
+    }
+
+    .main-buttons {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .info-cards {
+        justify-content: space-around;
+    }
+
+    /* Tabla historial en tablets */
+    .historial-table th, .historial-table td {
+        font-size: 14px; /* Ajustar el tamaño de texto en tablets */
+        padding: 10px;
+    }
+}
+
+/* Pantallas grandes (más de 1024px) */
+@media (min-width: 1024px) {
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .main-buttons {
+        justify-content: space-around;
+    }
+
+    .info-cards {
+        justify-content: space-between;
+    }
+
+    /* Tabla historial en pantallas grandes */
+    .historial-table th, .historial-table td {
+        font-size: 16px; /* Tamaño de texto normal en pantallas grandes */
+        padding: 12px;
+    }
+}

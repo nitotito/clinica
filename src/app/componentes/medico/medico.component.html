@@ -6,8 +6,15 @@
         <h1 style="text-align: center;">¡Bienvenido Medico ! ¿Qué necesitás hoy?</h1>
         <div class="main-buttons">
             <button (click)="toggleDisponibilidadForm()">Disponibilidad</button>
-            <button>Historial</button>
-            <button (click)="toggleTurnosList()">Turnos Pacientes</button> <!-- Cambiar función -->
+            <button (click)="mostrarHistorialTurnosMed()">Historial</button>
+            <button (click)="toggleTurnosList()" [disabled]="isLoading">
+                <ng-container *ngIf="!isLoading; else loading">
+                  Turnos Pacientes
+                </ng-container>
+                <ng-template #loading>
+                  <span class="spinner"></span> Cargando...
+                </ng-template>
+              </button>
         </div>
 
         <!-- Formulario de disponibilidad -->
@@ -93,5 +100,52 @@
                 </table>
             </div>
         </div>
+
+        <div *ngIf="mostrarHistorial">
+            <h2>Historial de Turnos</h2>
+            <h5>Seleccione un turno para ver las observaciones</h5>
+            <table class="historial-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Estado</th>
+                        <th>Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let turno of historialTurnos"
+                        [ngClass]="{
+                            'estado-cancelado': turno.estado.trim().toLowerCase() === 'cancelado',
+                            'estado-activo': turno.estado.trim().toLowerCase() === 'confirmado'
+                        }">
+                        <td (click)="mostrarObservaciones(turno)" class="clickable">{{ turno.dia }}</td>
+                        <td (click)="mostrarObservaciones(turno)" class="clickable">{{ turno.hora }}</td>
+                        <td (click)="mostrarObservaciones(turno)" class="clickable">{{ turno.estado }}</td>
+                        <td (click)="mostrarObservaciones(turno)" class="clickable">{{ turno.observaciones || 'Sin observaciones' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal" tabindex="-1" role="dialog" [ngClass]="{ 'show': mostrarModal }" style="display: {{ mostrarModal ? 'block' : 'none' }};">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Agregar Observaciones</h5>
+                  <button type="button" class="close" (click)="cerrarModal()">
+                    <span>&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <textarea [(ngModel)]="observaciones" rows="4" cols="50" placeholder="Escribe tus observaciones aquí..."></textarea>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" (click)="guardarObservaciones(turno)">Guardar</button>
+                  <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
     </main>
 </div>

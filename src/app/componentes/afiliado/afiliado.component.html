@@ -11,8 +11,22 @@
         <div *ngIf="!mostrarMensajeExito">
             <div class="main-buttons">
                 <button id="btnNuevoTurno" (click)="mostrarEspecialidades()">Nuevo Turno</button>
-                <button (click)="mostrarHistorialTurnos()">Historial</button> 
-                <button (click)="misTurnos()">Mis turnos</button>
+                <button (click)="mostrarHistorialTurnos()" [disabled]="isLoading">
+                    <ng-container *ngIf="!isLoading; else loadingHistorial">
+                        Historial
+                    </ng-container>
+                    <ng-template #loadingHistorial>
+                        <span class="spinner"></span> Cargando...
+                    </ng-template>
+                </button>
+                <button (click)="misTurnos()" [disabled]="isLoadingAux">
+                    <ng-container *ngIf="!isLoadingAux; else loadingMisTurnos">
+                        Mis turnos
+                    </ng-container>
+                    <ng-template #loadingMisTurnos>
+                        <span class="spinner"></span> Cargando...
+                    </ng-template>
+                </button>
             </div>
 
             <div id="lista-especialidades" *ngIf="especialidadesVisible">
