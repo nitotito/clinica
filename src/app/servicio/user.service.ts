@@ -8,8 +8,8 @@ import { Medico } from '../entidades/Medico';
   providedIn: 'root'
 })
 export class UserService {
-  //private APIURL: string = "https://nitotito-clienteapi.mdbgo.io";
-  private APIURL = 'http://localhost:3000'; // Cambia esto por tu endpoint
+  private APIURL: string = "https://nitotito-clienteapi.mdbgo.io";
+  //private APIURL = 'http://localhost:3000'; // Cambia esto por tu endpoint
 
   constructor(private http: HttpClient) {}
 
