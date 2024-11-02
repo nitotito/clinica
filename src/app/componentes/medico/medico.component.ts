@@ -31,6 +31,7 @@ export class MedicoComponent implements AfterViewInit {
   mostrarTurnosPaciente: boolean = false;
   mostrarModal: boolean = false;
   observaciones: string = '';
+  nombreMedico: string | null = '';
 
   // Objeto para almacenar la disponibilidad seleccionada
   disponibilidad = {
@@ -47,6 +48,14 @@ export class MedicoComponent implements AfterViewInit {
     { nombre: 'Jueves', value: 'ju' },
     { nombre: 'Viernes', value: 'vi' }
   ];
+
+  ngOnInit() {
+    const medicoData = sessionStorage.getItem('user');
+    if (medicoData) {
+      const medicoObj = JSON.parse(medicoData); // Parsear el JSON
+      this.nombreMedico = medicoObj.nombre || 'Afiliado'; // Asignar el nombre o usar 'Afiliado' como fallback
+    }
+  }
 
   constructor(
     private consultaBackApi: ConsultasBackServiceService,
