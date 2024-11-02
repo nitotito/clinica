@@ -3,10 +3,14 @@ import { ConsultasBackServiceService } from '../../servicio/consultas-back-servi
 import { UserService } from '../../servicio/user.service'; 
 import { Usuario } from '../../entidades/Usuario'
 import { Medico } from '../../entidades/Medico';
+import { CommonModule } from '@angular/common';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
+  standalone: true,
+  imports: [CommonModule],
   styleUrls: ['./perfil.component.css']
 })
 export class PerfilComponent implements OnInit {
@@ -43,6 +47,7 @@ export class PerfilComponent implements OnInit {
   avatarBase64: string | null = null;
   tipoUsuario: string = "";
   dni_medic!: number;
+  isProfileLoaded: boolean = false;
 
 
   constructor( private userService: UserService,  private consultasBackServiceService: ConsultasBackServiceService) {}
@@ -66,7 +71,7 @@ export class PerfilComponent implements OnInit {
     }
   }
 
-  loadUserProfile(): void {
+ async loadUserProfile(){
     const currentUser = this.userService.getCurrentUser(this.idUser).subscribe(
       (userData: Usuario) => {
         this.usuario = userData; 
@@ -76,11 +81,15 @@ export class PerfilComponent implements OnInit {
         console.error('Error al obtener el usuario:', error);
       }
     );
+    this.isProfileLoaded = true;
+    
   }
 
-  loadMedicProfile(){
-    const currentUser = this.consultasBackServiceService.getMedicoById(this.dni_medic).subscribe(
-      (userData: Medico[]) => {
+ async loadMedicProfile(): Promise<void>{
+  this.isProfileLoaded = false;
+   try{
+      const userData: Medico[] = await firstValueFrom(this.consultasBackServiceService.getMedicoById(this.dni_medic));
+      if (userData && userData.length > 0){
         this.medico = userData[0];
         console.log("medico obtenido: ", this.medico);
         this.usuario.nombre = this.medico.nombre;
@@ -90,12 +99,17 @@ export class PerfilComponent implements OnInit {
         this.usuario.telefono = this.medico.telefono;
         this.usuario.id =this.medico.id;
         this.usuario.avatar = this.medico.avatar;
-
-      },
-      (error) => {
-        console.error('Error al obtener el usuario:', error);
-      }
-    );
+        this.isProfileLoaded = true;
+        } else {
+    console.error('No se encontraron datos del médico.');
+  } 
+    } catch (error) {
+      console.error('Error al obtener el médico:', error);
+    } finally{
+      this.isProfileLoaded = true;
+    }
+ 
+    console.log("valor de isprofileLoaded: ", this.isProfileLoaded);
   }
 
   onFileSelected(event: any) {

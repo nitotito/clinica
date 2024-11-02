@@ -276,7 +276,7 @@ form button:active {
 
 .modal-buttons {
     display: flex;
-    flex-direction: column; /* Coloca los botones en columna */
+    flex-direction:column-reverse; /* Coloca los botones en columna */
     gap: 10px; /* Espacio entre botones */
     margin-top: 20px;
 }
@@ -297,6 +297,16 @@ form button:active {
     background-color: #45a049; /* Efecto hover */
 }
 
+.modal-body textarea {
+    width: 100%;       
+    box-sizing: border-box;  
+    max-width: 100%;  
+  }
+
+  .modal-footer{
+
+    justify-content: space-around;
+  }
 .fade-in {
     opacity: 0;
     transform: translateY(20px); /* Comienza un poco abajo para dar un efecto de subida */

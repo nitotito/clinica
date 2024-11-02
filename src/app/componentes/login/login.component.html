@@ -29,7 +29,10 @@
         DNI o contraseña no válida
     </small>
       <button type="submit">Ingresar</button>
-  
+      <div *ngIf="isLoading" class="loading-animation">
+        <div class="loading-spinner"></div>
+        Cargando...
+      </div>
       <div class="links">
         <a>¿Olvidaste tu contraseña?</a>
         <a routerLink='/registro'>¿No tienes cuenta? Regístrate</a>

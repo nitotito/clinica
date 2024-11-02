@@ -20,8 +20,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
+  isLoading: boolean = false;
   public usuarioEncontrado = true; 
-  
+
   public usuario:Usuario={ 
     id:null,
     tipoUsuario:'',
@@ -59,12 +60,14 @@ export class LoginComponent implements OnInit {
   }
 
  public login(){
+  this.isLoading = true; 
   if(this.loginForm.valid){
     this.loginUsuario.dni = this.loginForm.value.dni;
     this.loginUsuario.contra = this.loginForm.value.password;
     this.loginUsuario.tipoUsuario = this.loginForm.value.tipoUsuario;
-
-  this.consultaBackApi.login(this.loginUsuario).subscribe(
+ 
+    console.log("valor de isloading: ", this.isLoading);
+    this.consultaBackApi.login(this.loginUsuario).subscribe(
     
     (consultausuario:loginUser[]) =>{   
       if(consultausuario.length == 0 || consultausuario[0].dni == null ) {
@@ -94,7 +97,7 @@ export class LoginComponent implements OnInit {
               alert("Usuario no habilitado, contacte con el administrador");
               window.location.href = outlookUrl; 
             }else{
-              this.root.navigateByUrl("/medico");        
+              this.root.navigateByUrl("/medico");      
             }  
             break;
           case "admin":
@@ -105,7 +108,11 @@ export class LoginComponent implements OnInit {
       
       }
     );
-  }else{
+    setTimeout(() => {
+      this.isLoading = false; 
+    }, 400); 
+  }else{ 
+    this.isLoading = false; 
     this.markFormGroupTouched(this.loginForm);
   }
   }

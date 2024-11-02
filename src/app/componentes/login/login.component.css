@@ -124,6 +124,33 @@ body {
     transform: translateY(0); /* Vuelve a su posición original */
 }
 
+.loading-animation {
+    position: absolute; /* O fixed, según tu diseño */
+  top: 50%; /* Centra verticalmente */
+  left: 50%; /* Centra horizontalmente */
+  transform: translate(-50%, -50%); /* Ajusta para centrar */
+  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+  display: flex; /* Asegúrate de que el contenedor use flexbox */
+  align-items: center; /* Centra verticalmente el contenido */
+  justify-content: center; /* Centra horizontalmente el contenido */
+  flex-direction: column; /* Coloca el texto debajo del spinner */
+  height: 100px; 
+}
+
+.loading-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid #007bff;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
 /* Media Queries para hacer responsive */
 @media (max-width: 768px) {
     .login-container {

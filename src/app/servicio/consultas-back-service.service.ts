@@ -13,8 +13,8 @@ import { Disponibilidad } from '../entidades/Disponibilidad';
 export class ConsultasBackServiceService {
 
   // varirar entre correr el back local o en nube
-   private APIURL: string = "https://nitotito-clienteapi.mdbgo.io";
-  // private APIURL: string = "http://localhost:3000";
+   //private APIURL: string = "https://nitotito-clienteapi.mdbgo.io";
+   private APIURL: string = "http://localhost:3000";
 
   constructor(public http: HttpClient) { }
 
