@@ -59,29 +59,43 @@ export class PerfilComponent implements OnInit {
       this.idUser = user.id;
       this.dni_medic = user.dni;
       this.tipoUsuario = user.tipoUsuario;
-
+      console.log("kñawdsjfklashdjlkfhasdf",this.tipoUsuario)
       switch(user.tipoUsuario){
         case "medico":
           this.loadMedicProfile();
           break;
         case "Paciente":
           this.loadUserProfile();
+          console.log("log 1")
           break;
       }
     }
   }
 
- async loadUserProfile(){
-    const currentUser = this.userService.getCurrentUser(this.idUser).subscribe(
-      (userData: Usuario) => {
-        this.usuario = userData; 
-        console.log("this.usuario", this.usuario);
-      },
-      (error) => {
-        console.error('Error al obtener el usuario:', error);
-      }
-    );
-    this.isProfileLoaded = true;
+async loadUserProfile(): Promise<void>{
+    this.isProfileLoaded = false;
+   try{
+      const userData: Usuario = await firstValueFrom(this.consultasBackServiceService.getPac(this.dni_medic));
+      console.log("userData : ", userData)
+      if (userData){
+        this.usuario = userData;
+        console.log("usuario obtenido: ", this.usuario);
+        this.usuario.nombre = this.usuario.nombre;
+        this.usuario.apellido = this.usuario.apellido;
+        this.usuario.email = this.usuario.email;
+        this.usuario.dni = this.usuario.dni;
+        this.usuario.telefono = this.usuario.telefono;
+        this.usuario.id =this.usuario.id;
+        this.usuario.avatar = this.usuario.avatar;
+        this.isProfileLoaded = true;
+        } else {
+    console.error('No se encontraron datos del médico.');
+  } 
+    } catch (error) {
+      console.error('Error al obtener el PAciente:', error);
+    } finally{
+      this.isProfileLoaded = true;
+    }
     
   }
 

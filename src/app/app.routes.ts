@@ -10,6 +10,7 @@ import { MedicoComponent } from './componentes/medico/medico.component';
 import { canActivateGuard, canActivateGuardAfiliado ,canActivateGuardMedico } from './guard/can-activate.guard';
 import { GraficoCalificacionesComponent } from './componentes/grafico-calificaciones/grafico-calificaciones.component';
 import { PerfilComponent  } from './componentes/perfil/perfil.component';
+import { StaffComponent } from './componentes/staff/staff.component';
 
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
@@ -20,6 +21,7 @@ export const routes: Routes = [
     {path:'',component:PrincipalComponent},
     {path:'calificaciones', component: GraficoCalificacionesComponent },
     {path:'perfil', component: PerfilComponent },
+    {path:'staff',component:StaffComponent},
     {path:'**',component:ErrorComponent}
 ];  
 /* export const routes: Routes = [

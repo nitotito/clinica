@@ -21,6 +21,10 @@ export class AdministradorComponent {
   public filtro:String ="";
   public datoUsuario:any = sessionStorage.getItem('user');
   public datoU:any;
+  showDisponibilidadForm = false;
+  showTurnosList = false;
+  turno: any;
+  usuario: any;
  
   
   medico: Medico= {
@@ -36,6 +40,21 @@ export class AdministradorComponent {
     habilitacion:'',
     avatar: ''
   }
+
+  disponibilidad = {
+    desde: '',
+    hasta: '',
+    dias: [] as string[]  // Aquí se acumularán los días seleccionados
+  };
+
+   dias = [
+    { nombre: 'Lunes', value: 'lu' },
+    { nombre: 'Martes', value: 'ma' },
+    { nombre: 'Miércoles', value: 'mi' },
+    { nombre: 'Jueves', value: 'ju' },
+    { nombre: 'Viernes', value: 'vi' }
+  ];
+
   public medicos: Medico[] = [];
 
   constructor(public backservice:ConsultasBackServiceService){
@@ -73,7 +92,23 @@ public obtenerDato() {
  console.log("datos : " + this.datoU.nombre);
  }   */
 
+toggleDisponibilidadForm() {
+    this.showDisponibilidadForm = !this.showDisponibilidadForm;
+    if (this.showDisponibilidadForm) {
+      // Ocultar la lista de turnos si se muestra el formulario
+      this.showTurnosList = false; 
+    }
+  }
 
+  // Método para alternar la selección de los días
+  toggleDia(dia: string) {
+    const index = this.disponibilidad.dias.indexOf(dia);
+    if (index === -1) {
+      this.disponibilidad.dias.push(dia); // Añadir el día si no está seleccionado
+    } else {
+      this.disponibilidad.dias.splice(index, 1); // Eliminar el día si ya está seleccionado
+    }
+  }
  
  accion(medico: any) {
   console.log("medico : " + JSON.stringify(this.medico));
@@ -92,6 +127,34 @@ this.backservice.updateMedico(medico).subscribe(
   medico.glow = true;
   //setTimeout(() => medico.glow = false, 100000);
 }
+
+ enviarDisponibilidad() {
+    this.backservice.getMedicoById(this.usuario.dni).subscribe(
+      (medicos: Medico[]) => {
+        if (medicos && medicos.length > 0) {
+          const disponibilidadCompleta = {
+            ...this.disponibilidad,
+            id_medico: medicos[0].id,
+            especialidad: medicos[0].especialidad,
+          };
+
+          this.backservice.guardarDisponibilidad(disponibilidadCompleta).subscribe(
+            response => {
+              console.log('Disponibilidad guardada exitosamente:', response);
+            },
+            error => {
+              console.error('Error al guardar disponibilidad:', error);
+            }
+          );
+        } else {
+          console.error('No se encontró información del médico');
+        }
+      },
+      error => {
+        console.error('Error al obtener el médico:', error);
+      }
+    );
+  }
 
 generarPDF() {  
   const data = document.getElementById('medicosTable'); // Obtener el elemento de la tabla

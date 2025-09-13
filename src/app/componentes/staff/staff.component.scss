@@ -1,0 +1,187 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.login-container {
+    background-color: #ffffff;
+    padding: 30px 50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 50%;    
+}
+
+.login-container h1 {
+    margin-bottom: 25px;
+    color: #69c99c;
+}
+
+.login-container label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.login-container input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.login-container input::placeholder {
+    color: #aaa;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #69c99c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.login-container button:hover {
+    background-color: #1f774e;
+}
+
+.login-container .links {
+    margin-top: 20px;
+}
+
+.login-container .links a {
+    display: block;
+    margin-bottom: cover;
+    color: #0d47a1;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.login-container .links a:hover {
+    text-decoration: underline;
+}
+
+.div-to-center {
+    background-image: url('../../../assets/fontregister.jpg');
+    background-size: cover; /* Ajusta el tamaño de la imagen al contenedor */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ajusta la altura al tamaño de la ventana */
+    padding-top: 10%; /* Espaciado superior */
+    padding-bottom: 10%; /* Espaciado inferior */
+}
+
+.radio-group {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+.alert-sanatorio {
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f8d7da; /* Fondo rojo suave */
+    border: 1px solid #f5c6cb; /* Borde rojo suave */
+    color: #721c24; /* Texto rojo oscuro */
+    font-family: Arial, sans-serif; /* Tipografía Arial */
+    max-width: 300px; /* Ancho máximo */
+}
+
+.alert-sanatorio .alert-heading {
+    color: #721c24; /* Texto de encabezado rojo oscuro */
+    font-weight: bold; /* Peso de la tipografía */
+}
+
+.alert-sanatorio p {
+    margin-bottom: 0;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px); /* Comienza un poco abajo para dar un efecto de subida */
+    transition: opacity 1s ease, transform 1s ease; /* Transición suave de 1 segundo */
+}
+
+/* Aparece el contenido */
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0); /* Vuelve a su posición original */
+}
+
+.loading-animation {
+    position: absolute; /* O fixed, según tu diseño */
+  top: 50%; /* Centra verticalmente */
+  left: 50%; /* Centra horizontalmente */
+  transform: translate(-50%, -50%); /* Ajusta para centrar */
+  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+  display: flex; /* Asegúrate de que el contenedor use flexbox */
+  align-items: center; /* Centra verticalmente el contenido */
+  justify-content: center; /* Centra horizontalmente el contenido */
+  flex-direction: column; /* Coloca el texto debajo del spinner */
+  height: 100px; 
+}
+
+.loading-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid #007bff;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+/* Media Queries para hacer responsive */
+@media (max-width: 768px) {
+    .login-container {
+        width: 70%; /* Ajustar ancho en tablets */
+        padding: 20px 30px;
+    }
+
+    .login-container input,
+    .login-container button {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .alert-sanatorio {
+        max-width: 80%; /* Ajustar ancho en tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        width: 90%; /* Ajustar ancho en móviles */
+        padding: 15px 20px;
+    }
+
+    .login-container input,
+    .login-container button {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .alert-sanatorio {
+        max-width: 90%; /* Ajustar ancho en móviles */
+    }
+}

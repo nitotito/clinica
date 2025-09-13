@@ -5,7 +5,7 @@
     <main class="perfil fade-in">
         <h1 style="text-align: center;">¡Bienvenido {{ nombreMedico}} ! ¿Qué necesitás hoy?</h1>
         <div class="main-buttons">
-            <button (click)="toggleDisponibilidadForm()">Disponibilidad</button>
+            <!-- <button (click)="toggleDisponibilidadForm()">Disponibilidad</button> -->
             <button (click)="mostrarHistorialTurnosMed()">Historial</button>
             <button (click)="toggleTurnosList()" [disabled]="isLoading">
                 <ng-container *ngIf="!isLoading; else loading">
@@ -18,7 +18,7 @@
         </div>
 
         <!-- Formulario de disponibilidad -->
-        <form *ngIf="showDisponibilidadForm" (ngSubmit)="enviarDisponibilidad()">
+       <!--  <form *ngIf="showDisponibilidadForm" (ngSubmit)="enviarDisponibilidad()">
             <label for="desde">Hora Desde:</label>
             <input type="time" id="desde" [(ngModel)]="disponibilidad.desde" name="desde" required>
 
@@ -35,8 +35,8 @@
                 </button>
               </div>
 
-            <button type="submit">Enviar Disponibilidad</button>
-        </form>
+            <button type="submit" id="dispo">Enviar Disponibilidad</button>
+        </form> -->
 
         <!-- Lista de turnos -->
         <div class="row" *ngIf="showTurnosList">

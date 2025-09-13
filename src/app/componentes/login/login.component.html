@@ -15,7 +15,7 @@
         <div *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</div>
       </div>
   
-      <div class="radio-group">
+     <!--  <div class="radio-group">
     <label>
         <input type="radio" name="tipoUsuario" formControlName="tipoUsuario" [(ngModel)]="loginUsuario.tipoUsuario" value="medico"> Médico
 
@@ -24,7 +24,7 @@
         <input type="radio" name="tipoUsuario" formControlName="tipoUsuario" [(ngModel)]="loginUsuario.tipoUsuario" value="Paciente"> Paciente
 
     </label>
-      </div>
+      </div> -->
       <small *ngIf="!usuarioEncontrado" class="text-danger form-text">
         DNI o contraseña no válida
     </small>

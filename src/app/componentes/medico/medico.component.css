@@ -234,6 +234,10 @@ form button:active {
     padding: 10px;
 }
 
+#dispo{
+    margin-top: 15px;
+}
+
 #disponibilidad select:hover {
     border-color: rgb(53, 170, 24);
 }
@@ -242,12 +246,12 @@ form button:active {
     margin: 5px;
     padding: 10px;
     border: 1px solid #ccc;
-    background-color: white;
+    background-color: #4CAF50;
     cursor: pointer;
   }
   
   .dias-container button.selected {
-    background-color: #007bff;
+    background-color: #00ff4c;
     color: white;
   }
 

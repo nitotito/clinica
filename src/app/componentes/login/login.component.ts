@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     id: null,
     dni: null,
     contra: '',
-    tipoUsuario:'admin',
+    tipoUsuario:'Paciente',
     habilitacion:'',
     nombre:'',
   }
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       dni: ['', [Validators.required, Validators.minLength(8)]],
       password: ['', [Validators.required]],
-      tipoUsuario: ['']
+      tipoUsuario: ['Paciente']
     });
   }
 
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
     this.loginUsuario.dni = this.loginForm.value.dni;
     this.loginUsuario.contra = this.loginForm.value.password;
     this.loginUsuario.tipoUsuario = this.loginForm.value.tipoUsuario;
- 
+    console.log("tipo usuario :", this.loginUsuario.tipoUsuario);
     console.log("valor de isloading: ", this.isLoading);
     this.consultaBackApi.login(this.loginUsuario).subscribe(
     
@@ -77,16 +77,16 @@ export class LoginComponent implements OnInit {
       }else{ 
        //console.log("usuario ingresando: "+ consultausuario[0].tipoUsuario);
        //console.log("usuario : " + JSON.stringify(consultausuario[0].nombre));
-       let tipoUser = this.loginUsuario.tipoUsuario;
+       /* let tipoUser = this.loginUsuario.tipoUsuario; */
        console.log("id de consulta : ", consultausuario[0])
        this.loginUsuario.id = consultausuario[0].id;
        this.loginUsuario.nombre = consultausuario[0].nombre;
        sessionStorage.setItem('user',JSON.stringify(this.loginUsuario));
 
-        switch(tipoUser){
-          case "Paciente":
+/*         switch(tipoUser){
+          case "Paciente": */
             this.root.navigateByUrl("/afiliado");
-            break;
+          /*   break;
           case "medico":
             if(consultausuario[0].habilitacion == "false"){
               let email = 'administracion@ClinicaSalud.com';
@@ -103,7 +103,7 @@ export class LoginComponent implements OnInit {
           case "admin":
             this.root.navigateByUrl("/admin");
             break;
-        }
+        } */
       } 
       
       }

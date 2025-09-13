@@ -13,8 +13,8 @@ import { Disponibilidad } from '../entidades/Disponibilidad';
 export class ConsultasBackServiceService {
 
   // varirar entre correr el back local o en nube
-   private APIURL: string = "https://nitotito-clienteapi.mdbgo.io";
-   //private APIURL: string = "http://localhost:3000";
+   //private APIURL: string = "https://nitotito-clienteapi.mdbgo.io";
+   private APIURL: string = "http://localhost:3000";
 
   constructor(public http: HttpClient) { }
 
@@ -43,7 +43,7 @@ export class ConsultasBackServiceService {
 
   public getPac(id:Number){
     console.log(this.APIURL+"/loguear")
-    return this.http.get(this.APIURL + "/getPaciente/" + id);
+    return this.http.get<Usuario>(this.APIURL + "/pacienteId/" + id);
     
   }
   public getMedicos(){
@@ -119,6 +119,7 @@ export class ConsultasBackServiceService {
   public updateObservaciones(id: any,turno: any){
     return this.http.put(`${this.APIURL}/updateObservaciones/${id}`,turno);
   }
+  
 
   // Función que manejará los errores
   private handleError(error: HttpErrorResponse) {

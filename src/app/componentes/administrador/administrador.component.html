@@ -15,6 +15,7 @@
 
       <h1 style="text-align: center;">Seleccione una opción para continuar</h1>
       <div class="main-buttons">
+        <button (click)="toggleDisponibilidadForm()">Disponibilidad</button>
         <input type="button" value="Nuevo Turno">
         <input type="button" value="Administrar">
         <!-- <input type="button" value="Reportes"> -->
@@ -55,5 +56,25 @@
         </tbody>
       </table>
      </div>
+
+     <form *ngIf="showDisponibilidadForm" (ngSubmit)="enviarDisponibilidad()">
+            <label for="desde">Hora Desde:</label>
+            <input type="time" id="desde" [(ngModel)]="disponibilidad.desde" name="desde" required>
+
+            <label for="hasta">Hora Hasta:</label>
+            <input type="time" id="hasta" [(ngModel)]="disponibilidad.hasta" name="hasta" required>
+
+            <label for="dias">Días:</label>
+            <div class="dias-container">
+                <button type="button" 
+                        *ngFor="let dia of dias"
+                        (click)="toggleDia(dia.value)"
+                        [ngClass]="{'selected': disponibilidad.dias.includes(dia.value)}">
+                  {{ dia.nombre }}
+                </button>
+              </div>
+
+            <button type="submit" id="dispo">Enviar Disponibilidad</button>
+        </form>
     </main>
   </div>
