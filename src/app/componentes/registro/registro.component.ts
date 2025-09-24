@@ -6,6 +6,7 @@ import { ConsultasBackServiceService } from '../../servicio/consultas-back-servi
 import { Usuario } from '../../entidades/Usuario';
 import { RouterModule ,Router } from '@angular/router';
 import { loginUser } from '../../entidades/loginUser';
+import { NotificacionService } from '../../servicio/notificacion.service'; 
 
 @Component({
   selector: 'app-registro',
@@ -36,7 +37,7 @@ export class RegistroComponent {
   }
 
   // constructor
-  constructor(private consultaBackApi: ConsultasBackServiceService, private root: Router) {  // INSTANCIO MI CLASE DE BACK PARA TODOS LOS OOPERADORES
+  constructor(private consultaBackApi: ConsultasBackServiceService, private root: Router, private notifService: NotificacionService) {  // INSTANCIO MI CLASE DE BACK PARA TODOS LOS OOPERADORES
 
   }
 
@@ -53,33 +54,32 @@ export class RegistroComponent {
 
     if (campos == true) {
       console.log("Tipo de usuario : " + this.usuario.tipoUsuario);
-      /* if (this.usuario.tipoUsuario == "medico") {
-        this.consultaBackApi.registrarMed(this.usuario).subscribe(response => {
-          this.respuestaApi(response);});
-      } else if (this.usuario.tipoUsuario == "Paciente") { */
-      console.log("registrando paciente");
-      this.consultaBackApi.registrar(this.usuario).subscribe((response: any) => {
-        console.log("repsonse ;: ", response)
-        if (response == 'ok') {
-          sessionStorage.setItem('user', JSON.stringify(this.usuario));
-          console.log("Registro exitoso");
-          this.root.navigateByUrl("/afiliado");
-           console.log("Registro exitoso 2 ");
-        } else {
-          console.error("Error en registro");
-        }
-      });
 
-      /* } */
+      console.log("registrando paciente");
+      this.consultaBackApi.registrar(this.usuario).subscribe({
+      next: (response: any) => {
+        if (response.mensaje === 'ok') {
+          this.notifService.mostrarExito('Registro exitoso ✅');
+          sessionStorage.setItem('user', JSON.stringify(this.usuario));
+          this.root.navigateByUrl("/afiliado");
+        }
+      },
+      error: (err) => {
+        console.error("Error en registro:", err);
+        if (err.error?.mensaje) {
+          this.notifService.mostrarError(err.error.mensaje); // 👈 debería mostrar toast
+        } else {
+          this.notifService.mostrarError('Ocurrió un error inesperado ❌');
+        }
+      }
+    });
+
     } else if (this.validar != "admin") {
       console.log("campos no validos");
     } else {
       console.log("Esta intentando ingresar como admin");
     }
   }
-
-
-
 
   /* 
    Funcion para validar campos

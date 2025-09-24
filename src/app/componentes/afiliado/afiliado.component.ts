@@ -63,11 +63,13 @@ export class AfiliadoComponent {
   }
 
   mostrarEspecialidades() {
+    console.log("this 1")
     this.clearVariablesPaciente();
     this.especialidadesVisible = true;
     this.mostrarMensajeExito = false;
     this.mostrarHistorial = false;
     this.turnosPropios = false;
+    console.log("this2")
     this.getMedicos();
   }
 
@@ -233,8 +235,6 @@ export class AfiliadoComponent {
 
     // Obtener datos del sessionStorage
     const myData: string | null = sessionStorage.getItem('user'); 
-    console.log(myData);
-
     if (myData) {
         try {
             
@@ -384,6 +384,7 @@ export class AfiliadoComponent {
           const pacienteId = user.id;
 
           this.consultaBackApi.getHistorialTurnos(pacienteId,2).subscribe((response) => {
+            console.log("turnos lala : ",response)
             this.historialTurnos = response;
             this.isLoadingAux = false; 
               }, (error) => {

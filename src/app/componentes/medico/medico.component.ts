@@ -194,17 +194,23 @@ export class MedicoComponent implements AfterViewInit {
 
   // Método para manejar el envío de las opciones
   enviarOpciones() {
-    if (this.opcionSeleccionada) {
-      console.log('Turno seleccionado:', this.turnoSeleccionado);
-      console.log('Opción seleccionada:', this.opcionSeleccionada);
+  if (this.opcionSeleccionada) {
+    console.log('Turno seleccionado:', this.turnoSeleccionado);
+    console.log('Opción seleccionada:', this.opcionSeleccionada);
 
-      this.consultaBackApi.updateTurno(this.turnoSeleccionado.id,this.opcionSeleccionada).subscribe();
+    this.consultaBackApi.updateTurno(this.turnoSeleccionado.id, this.opcionSeleccionada).subscribe({
+      next: () => {
+        // ✅ volver a cargar los turnos
+        this.obtenerTurnos();
+        this.closeModal();
+      },
+      error: err => console.error('Error en update:', err)
+    });
 
-      this.closeModal(); // Cerrar el modal después de enviar
-    } else {
-      console.error('Debe seleccionar una opción.');
-    }
+  } else {
+    console.error('Debe seleccionar una opción.');
   }
+}
 
   mostrarHistorialTurnosMed() {
     this.mostrarHistorial = true; 

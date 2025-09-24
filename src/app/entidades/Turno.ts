@@ -1,9 +1,10 @@
 export interface Turno{
     id: number,
-    id_usuario: number,
+    id_paciente: number,
     id_medico: number,
-    dia:string,
+    fecha:string,
     hora:string,
+    especialidad:string,
     observaciones: string,
     estado: string,
     calificacion: string

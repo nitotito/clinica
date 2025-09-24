@@ -14,17 +14,23 @@ export class ConsultasBackServiceService {
 
   // varirar entre correr el back local o en nube
    //private APIURL: string = "https://nitotito-clienteapi.mdbgo.io";
-   private APIURL: string = "http://localhost:3000";
+   //private APIURL: string = "http://localhost:3000";
+
+   //Nuevo servicio en JAVA
+   private APIURL: string = "http://localhost:8080";
+
 
   constructor(public http: HttpClient) { }
 
 
-  public registrar(usuario:Usuario) {
-    return this.http.post(this.APIURL + "/insertar", usuario)
-/*     .pipe(
-      catchError(this.handleError)
-    ); */
-  }
+  public registrar(usuario: Usuario) {
+  return this.http.post(this.APIURL + "/insertar", usuario).pipe(
+    catchError((error: HttpErrorResponse) => {
+      console.error('Error en registrar():', error);
+      return throwError(() => error); 
+    })
+  );
+}
 
   public registrarMed(usuario:Usuario) {
     return this.http.post(this.APIURL + "/insertarMed", usuario);
@@ -48,7 +54,7 @@ export class ConsultasBackServiceService {
   }
   public getMedicos(){
     console.log(this.APIURL+"/medicos")
-    return this.http.get<Medico[]>(this.APIURL + "/medicos/");    
+    return this.http.get<Medico[]>(this.APIURL + "/medicos");    
   }
 
   public updateMedico(medico: Medico){

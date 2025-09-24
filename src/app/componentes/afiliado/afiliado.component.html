@@ -12,20 +12,10 @@
             <div class="main-buttons">
                 <button id="btnNuevoTurno" (click)="mostrarEspecialidades()">Nuevo Turno</button>
                 <button (click)="mostrarHistorialTurnos()" [disabled]="isLoading">
-                    <ng-container *ngIf="!isLoading; else loadingHistorial">
                         Historial
-                    </ng-container>
-                    <ng-template #loadingHistorial>
-                        <span class="spinner"></span> Cargando...
-                    </ng-template>
                 </button>
                 <button (click)="misTurnos()" [disabled]="isLoadingAux">
-                    <ng-container *ngIf="!isLoadingAux; else loadingMisTurnos">
-                        Mis turnos
-                    </ng-container>
-                    <ng-template #loadingMisTurnos>
-                        <span class="spinner"></span> Cargando...
-                    </ng-template>
+                        Mis turnos 
                 </button>
             </div>
 
@@ -85,7 +75,7 @@
                                 'estado-cancelado': turno.estado.trim().toLowerCase() === 'cancelado',
                                 'estado-activo': turno.estado.trim().toLowerCase() === 'confirmado'
                             }">
-                            <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.dia }}</td>
+                            <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.fecha }}</td>
                             <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.hora }}</td>
                             <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.especialidad }}</td>
                             <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.estado }}</td>
@@ -129,7 +119,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let turno of historialTurnos">
-                        <td>{{ turno.dia }}</td>
+                        <td>{{ turno.fecha }}</td>
                         <td>{{ turno.hora }}</td>
                         <td>{{ turno.especialidad }}</td>
                         <td>{{ turno.estado }}</td>

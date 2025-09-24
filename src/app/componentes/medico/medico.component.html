@@ -8,12 +8,7 @@
             <!-- <button (click)="toggleDisponibilidadForm()">Disponibilidad</button> -->
             <button (click)="mostrarHistorialTurnosMed()">Historial</button>
             <button (click)="toggleTurnosList()" [disabled]="isLoading">
-                <ng-container *ngIf="!isLoading; else loading">
                   Turnos Pacientes
-                </ng-container>
-                <ng-template #loading>
-                  <span class="spinner"></span> Cargando...
-                </ng-template>
               </button>
         </div>
 
@@ -56,9 +51,9 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let turno of turnos">
-                            <td>{{ turno.Paciente }}</td>
-                            <td>{{ turno.DNI_paciente }}</td>
-                            <td>{{ turno.dia }}</td>
+                            <td>{{ turno.paciente }}</td>
+                            <td>{{ turno.dniPaciente }}</td>
+                            <td>{{ turno.fecha }}</td>
                             <td>{{ turno.hora }}</td>
                             <td>{{ turno.estado }}</td>
                             <td>
@@ -78,7 +73,7 @@
                             
                             <form (ngSubmit)="enviarOpciones()">
                                 <label>
-                                    <input type="radio" name="opcion" [(ngModel)]="opcionSeleccionada" value="Aceptado" required>
+                                    <input type="radio" name="opcion" [(ngModel)]="opcionSeleccionada" value="confirmado" required>
                                     Aceptar
                                 </label>
                                 <label>

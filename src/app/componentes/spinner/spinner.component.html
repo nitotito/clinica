@@ -1,0 +1,14 @@
+<div class="spinner-overlay" *ngIf="isLoading || progress > 0">
+  <div class="spinner-backdrop"></div>
+
+  <div class="spinner-modal">
+    <div class="spinner"></div>
+    <p>Cargando...</p>
+
+    <!-- Barra de progreso -->
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="progress"></div>
+    </div>
+    <span class="progress-text">{{ progress | number: '1.0-0' }}%</span>
+  </div>
+</div>
