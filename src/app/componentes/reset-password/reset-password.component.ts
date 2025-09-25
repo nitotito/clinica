@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { NotificacionService } from '../../servicio/notificacion.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -15,7 +16,7 @@ export class ResetPasswordComponent {
   confirmPassword: string = '';
   token: string = '';
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) {}
+  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router, private notifService: NotificacionService) {}
 
   ngOnInit(): void {
     // Obtener token desde la URL
@@ -24,19 +25,19 @@ export class ResetPasswordComponent {
 
   resetPassword(): void {
     if (this.password !== this.confirmPassword) {
-      alert("Las contraseñas no coinciden");
+      this.notifService.mostrarError('Contraseñas no coinciden');
       return;
     }
 
     this.http.post(`http://localhost:8080/auth/reset-password?token=${this.token}`, { password: this.password })
       .subscribe({
         next: () => {
-          alert("Contraseña actualizada con éxito");
+          this.notifService.mostrarExito('Contraseña actualizada con exito');
           this.router.navigate(['/login']);
         },
         error: err => {
           const backendMessage = err.error?.mensaje || "Error inesperado";
-          alert("Error al actualizar contraseña: " + backendMessage);
+          this.notifService.mostrarError("Error al actualizar contraseña: " + backendMessage);
         }
       });
   }

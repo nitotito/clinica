@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { Disponibilidad } from '../../entidades/Disponibilidad';
 import { Router } from '@angular/router';
 import { Turno } from '../../entidades/Turno';
+import { NotificacionService } from '../../servicio/notificacion.service';
 
 @Component({
   selector: 'app-afiliado',
@@ -50,7 +51,7 @@ export class AfiliadoComponent {
     }
   }
 
-  constructor(private consultaBackApi: ConsultasBackServiceService,private router: Router) { 
+  constructor(private consultaBackApi: ConsultasBackServiceService,private router: Router, private notifService: NotificacionService) { 
     const today = new Date();
     this.minDate = this.formatDate(today); // Por ejemplo, hoy
     const futureDate = new Date(today.setMonth(today.getMonth() + 2)); // Dentro de 2 meses
@@ -170,7 +171,7 @@ export class AfiliadoComponent {
     });
 
     if (!isAvailable) {
-      alert('El día seleccionado no está disponible. Por favor elige otro día.');
+      this.notifService.mostrarError('El día seleccionado no está disponible. Por favor elige otro día.');
       event.preventDefault(); // Evitar que seleccione el día no permitido
       this.selectedDate = null; // Reiniciar el valor
     }

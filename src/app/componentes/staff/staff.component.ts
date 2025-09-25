@@ -69,7 +69,7 @@ export class StaffComponent implements OnInit {
        (consultausuario:loginUser[]) =>{   
           console.log("consulta uysuariuo : ", consultausuario);
           if(consultausuario.length == 0 || consultausuario[0].dni == null ) {
-            this.notifService.mostrarError('Usuario iniexistente');
+            this.notifService.mostrarError('Usuario inexistente');
             console.error ("Usuario inexistente");
             this.usuarioEncontrado = false; 
             return; 
@@ -88,7 +88,7 @@ export class StaffComponent implements OnInit {
                   let outlookUrl = `https://outlook.live.com/owa/?path=/mail/action/compose&to=${email}&subject=${encodeURIComponent(subject)}`;
     
                   sessionStorage.removeItem("user");
-                  alert("Usuario no habilitado, contacte con el administrador");
+                  this.notifService.mostrarError("Usuario no habilitado, contacte con el administrador");
                   window.location.href = outlookUrl; 
                 }else{
                   this.root.navigateByUrl("/medico");      

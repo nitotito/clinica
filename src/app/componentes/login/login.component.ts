@@ -103,11 +103,11 @@ export class LoginComponent implements OnInit {
       if (email) {
         this.consultaBackApi.forgotPassword(email).subscribe({
           next: (res) => {
-            alert("Si el email existe, recibirás un correo con instrucciones");
+            this.notifService.mostrarExito("Si el email existe, recibirás un correo con instrucciones");
           },
           error: (err) => {
             console.error("Error en recuperación:", err);
-            alert("Hubo un error, intente más tarde");
+            this.notifService.mostrarError("Hubo un error, intente más tarde");
           }
         });
       }
