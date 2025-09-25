@@ -8,6 +8,7 @@ import { Usuario } from '../../entidades/Usuario';
 //import { error } from 'console';
 import { dataToken } from '../../entidades/loginResponse';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NotificacionService } from '../../servicio/notificacion.service';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class LoginComponent implements OnInit {
     nombre:'',
   }
 
-  constructor(private consultaBackApi: ConsultasBackServiceService ,private root:Router, private fb: FormBuilder) {  // INSTANCIO MI CLASE DE BACK PARA TODOS LOS OOPERADORES
+  constructor(private consultaBackApi: ConsultasBackServiceService ,private root:Router, private fb: FormBuilder, private notifService: NotificacionService) {  // INSTANCIO MI CLASE DE BACK PARA TODOS LOS OOPERADORES
 
   }
 
@@ -82,28 +83,7 @@ export class LoginComponent implements OnInit {
        this.loginUsuario.id = consultausuario[0].id;
        this.loginUsuario.nombre = consultausuario[0].nombre;
        sessionStorage.setItem('user',JSON.stringify(this.loginUsuario));
-
-/*         switch(tipoUser){
-          case "Paciente": */
             this.root.navigateByUrl("/afiliado");
-          /*   break;
-          case "medico":
-            if(consultausuario[0].habilitacion == "false"){
-              let email = 'administracion@ClinicaSalud.com';
-              let subject = 'Habilitacion para turnos';
-              let outlookUrl = `https://outlook.live.com/owa/?path=/mail/action/compose&to=${email}&subject=${encodeURIComponent(subject)}`;
-
-              sessionStorage.removeItem("user");
-              alert("Usuario no habilitado, contacte con el administrador");
-              window.location.href = outlookUrl; 
-            }else{
-              this.root.navigateByUrl("/medico");      
-            }  
-            break;
-          case "admin":
-            this.root.navigateByUrl("/admin");
-            break;
-        } */
       } 
       
       }
@@ -116,6 +96,24 @@ export class LoginComponent implements OnInit {
     this.markFormGroupTouched(this.loginForm);
   }
   }
+
+      openForgotPassword() {
+      const email = prompt("Ingrese su correo para recuperar la contraseña");
+
+      if (email) {
+        this.consultaBackApi.forgotPassword(email).subscribe({
+          next: (res) => {
+            alert("Si el email existe, recibirás un correo con instrucciones");
+          },
+          error: (err) => {
+            console.error("Error en recuperación:", err);
+            alert("Hubo un error, intente más tarde");
+          }
+        });
+      }
+    }
+
+
   private markFormGroupTouched(formGroup: FormGroup) {
     (Object as any).values(formGroup.controls).forEach((control: FormGroup<any>) => {
       control.markAsTouched();

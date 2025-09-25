@@ -9,7 +9,10 @@ import { Medico } from '../entidades/Medico';
 })
 export class UserService {
   //private APIURL: string = "https://nitotito-clienteapi.mdbgo.io";
-  private APIURL = 'http://localhost:3000'; // Cambia esto por tu endpoint
+  // private APIURL = 'http://localhost:3000'; 
+  //Nuevo servicio en JAVA
+
+   private APIURL: string = "http://localhost:8080";
 
   constructor(private http: HttpClient) {}
 

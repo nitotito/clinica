@@ -5,6 +5,7 @@ import { RouterModule,Router } from '@angular/router';
 import { ConsultasBackServiceService } from '../../servicio/consultas-back-service.service';
 import { loginUser } from '../../entidades/loginUser';
 import { Usuario } from '../../entidades/Usuario';
+import { NotificacionService } from '../../servicio/notificacion.service';
 
 @Component({
   selector: 'app-staff',
@@ -43,7 +44,7 @@ export class StaffComponent implements OnInit {
       nombre:'',
     }
 
-  constructor(private root: Router , private consultaBackApi: ConsultasBackServiceService, private fb: FormBuilder) {}
+  constructor(private root: Router , private consultaBackApi: ConsultasBackServiceService, private fb: FormBuilder, private notifService: NotificacionService) {}
 
  ngOnInit(): void {
      this.loginForm = this.fb.group({
@@ -68,13 +69,11 @@ export class StaffComponent implements OnInit {
        (consultausuario:loginUser[]) =>{   
           console.log("consulta uysuariuo : ", consultausuario);
           if(consultausuario.length == 0 || consultausuario[0].dni == null ) {
+            this.notifService.mostrarError('Usuario iniexistente');
             console.error ("Usuario inexistente");
             this.usuarioEncontrado = false; 
             return; 
           }else{ 
-           //console.log("usuario ingresando: "+ consultausuario[0].tipoUsuario);
-           //console.log("usuario : " + JSON.stringify(consultausuario[0].nombre));
-           /* let tipoUser = this.loginUsuario.tipoUsuario; */
            console.log("id de consulta : ", consultausuario[0])
            this.loginUsuario.id = consultausuario[0].id;
            this.loginUsuario.nombre = consultausuario[0].nombre;

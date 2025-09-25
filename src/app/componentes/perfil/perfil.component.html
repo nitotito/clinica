@@ -1,40 +1,46 @@
-<div class="container" >
-    <div class="perfil fade-in">
-        <h2>Perfil del Usuario</h2>
-        <div class="avatar-container">
-            <input type="file" (change)="onFileSelected($event)" id="fileInput" style="display: none;" accept="image/*" />
-            <img
-                [src]="usuario.avatar || 'https://w7.pngwing.com/pngs/893/926/png-transparent-silhouette-user-icon-profile-silhouette-silhouette-avatar-profile-silhouette-thumbnail.png'" 
-                alt="Avatar" 
-                class="avatar" 
-                (click)="selectFile()" 
-                style="cursor: pointer;" 
-            />
-        </div>
-        <div class="info-container">
-            <div class="info-item">
-                <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
-                <button (click)="editField('nombre')">Modificar</button>
-            </div>
-            <div class="info-item">
-                <p><strong>Apellido:</strong> {{ usuario.apellido }}</p>
-                <button (click)="editField('apellido')">Modificar</button>
-            </div>
-            <div class="info-item">
-                <p><strong>Email:</strong> {{ usuario.email }}</p>
-                <button (click)="editField('email')">Modificar</button>
-            </div>
-            <div class="info-item">
-                <p><strong>DNI:</strong> {{ usuario.dni }}</p>
-                <button (click)="editField('dni')">Modificar</button>
-            </div>
-            <div class="info-item">
-                <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
-                <button (click)="editField('telefono')">Modificar</button>
-            </div>
-        </div>
-        <div class="update-button-container">
-            <button class="update-button" (click)="updateProfile()">Actualizar Perfil</button>
-        </div>
+<div class="container">
+  <div class="perfil" [ngClass]="{ 'fade-in': isVisible }">
+    <h2>Perfil del Usuario</h2>
+    <div class="avatar-container">
+      <input 
+        type="file" 
+        (change)="onFileSelected($event)" 
+        id="fileInput" 
+        style="display: none;" 
+        accept="image/*" 
+      />
+      <img
+        [src]="usuario.avatar || 'https://w7.pngwing.com/pngs/893/926/png-transparent-silhouette-user-icon-profile-silhouette-silhouette-avatar-profile-silhouette-thumbnail.png'" 
+        alt="Avatar" 
+        class="avatar" 
+        (click)="selectFile()" 
+        style="cursor: pointer;" 
+      />
     </div>
+    <div class="info-container">
+      <div class="info-item">
+        <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+        <button (click)="editField('nombre')">Modificar</button>
+      </div>
+      <div class="info-item">
+        <p><strong>Apellido:</strong> {{ usuario.apellido }}</p>
+        <button (click)="editField('apellido')">Modificar</button>
+      </div>
+      <div class="info-item">
+        <p><strong>Email:</strong> {{ usuario.email }}</p>
+        <button (click)="editField('email')">Modificar</button>
+      </div>
+      <div class="info-item">
+        <p><strong>DNI:</strong> {{ usuario.dni }}</p>
+        <button (click)="editField('dni')">Modificar</button>
+      </div>
+      <div class="info-item">
+        <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
+        <button (click)="editField('telefono')">Modificar</button>
+      </div>
+    </div>
+    <div class="update-button-container">
+      <button class="update-button" (click)="updateProfile()">Actualizar Perfil</button>
+    </div>
+  </div>
 </div>

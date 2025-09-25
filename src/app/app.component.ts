@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component  } from '@angular/core';
 import { Router, RouterOutlet, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { MenuComponent } from './componentes/menu/menu.component';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,8 @@ import { SpinnerComponent } from './componentes/spinner/spinner.component';
 import { LoadingService } from './servicio/loading.service';
 import { Observable } from 'rxjs';
 import { ToastComponent } from './componentes/toast/toast.component';
+import { delay } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-root',
@@ -22,7 +24,7 @@ export class AppComponent {
   isLoading$: Observable<boolean>;
 
   constructor(private router: Router, private loadingService: LoadingService) {
-    this.isLoading$ = this.loadingService.loading$;
+    this.isLoading$ = this.loadingService.loading$.pipe(delay(0));
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {

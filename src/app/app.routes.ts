@@ -11,6 +11,7 @@ import { canActivateGuard, canActivateGuardAfiliado ,canActivateGuardMedico } fr
 import { GraficoCalificacionesComponent } from './componentes/grafico-calificaciones/grafico-calificaciones.component';
 import { PerfilComponent  } from './componentes/perfil/perfil.component';
 import { StaffComponent } from './componentes/staff/staff.component';
+import { ResetPasswordComponent } from './componentes/reset-password/reset-password.component';
 
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
@@ -22,6 +23,7 @@ export const routes: Routes = [
     {path:'calificaciones', component: GraficoCalificacionesComponent },
     {path:'perfil', component: PerfilComponent },
     {path:'staff',component:StaffComponent},
+    { path: 'reset-password', component: ResetPasswordComponent },
     {path:'**',component:ErrorComponent}
 ];  
 /* export const routes: Routes = [

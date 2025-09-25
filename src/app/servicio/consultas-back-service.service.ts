@@ -125,6 +125,10 @@ export class ConsultasBackServiceService {
   public updateObservaciones(id: any,turno: any){
     return this.http.put(`${this.APIURL}/updateObservaciones/${id}`,turno);
   }
+
+  forgotPassword(email: string) {
+    return this.http.post(`${this.APIURL}/auth/forgot-password`, { email });
+  }
   
 
   // Función que manejará los errores

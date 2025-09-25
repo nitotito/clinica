@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,AfterViewInit   } from '@angular/core';
 import { ConsultasBackServiceService } from '../../servicio/consultas-back-service.service';
 import { UserService } from '../../servicio/user.service'; 
 import { Usuario } from '../../entidades/Usuario'
@@ -13,7 +13,7 @@ import { firstValueFrom } from 'rxjs';
   imports: [CommonModule],
   styleUrls: ['./perfil.component.css']
 })
-export class PerfilComponent implements OnInit {
+export class PerfilComponent implements OnInit,AfterViewInit  {
   usuario: Usuario = { 
     id:null,
     tipoUsuario: "",
@@ -42,13 +42,13 @@ export class PerfilComponent implements OnInit {
     habilitacion: "",
     avatar: ""
   }
-
+  public datoUsuario:any = sessionStorage.getItem('user');
   idUser!: number;
   avatarBase64: string | null = null;
   tipoUsuario: string = "";
   dni_medic!: number;
   isProfileLoaded: boolean = false;
-
+  isVisible = false;
 
   constructor( private userService: UserService,  private consultasBackServiceService: ConsultasBackServiceService) {}
 
@@ -71,6 +71,7 @@ export class PerfilComponent implements OnInit {
       }
     }
   }
+
 
 async loadUserProfile(): Promise<void>{
     this.isProfileLoaded = false;
@@ -99,32 +100,31 @@ async loadUserProfile(): Promise<void>{
     
   }
 
- async loadMedicProfile(): Promise<void>{
+ async loadMedicProfile(): Promise<void> {
   this.isProfileLoaded = false;
-   try{
-      const userData: Medico[] = await firstValueFrom(this.consultasBackServiceService.getMedicoById(this.dni_medic));
-      if (userData && userData.length > 0){
-        this.medico = userData[0];
-        console.log("medico obtenido: ", this.medico);
-        this.usuario.nombre = this.medico.nombre;
-        this.usuario.apellido = this.medico.apellido;
-        this.usuario.email = this.medico.email;
-        this.usuario.dni = this.medico.dni;
-        this.usuario.telefono = this.medico.telefono;
-        this.usuario.id =this.medico.id;
-        this.usuario.avatar = this.medico.avatar;
-        this.isProfileLoaded = true;
-        } else {
-    console.error('No se encontraron datos del médico.');
-  } 
-    } catch (error) {
-      console.error('Error al obtener el médico:', error);
-    } finally{
-      this.isProfileLoaded = true;
+  try {
+    const userData: Medico[] = await firstValueFrom(this.consultasBackServiceService.getMedicoById(this.dni_medic));
+    if (userData && userData.length > 0) {
+      this.medico = userData[0];
+      this.usuario.nombre = this.medico.nombre;
+      this.usuario.apellido = this.medico.apellido;
+      this.usuario.email = this.medico.email;
+      this.usuario.dni = this.medico.dni;
+      this.usuario.telefono = this.medico.telefono;
+      this.usuario.id = this.medico.id;
+      this.usuario.avatar = this.medico.avatar;
+      console.log("avatgar : ", userData[0])
+    } else {
+      console.error('No se encontraron datos del médico.');
     }
- 
-    console.log("valor de isprofileLoaded: ", this.isProfileLoaded);
+  } catch (error) {
+    console.error('Error al obtener el médico:', error);
+  } finally {
+    setTimeout(() => {
+    this.isProfileLoaded = true;
+  });
   }
+}
 
   onFileSelected(event: any) {
     // Obtengo el primer archivo
@@ -147,6 +147,8 @@ async loadUserProfile(): Promise<void>{
     //valido tipo de usario, realiza consulta de acuerdo al tipo.
     switch(this.tipoUsuario){
       case "medico":
+        const userPass = JSON.parse(this.datoUsuario);
+        this.medico.contra = userPass.contra;
         this.medico.nombre = this.usuario.nombre;
         this.medico.apellido = this.usuario.apellido;
         this.medico.email = this.usuario.email;
@@ -183,8 +185,7 @@ async loadUserProfile(): Promise<void>{
 
 ngAfterViewInit() {
   setTimeout(() => {
-      const perfilElement = document.querySelector('.perfil');
-      perfilElement?.classList.add('visible');
+      this.isVisible = true;
   }, 100); 
 }
 }
