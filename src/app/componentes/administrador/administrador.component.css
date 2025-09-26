@@ -607,20 +607,31 @@ form button:active {
     cursor: pointer; /* Cambia el cursor a mano al pasar sobre td */
 }
 
-.modal {
+    .modal {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1050;
-  }
-  
-  .modal-dialog {
-    position: relative;
-    margin: 1.75rem auto;
-  }
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+    .modal-content {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    }
+
+    .modal-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    }
+
 
 /* Dispositivos móviles (pantallas hasta 600px) */
 @media (max-width: 600px) {

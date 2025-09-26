@@ -47,19 +47,21 @@ export class ConsultasBackServiceService {
     
   }
 
-  public getPac(id:Number){
+  public getPacienteById(id:Number){
     console.log(this.APIURL+"/loguear")
-    return this.http.get<Usuario>(this.APIURL + "/pacienteId/" + id);
+    const url = `${this.APIURL}/pacienteId/${id}`;
+    return this.http.get<Usuario[]>(url);
     
   }
+
   public getMedicos(){
     console.log(this.APIURL+"/medicos")
     return this.http.get<Medico[]>(this.APIURL + "/medicos");    
   }
 
-  public updateMedico(medico: Medico){
-    const url = `${this.APIURL+"/medicos"}`;
-    return this.http.put(url, medico);
+  public updateMedico(medico: Medico): Observable<any> {
+    console.log("medico : " , medico);
+    return this.http.put(`${this.APIURL}/medicoHabilitacion/${medico.id}`, medico); 
   }
 
   public getAvailability(specialty: String): Observable<Disponibilidad[]> {
@@ -122,13 +124,17 @@ export class ConsultasBackServiceService {
     return this.http.put(`${this.APIURL}/updateTurno?id=${id}&option=${option}`,null);
   }
 
-  public updateObservaciones(id: any,turno: any){
+  updateObservaciones(id: any,turno: any){
     return this.http.put(`${this.APIURL}/updateObservaciones/${id}`,turno);
   }
 
   forgotPassword(email: string) {
     return this.http.post(`${this.APIURL}/auth/forgot-password`, { email });
   }
+
+  getDisponibilidadByMedicoId(idMedico: number) {
+  return this.http.get<any>(`${this.APIURL}/disponibilidad/${idMedico}`);
+}
   
 
   // Función que manejará los errores

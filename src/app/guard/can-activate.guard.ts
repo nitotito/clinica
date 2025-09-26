@@ -8,7 +8,7 @@ export const canActivateGuard: CanActivateFn = (route, state) => {
     sesion = JSON.parse(sesionJ) as loginUser;
   }
   
-  if(sesion.tipoUsuario == "admin"){
+  if(sesion.tipoUsuario == "administrativo"){
     
     return true;
   }

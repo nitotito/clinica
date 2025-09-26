@@ -26,18 +26,37 @@ export class AppComponent {
   constructor(private router: Router, private loadingService: LoadingService) {
     this.isLoading$ = this.loadingService.loading$.pipe(delay(0));
 
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        console.log('NavigationStart');
-        this.loadingService.show();
-      } else if (
-        event instanceof NavigationEnd ||
-        event instanceof NavigationCancel ||
-        event instanceof NavigationError
-      ) {
-         console.log('NavigationEnd/Cancel/Error');
+    if (event instanceof NavigationStart) {
+      console.log('NavigationStart');
+      this.loadingService.show();
+        } else if (event instanceof NavigationEnd) {
+          console.log('✅ NavigationEnd');
+          this.loadingService.hide();
+        } else if (event instanceof NavigationCancel) {
+          console.warn('⚠️ NavigationCancel');
+          this.loadingService.hide();
+        } else if (event instanceof NavigationError) {
+          const navError = event as NavigationError;
+        console.error('❌ NavigationError', navError.error);
         this.loadingService.hide();
-      }
-    });
+    }
+    this.router.events.subscribe(event => {
+  console.log('➡️ Evento de navegación:', event);
+
+  if (event instanceof NavigationStart) {
+    console.log('🚦 NavigationStart');
+    this.loadingService.show();
+  } else if (event instanceof NavigationEnd) {
+    console.log('✅ NavigationEnd');
+    this.loadingService.hide();
+  } else if (event instanceof NavigationCancel) {
+    console.warn('⚠️ NavigationCancel',event);
+    this.loadingService.hide();
+  } else if (event instanceof NavigationError) {
+    const navError = event as NavigationError;
+    console.error('❌ NavigationError', navError.error);
+    this.loadingService.hide();
+  }
+});
   }
 }

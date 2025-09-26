@@ -5,6 +5,7 @@ import { Usuario } from '../../entidades/Usuario'
 import { Medico } from '../../entidades/Medico';
 import { CommonModule } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
+import { NotificacionService } from '../../servicio/notificacion.service';
 
 @Component({
   selector: 'app-perfil',
@@ -42,7 +43,7 @@ export class PerfilComponent implements OnInit,AfterViewInit  {
     habilitacion: "",
     avatar: ""
   }
-  public datoUsuario:any = sessionStorage.getItem('user');
+  /* public datoUsuario:any = sessionStorage.getItem('user'); */
   idUser!: number;
   avatarBase64: string | null = null;
   tipoUsuario: string = "";
@@ -50,7 +51,7 @@ export class PerfilComponent implements OnInit,AfterViewInit  {
   isProfileLoaded: boolean = false;
   isVisible = false;
 
-  constructor( private userService: UserService,  private consultasBackServiceService: ConsultasBackServiceService) {}
+  constructor( private userService: UserService,  private consultasBackServiceService: ConsultasBackServiceService, private notifService: NotificacionService) {}
 
   ngOnInit(): void {
     const afiliadoData = sessionStorage.getItem('user');
@@ -76,10 +77,9 @@ export class PerfilComponent implements OnInit,AfterViewInit  {
 async loadUserProfile(): Promise<void>{
     this.isProfileLoaded = false;
    try{
-      const userData: Usuario = await firstValueFrom(this.consultasBackServiceService.getPac(this.dni_medic));
-      console.log("userData : ", userData)
+      const userData: Usuario [] = await firstValueFrom(this.consultasBackServiceService.getPacienteById(this.dni_medic));
       if (userData){
-        this.usuario = userData;
+        this.usuario = userData [0];
         console.log("usuario obtenido: ", this.usuario);
         this.usuario.nombre = this.usuario.nombre;
         this.usuario.apellido = this.usuario.apellido;
@@ -147,8 +147,8 @@ async loadUserProfile(): Promise<void>{
     //valido tipo de usario, realiza consulta de acuerdo al tipo.
     switch(this.tipoUsuario){
       case "medico":
-        const userPass = JSON.parse(this.datoUsuario);
-        this.medico.contra = userPass.contra;
+/*         const userPass = JSON.parse(this.datoUsuario);
+        this.medico.contra = userPass.contra; */
         this.medico.nombre = this.usuario.nombre;
         this.medico.apellido = this.usuario.apellido;
         this.medico.email = this.usuario.email;
@@ -158,10 +158,12 @@ async loadUserProfile(): Promise<void>{
         this.medico.avatar = this.usuario.avatar;
         this.userService.updateMedicProfile(this.medico).subscribe(response => {
           console.log('Perfil actualizado', response);
+        this.notifService.mostrarExito("Perfil actualizado con exito");
         }); 
         break;
       case "Paciente":
         this.userService.updateUserProfile(this.usuario).subscribe(response => {
+          this.notifService.mostrarExito("Perfil actualizado con exito");
           console.log('Perfil actualizado', response);
         }); 
         break;

@@ -17,7 +17,8 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   updateUserProfile(usuario: Usuario): Observable<any> {
-    return this.http.put(`${this.APIURL}/usuarios/${usuario.id}`, usuario); 
+    console.log("usuario : " , usuario);
+    return this.http.put(`${this.APIURL}/pacientes/${usuario.id}`, usuario); 
   }
 
   updateMedicProfile(medico: Medico): Observable<any> {

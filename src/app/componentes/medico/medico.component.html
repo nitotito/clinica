@@ -114,7 +114,7 @@
                             'estado-cancelado': turno.estado.trim().toLowerCase() === 'cancelado',
                             'estado-activo': turno.estado.trim().toLowerCase() === 'confirmado'
                         }">
-                        <td (click)="mostrarObservaciones(turno)" class="clickable">{{ turno.dia }}</td>
+                        <td (click)="mostrarObservaciones(turno)" class="clickable">{{ turno.fecha }}</td>
                         <td (click)="mostrarObservaciones(turno)" class="clickable">{{ turno.hora }}</td>
                         <td (click)="mostrarObservaciones(turno)" class="clickable">{{ turno.estado }}</td>
                         <td (click)="mostrarObservaciones(turno)" class="clickable">{{ turno.observaciones || 'Sin observaciones' }}</td>

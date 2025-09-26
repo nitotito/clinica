@@ -77,8 +77,10 @@ export class StaffComponent implements OnInit {
            console.log("id de consulta : ", consultausuario[0])
            this.loginUsuario.id = consultausuario[0].id;
            this.loginUsuario.nombre = consultausuario[0].nombre;
+           this.loginUsuario.contra = consultausuario[0].contra;
            sessionStorage.setItem('user',JSON.stringify(this.loginUsuario));
            let tipoUser = this.loginUsuario.tipoUsuario;
+           console.log("hoal",consultausuario[0])
 
             switch(tipoUser){
               case "medico":
@@ -94,7 +96,7 @@ export class StaffComponent implements OnInit {
                   this.root.navigateByUrl("/medico");      
                 }  
                 break;
-              case "admin":
+              case "administrativo":
                 this.root.navigateByUrl("/admin");
                 break;
             } 

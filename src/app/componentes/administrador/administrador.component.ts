@@ -25,8 +25,11 @@ export class AdministradorComponent {
   showTurnosList = false;
   turno: any;
   usuario: any;
- 
-  
+  isModalOpen = false;
+  dniMedico: number | null = null;
+  showHabilitar = false;
+  activeSection: string | null = null;
+
   medico: Medico= {
     id:null,
     email:'', 
@@ -56,41 +59,90 @@ export class AdministradorComponent {
   ];
 
   public medicos: Medico[] = [];
+  medicoSeleccionado: any = null;
 
-  constructor(public backservice:ConsultasBackServiceService){
-  /*   backservice.getMedicos().subscribe(
-      (consultaMedico:Medico[]) =>{
-        this.medicos = consultaMedico;
+  constructor(public backservice:ConsultasBackServiceService){};
 
-      }
-    );
- */
-  };
+  setActive(section: string) {
+    if (section === 'disponibilidad') {
+      // en vez de activar directo, abrimos el modal
+      this.openModal();
+    } else {
+      this.activeSection = section;
+    }
+  }
+
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+    this.dniMedico = 0;
+  }
   
   ngOnInit() {
     this.obtenerMedicos();
     this.obtenerDato();
   }
 
+  toggleHabilitacion() {
+    this.showHabilitar = !this.showHabilitar;
+    if (this.showHabilitar && this.medicos.length === 0) {
+      this.obtenerMedicos(); 
+    }
+  }
+
  public obtenerMedicos() {
     this.backservice.getMedicos().subscribe(
       (consultaMedico: Medico[]) => {
         this.medicos = consultaMedico;
+        console.log("medicos: ",consultaMedico)
       }
     );
+  }
+
+  public  buscarMedico() {
+    if (!this.dniMedico) {
+      alert('Debe ingresar un DNI');
+      return;
+    }
+
+    this.backservice.getMedicoById(this.dniMedico).subscribe({
+      next: (medico) => {
+        if (medico) {
+          this.medicoSeleccionado = medico[0];
+          console.log("medico selecciona; ", this.medicoSeleccionado)
+          this.closeModal();
+          this.activeSection = 'disponibilidad';
+           this.backservice.getDisponibilidadByMedicoId(medico[0].id).subscribe({
+          next: (dispo) => {
+            if (dispo) {
+              this.disponibilidad = {
+                ...dispo,
+                dias: dispo.dias ? dispo.dias.split(",") : []
+              };
+            }
+          },
+          error: () => {
+            console.log("El médico no tiene disponibilidad registrada");
+            this.disponibilidad = { desde: '', hasta: '', dias: [] }; // limpio
+          }
+        });
+        } else {
+          alert('Médico no encontrado');
+        }
+      },
+      error: () => {
+        alert('Médico no encontrado');
+      }
+    });
   }
 
 public obtenerDato() {
     this.datoU = JSON.parse(this.datoUsuario);
     console.log("datos : " + this.datoUsuario);
   }
-
-
-/*    public obtenerDato(){
- 
-  this.datoU = JSON.parse(this.datoUsuario);
- console.log("datos : " + this.datoU.nombre);
- }   */
 
 toggleDisponibilidadForm() {
     this.showDisponibilidadForm = !this.showDisponibilidadForm;
@@ -110,24 +162,23 @@ toggleDisponibilidadForm() {
     }
   }
  
- accion(medico: any) {
-  console.log("medico : " + JSON.stringify(this.medico));
+    accion(medico: any) {
+      console.log("Antes:", medico.habilitacion);
 
-this.backservice.updateMedico(medico).subscribe(
-      updatedMedico => {
-        console.log("Medico actualizado:", updatedMedico);
-      },
-      error => {
-        console.error("Error actualizando médico:", error);
-      }
-    );
-    (medico.habilitacion== "true") ? medico.habilitacion ="false" : medico.habilitacion ="true";
+      medico.habilitacion = !medico.habilitacion;
 
-  medico.color = medico.color === 'red' ? 'green' : 'red';
-  medico.glow = true;
-  //setTimeout(() => medico.glow = false, 100000);
-}
+      this.backservice.updateMedico(medico).subscribe(
+        updatedMedico => {
+          console.log("Medico actualizado:", updatedMedico);
+        },
+        error => {
+          console.error("Error actualizando médico:", error);
+        }
+      );
 
+      medico.color = medico.color === 'red' ? 'green' : 'red';
+      medico.glow = true;
+    }
  enviarDisponibilidad() {
     this.backservice.getMedicoById(this.usuario.dni).subscribe(
       (medicos: Medico[]) => {

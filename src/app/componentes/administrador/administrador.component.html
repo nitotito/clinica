@@ -7,7 +7,7 @@
   
     <main>
       <h1 style="text-align: center;">
-        Bienvenido a la sección de administración {{ obtenerDato() }} {{ datoU.nombre }}
+        Bienvenido a la sección de administración {{ datoU.nombre }}
       </h1>
       <div class="main-buttons">
         <button (click)="generarPDF()">Imprimir Lista</button>
@@ -15,66 +15,82 @@
 
       <h1 style="text-align: center;">Seleccione una opción para continuar</h1>
       <div class="main-buttons">
-        <button (click)="toggleDisponibilidadForm()">Disponibilidad</button>
-        <input type="button" value="Nuevo Turno">
-        <input type="button" value="Administrar">
-        <!-- <input type="button" value="Reportes"> -->
-        <input type="button" value="Turnos">
+        <button (click)="setActive('disponibilidad')">Disponibilidad</button>
+        <button (click)="setActive('habilitacion')">Habilitación</button>
+        <button (click)="setActive('administrar')">Administrar</button>
+        <button (click)="setActive('turnos')">Turnos</button>
       </div>
   
-      <input type="text" [(ngModel)]="filtro" placeholder="Buscar médicos">
-      <div class="table-responsive"> 
-      <table class="table table-striped" id="medicosTable">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>DNI</th>
-            <th>Matrícula</th>
-            <th>Especialidad</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let medico of medicos | medicos: filtro">
-            <td>{{ medico.nombre }}</td>
-            <td>{{ medico.apellido }}</td>
-            <td>{{ medico.dni }}</td>
-            <td>{{ medico.matricula }}</td>
-            <td>{{ medico.especialidad }}</td>
-            <td>
-             
-<!--               <button 
-                [ngClass]="{'btn-success': medico.habilitacion == 'true', 'btn-danger': medico.habilitacion == 'false' , 'btn-glow': medico.habilitacion == 'true' && medico.glow}"
-                (click)="accion(medico)">
-                {{ medico.color == 'green' ? 'Habilitado' : 'No habilitado' }}
-              </button> -->
-              <button class="btn-success" *ngIf="medico.habilitacion == 'true'" (click)="accion(medico)"> habilitado</button>
+      <!-- Habilitacion -->
+      <div class="table-responsive" *ngIf="activeSection === 'habilitacion'">
+        <input type="text" [(ngModel)]="filtro" placeholder="Buscar médicos">
+        <table class="table table-striped" id="medicosTable">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>DNI</th>
+              <th>Matrícula</th>
+              <th>Especialidad</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let medico of medicos | medicos: filtro">
+              <td>{{ medico.nombre }}</td>
+              <td>{{ medico.apellido }}</td>
+              <td>{{ medico.dni }}</td>
+              <td>{{ medico.matricula }}</td>
+              <td>{{ medico.especialidad }}</td>
+              <td>
+                <button class="btn-success" *ngIf="medico.habilitacion == true" (click)="accion(medico)">Habilitado</button>
+                <button class="btn-danger" *ngIf="medico.habilitacion == false" (click)="accion(medico)">No habilitado</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-              <button class="btn-danger" *ngIf="medico.habilitacion == 'false'" (click)="accion(medico)">no habilitado</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-     </div>
+     <!-- Disponibilidad -->
+      <form *ngIf="activeSection === 'disponibilidad'" (ngSubmit)="enviarDisponibilidad()">
+        <p><strong>Médico:</strong> {{ medicoSeleccionado?.nombre }} {{ medicoSeleccionado?.apellido }}</p>
+        
+        <label for="desde">Hora Desde:</label>
+        <input type="time" id="desde" [(ngModel)]="disponibilidad.desde" name="desde" required>
 
-     <form *ngIf="showDisponibilidadForm" (ngSubmit)="enviarDisponibilidad()">
-            <label for="desde">Hora Desde:</label>
-            <input type="time" id="desde" [(ngModel)]="disponibilidad.desde" name="desde" required>
+        <label for="hasta">Hora Hasta:</label>
+        <input type="time" id="hasta" [(ngModel)]="disponibilidad.hasta" name="hasta" required>
 
-            <label for="hasta">Hora Hasta:</label>
-            <input type="time" id="hasta" [(ngModel)]="disponibilidad.hasta" name="hasta" required>
+        <label for="dias">Días:</label>
+        <div class="dias-container">
+          <button type="button" 
+                  *ngFor="let dia of dias"
+                  (click)="toggleDia(dia.value)"
+                  [ngClass]="{'selected': disponibilidad.dias.includes(dia.value)}">
+            {{ dia.nombre }}
+          </button>
+        </div>
 
-            <label for="dias">Días:</label>
-            <div class="dias-container">
-                <button type="button" 
-                        *ngFor="let dia of dias"
-                        (click)="toggleDia(dia.value)"
-                        [ngClass]="{'selected': disponibilidad.dias.includes(dia.value)}">
-                  {{ dia.nombre }}
-                </button>
-              </div>
+        <button type="submit" id="dispo">Enviar Disponibilidad</button>
+      </form>
+      <!-- Placeholder para otras secciones -->
+      <div *ngIf="activeSection === 'administrar'">
+        <h3>Sección Habilitación (a implementar)</h3>
+      </div>
 
-            <button type="submit" id="dispo">Enviar Disponibilidad</button>
-        </form>
+      <div *ngIf="activeSection === 'turnos'">
+        <h3>Sección Turnos (a implementar)</h3>
+      </div>
+
+        <div class="modal" *ngIf="isModalOpen">
+        <div class="modal-content">
+          <h3>Buscar Médico por DNI</h3>
+          <input type="text" [(ngModel)]="dniMedico" placeholder="Ingrese DNI">
+          <div class="modal-actions">
+            <button (click)="buscarMedico()">Buscar</button>
+            <button (click)="closeModal()">Cancelar</button>
+          </div>
+        </div>
+      </div>
     </main>
   </div>

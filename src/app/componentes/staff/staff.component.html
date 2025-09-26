@@ -5,7 +5,7 @@
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
   <div class="radio-group">
     <label><input type="radio" formControlName="tipoUsuario" value="medico"> Médico</label>
-    <label><input type="radio" formControlName="tipoUsuario" value="admin"> Administrador</label>
+    <label><input type="radio" formControlName="tipoUsuario" value="administrativo"> Administrador</label>
   </div>
 
   <input type="text" formControlName="dni" placeholder="DNI">
