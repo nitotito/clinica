@@ -11,6 +11,8 @@ export interface Usuario {
     credencial: string;
     matricula: string;
     avatar: string;
+    dniTitular: string;
+    parentesco: string;
 
 }
 

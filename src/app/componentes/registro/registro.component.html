@@ -1,59 +1,77 @@
- <div class="div-to-center">
+<div class="div-to-center">
   <div class="login-container perfil fade-in">
     <h2>Completá tus datos</h2>
-        <div class="form-container">        
-            <form action="#" method="POST" >
-                <input type="text" name="nombre" [(ngModel)]="usuario.nombre" placeholder="Nombre" required #nombre = "ngModel">
+    <div class="form-container">
+      <form (ngSubmit)="registraUsuario()" #form="ngForm">
+        
+        <input type="text" name="nombre" [(ngModel)]="usuario.nombre" placeholder="Nombre" required>
+        <input type="text" name="apellido" [(ngModel)]="usuario.apellido" placeholder="Apellido" required>
+        <input type="text" name="dni" [(ngModel)]="usuario.dni" placeholder="DNI" required>
 
-                <input type="text" name="apellido" [(ngModel)]="usuario.apellido" placeholder="Apellido" required #apellido="ngModel">
-                <input type="text" name="dni" [(ngModel)]="usuario.dni" placeholder="DNI" required>
-                <input *ngIf="validar != 'admin'" type="tel" name="telefono" [(ngModel)]="usuario.telefono" placeholder="Teléfono" required>
-                <input *ngIf="validar != 'admin'" type="password" name="contrasena" [(ngModel)]="usuario.contra" placeholder="Contraseña" required>
-                <input *ngIf="validar != 'admin'" type="password" name="confirmar_contrasena" [(ngModel)]="confirmacontra"
-                    placeholder="Confirmar Contraseña" required>
-                <input type="email" name="email" [(ngModel)]="usuario.email" placeholder="E-mail" required>
-                <input type="email" name="confirmar_email" [(ngModel)]="confirmaemail" placeholder="Confirmar E-mail" required>
+        <input *ngIf="validar != 'admin'" type="tel" name="telefono" [(ngModel)]="usuario.telefono" placeholder="Teléfono" required>
+        <input *ngIf="validar != 'admin'" type="password" name="contrasena" [(ngModel)]="usuario.contra" placeholder="Contraseña" required>
+        <input *ngIf="validar != 'admin'" type="password" name="confirmar_contrasena" [(ngModel)]="confirmacontra" placeholder="Confirmar Contraseña" required>
+        <input type="email" name="email" [(ngModel)]="usuario.email" placeholder="E-mail" required>
+        <input type="email" name="confirmar_email" [(ngModel)]="confirmaemail" placeholder="Confirmar E-mail" required>
 
-      <!--           <div class="radio-group" *ngIf="validar != 'admin'">
-                    <label>
-                        <input type="radio" name="tipo_usuario" [(ngModel)]="usuario.tipoUsuario" value="medico" required> Médico
+        <!-- ✅ Nueva sección: Titular existente -->
+        <div class="titular-section">
+          <label>¿Ya existe un titular?</label>
 
-                    </label>
-                    <label>
-                        <input type="radio" name="tipo_usuario" [(ngModel)]="usuario.tipoUsuario" value="Paciente" required> Paciente
+          <!-- Radios juntos -->
+          <div class="opciones">
+            <input type="radio" id="titularNo" name="tieneTitular" [(ngModel)]="tieneTitular" [value]="false">
+            <label for="titularNo">No</label>
 
-                    </label>
-                </div> -->
-<!-- 
-                <input *ngIf="usuario.tipoUsuario == 'medico'" type="text" name="Especialidad" [(ngModel)]="usuario.especialidad" placeholder="Especialidad">
+            <input type="radio" id="titularSi" name="tieneTitular" [(ngModel)]="tieneTitular" [value]="true">
+            <label for="titularSi">Sí</label>
+          </div>
 
-                <input *ngIf="usuario.tipoUsuario == 'medico'" type="text" name="Matricula" [(ngModel)]="usuario.matricula" placeholder="Matricula">
+          <!-- Si tiene titular, mostrar datos -->
+          <div *ngIf="tieneTitular" class="datos-titular">
+            <input type="text" name="dniTitular" [(ngModel)]="usuario.dniTitular"
+                  (blur)="verificarTitular()" placeholder="DNI del titular" required>
 
-                <input *ngIf="usuario.tipoUsuario == 'Paciente'" type="text" name="Credencial" [(ngModel)]="usuario.credencial" placeholder="Credencial"> -->
+            <!-- mensaje de estado -->
+            <small *ngIf="dniTitularValido === true" class="text-success">
+              ✅ Titular encontrado
+            </small>
+            <small *ngIf="dniTitularValido === false" class="text-danger">
+              ❌ No se encontró ningún titular con ese DNI
+            </small>
 
-                <button *ngIf="validar != 'admin'" type="submit" (click)="registraUsuario()" >REGISTRATE </button>
-                
-                <small *ngIf="validar == 'vacio'" class="text-danger form-text">
-                    Complete todos los campos
-                </small>
-                
-                <small *ngIf="validar == 'falta'" class="text-danger form-text">
-                    El DNI debe ser de 8 dígitos
-                </small>
-                
-                <small *ngIf="validar == 'contr'" class="text-danger form-text">
-                    Contraseñas no coinciden
-                </small> 
-                
-                <small *ngIf="validar == 'email'" class="text-danger form-text">
-                    Email no coinciden
-                </small> 
-
-                <div *ngIf="validar == 'admin'">
-                    <button  type="submit" (click)="registraAdmin()">REGISTRO ADMIN </button>
-                </div>
-                 
-            </form>
+            <label>Parentesco</label>
+            <select name="parentesco" [(ngModel)]="usuario.parentesco" required>
+              <option value="">Seleccione...</option>
+              <option value="conyuge">Cónyuge</option>
+              <option value="conviviente">Conviviente</option>
+              <option value="hijo_menor">Hijo menor</option>
+              <option value="hijo_mayor">Hijo mayor</option>
+            </select>
+          </div>
         </div>
+
+        <button *ngIf="validar != 'admin'" type="submit" [disabled]="tieneTitular && dniTitularValido === false">
+          REGISTRATE
+        </button>
+
+        <small *ngIf="validar == 'vacio'" class="text-danger form-text">
+          Complete todos los campos
+        </small>
+        <small *ngIf="validar == 'falta'" class="text-danger form-text">
+          El DNI debe ser de 8 dígitos
+        </small>
+        <small *ngIf="validar == 'contr'" class="text-danger form-text">
+          Contraseñas no coinciden
+        </small>
+        <small *ngIf="validar == 'email'" class="text-danger form-text">
+          Email no coinciden
+        </small>
+
+        <div *ngIf="validar == 'admin'">
+          <button type="submit" (click)="registraAdmin()">REGISTRO ADMIN</button>
+        </div>
+      </form>
     </div>
-</div> 
+  </div>
+</div>

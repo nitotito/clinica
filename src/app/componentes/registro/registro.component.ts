@@ -16,7 +16,8 @@ import { NotificacionService } from '../../servicio/notificacion.service';
   styleUrl: './registro.component.css'
 })
 export class RegistroComponent {
-
+  dniTitularValido: boolean | null = null;
+  tieneTitular: boolean = false;
   public confirmacontra: String = '';
   public confirmaemail: String = '';
   public validar: String = "";
@@ -33,7 +34,9 @@ export class RegistroComponent {
     especialidad: '',
     credencial: '',
     matricula: '',
-    avatar: ''
+    avatar: '',
+    dniTitular: '',
+    parentesco: ''
   }
 
   // constructor
@@ -196,5 +199,20 @@ export class RegistroComponent {
     }, 100); // Espera 100ms para asegurar que el elemento esté en el DOM
   }
 
+  verificarTitular() {
+    if (this.usuario.dniTitular && this.usuario.dniTitular.length === 8) {
+      this.consultaBackApi.existeTitular(this.usuario.dniTitular).subscribe({
+        next: (existe) => {
+          this.dniTitularValido = existe;
+        },
+        error: (err) => {
+          console.error('Error al verificar titular', err);
+          this.dniTitularValido = false;
+        }
+      });
+    } else {
+      this.dniTitularValido = false;
+    }
+  }
 
 }

@@ -36,7 +36,9 @@ export class LoginComponent implements OnInit {
       especialidad:'',
       credencial:'',
       matricula:'',
-      avatar:''
+      avatar:'',
+      dniTitular: '',
+    parentesco: ''
  }
 
   loginUsuario: loginUser = {
@@ -68,26 +70,29 @@ export class LoginComponent implements OnInit {
     this.loginUsuario.tipoUsuario = this.loginForm.value.tipoUsuario;
     console.log("tipo usuario :", this.loginUsuario.tipoUsuario);
     console.log("valor de isloading: ", this.isLoading);
-    this.consultaBackApi.login(this.loginUsuario).subscribe(
-    
-    (consultausuario:loginUser[]) =>{   
-      if(consultausuario.length == 0 || consultausuario[0].dni == null ) {
-        console.error ("Usuario inexistente");
-        this.usuarioEncontrado = false; 
-        return; 
-      }else{ 
-       //console.log("usuario ingresando: "+ consultausuario[0].tipoUsuario);
-       //console.log("usuario : " + JSON.stringify(consultausuario[0].nombre));
-       /* let tipoUser = this.loginUsuario.tipoUsuario; */
-       console.log("id de consulta : ", consultausuario[0])
-       this.loginUsuario.id = consultausuario[0].id;
-       this.loginUsuario.nombre = consultausuario[0].nombre;
-       sessionStorage.setItem('user',JSON.stringify(this.loginUsuario));
-            this.root.navigateByUrl("/afiliado");
-      } 
-      
+   this.consultaBackApi.login(this.loginUsuario).subscribe({
+    next: (consultausuario: loginUser[]) => {
+      if (!consultausuario || consultausuario.length === 0 || !consultausuario[0]?.dni) {
+        console.log("Usuario inexistente");
+        this.usuarioEncontrado = false;
+        return;
       }
-    );
+
+      const user = consultausuario[0];
+      console.log("Usuario encontrado:", user);
+
+      this.loginUsuario.id = user.id;
+      this.loginUsuario.nombre = user.nombre;
+      sessionStorage.setItem('user', JSON.stringify(this.loginUsuario));
+
+      this.root.navigateByUrl("/afiliado");
+    },
+    error: err => {
+      console.error("Error en login:", err);
+      this.notifService.mostrarError("Usuario inexistente");
+      this.usuarioEncontrado = false;
+    }
+  });
     setTimeout(() => {
       this.isLoading = false; 
     }, 400); 

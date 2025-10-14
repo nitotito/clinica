@@ -23,16 +23,18 @@ export class StaffComponent implements OnInit {
   public usuario:Usuario={ 
       id:null,
       tipoUsuario:'',
-        email:'', 
-        dni:null, 
-        nombre:'',
-        apellido:'',
-        telefono:null,
-        contra:'',
-        especialidad:'',
-        credencial:'',
-        matricula:'',
-        avatar:''
+      email:'', 
+      dni:null, 
+      nombre:'',
+      apellido:'',
+      telefono:null,
+      contra:'',
+      especialidad:'',
+      credencial:'',
+      matricula:'',
+      avatar:'',
+      dniTitular: '',
+      parentesco: ''
    }
 
   loginUsuario: loginUser = {

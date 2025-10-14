@@ -27,7 +27,9 @@ export class PerfilComponent implements OnInit,AfterViewInit  {
     especialidad: "",
     credencial: "",
     matricula: "",
-    avatar: ""
+    avatar: "",
+    dniTitular: '',
+    parentesco: ''
   }
 
   medico: Medico = {

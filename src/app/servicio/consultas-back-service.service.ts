@@ -2,7 +2,7 @@ import { HttpClient,HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Usuario } from '../entidades/Usuario';
 import { loginUser } from '../entidades/loginUser';
-import { Observable, catchError } from 'rxjs';
+import { Observable, catchError, map, of} from 'rxjs';
 import { throwError } from 'rxjs';
 import { Medico } from '../entidades/Medico';
 import { Disponibilidad } from '../entidades/Disponibilidad';
@@ -134,7 +134,14 @@ export class ConsultasBackServiceService {
 
   getDisponibilidadByMedicoId(idMedico: number) {
   return this.http.get<any>(`${this.APIURL}/disponibilidad/${idMedico}`);
-}
+  }
+
+  existeTitular(dni: string): Observable<boolean> {
+    return this.http.get<any>(`${this.APIURL}/buscarPorDni/${dni}`).pipe(
+      map(response => !!response), // true si existe
+      catchError(() => of(false))  // false si hay error
+    );
+  }
   
 
   // Función que manejará los errores
