@@ -6,6 +6,7 @@ import { ConsultasBackServiceService } from '../../servicio/consultas-back-servi
 import { Medico } from '../../entidades/Medico';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import { NotificacionService } from '../../servicio/notificacion.service';
 
 
 @Component({
@@ -44,6 +45,17 @@ export class AdministradorComponent {
     avatar: ''
   }
 
+    nuevoUsuario: any = {
+      tipoUsuario: '',
+      nombre: '',
+      apellido: '',
+      email: '',
+      dni: '',
+      telefono: '',
+      matricula: '',
+      especialidad: ''
+  };
+
   disponibilidad = {
     desde: '',
     hasta: '',
@@ -61,7 +73,7 @@ export class AdministradorComponent {
   public medicos: Medico[] = [];
   medicoSeleccionado: any = null;
 
-  constructor(public backservice:ConsultasBackServiceService){};
+  constructor(public backservice:ConsultasBackServiceService,private notifService: NotificacionService){};
 
   setActive(section: string) {
     if (section === 'disponibilidad') {
@@ -78,7 +90,7 @@ export class AdministradorComponent {
 
   closeModal() {
     this.isModalOpen = false;
-    this.dniMedico = 0;
+    this.dniMedico = null;
   }
   
   ngOnInit() {
@@ -102,7 +114,7 @@ export class AdministradorComponent {
     );
   }
 
-  public  buscarMedico() {
+  public buscarMedico() {
     if (!this.dniMedico) {
       alert('Debe ingresar un DNI');
       return;
@@ -111,30 +123,34 @@ export class AdministradorComponent {
     this.backservice.getMedicoById(this.dniMedico).subscribe({
       next: (medico) => {
         if (medico) {
+          this.medico = medico[0];
           this.medicoSeleccionado = medico[0];
           console.log("medico selecciona; ", this.medicoSeleccionado)
           this.closeModal();
           this.activeSection = 'disponibilidad';
-           this.backservice.getDisponibilidadByMedicoId(medico[0].id).subscribe({
-          next: (dispo) => {
-            if (dispo) {
-              this.disponibilidad = {
-                ...dispo,
-                dias: dispo.dias ? dispo.dias.split(",") : []
-              };
+          this.backservice.getDisponibilidadByMedicoId(medico[0].id).subscribe({
+            next: (dispo) => {
+              if (dispo) {
+                this.disponibilidad = {
+                  ...dispo,
+                  dias: dispo.dias ? dispo.dias.split(",") : []
+                };
+              }
+            },
+            error: () => {
+              this.notifService.mostrarError('El médico no tiene disponibilidad registrada.');
+              console.log("El médico no tiene disponibilidad registrada");
+              this.disponibilidad = { desde: '', hasta: '', dias: [] }; // limpio
             }
-          },
-          error: () => {
-            console.log("El médico no tiene disponibilidad registrada");
-            this.disponibilidad = { desde: '', hasta: '', dias: [] }; // limpio
-          }
-        });
+          });
         } else {
-          alert('Médico no encontrado');
+          this.notifService.mostrarError('Medico no encontrado.');
+          console.log('Médico no encontrado');
         }
       },
       error: () => {
-        alert('Médico no encontrado');
+        this.notifService.mostrarError('Medico no encontrado.');
+        console.log('Médico no encontrado');
       }
     });
   }
@@ -179,35 +195,25 @@ toggleDisponibilidadForm() {
       medico.color = medico.color === 'red' ? 'green' : 'red';
       medico.glow = true;
     }
- enviarDisponibilidad() {
-    this.backservice.getMedicoById(this.usuario.dni).subscribe(
-      (medicos: Medico[]) => {
-        if (medicos && medicos.length > 0) {
-          const disponibilidadCompleta = {
-            ...this.disponibilidad,
-            id_medico: medicos[0].id,
-            especialidad: medicos[0].especialidad,
-          };
 
-          this.backservice.guardarDisponibilidad(disponibilidadCompleta).subscribe(
-            response => {
-              console.log('Disponibilidad guardada exitosamente:', response);
-            },
-            error => {
-              console.error('Error al guardar disponibilidad:', error);
-            }
-          );
-        } else {
-          console.error('No se encontró información del médico');
+public enviarDisponibilidad() {
+    console.log("this.dispo: ", this.disponibilidad);
+    this.backservice.guardarDisponibilidad(this.disponibilidad).subscribe({
+    next: (res) => {
+          if (res.status === 201) {
+            console.log('✅ Disponibilidad guardada correctamente');
+            this.notifService.mostrarExito('Disponibilidad guardada correctamente.');
+          }
+        },
+        error: (err) => {
+          this.notifService.mostrarError('Error al guardar disponibilidad.');
+          console.error('❌ Error al guardar', err);
         }
-      },
-      error => {
-        console.error('Error al obtener el médico:', error);
-      }
-    );
+      });
+
   }
 
-generarPDF() {  
+public generarPDF() {  
   const data = document.getElementById('medicosTable'); // Obtener el elemento de la tabla
   //const logoUrl = 'essets/logo.jpg'; // Ruta del logo
   console.log("paso 1");
@@ -254,6 +260,28 @@ generarPDF() {
       pdf.save('medicos.pdf'); // Guardar el PDF con el logo
     });
 
+  }
+
+  esMedicoOTecnico(): boolean {
+    return this.nuevoUsuario.tipoUsuario === 'medico' || this.nuevoUsuario.tipoUsuario === 'tecnico';
+  }
+
+  guardarUsuario() {
+    if (!this.nuevoUsuario.tipoUsuario || !this.nuevoUsuario.nombre || !this.nuevoUsuario.dni) {
+      this.notifService.mostrarError('Por favor complete los campos obligatorios.');
+      return;
+    }
+
+    console.log('🧾 Usuario guardado:', this.nuevoUsuario);
+
+    // Ejemplo de cómo podrías enviarlo al backend:
+    // this.backservice.guardarUsuario(this.nuevoUsuario).subscribe({
+    //   next: () => this.notifService.mostrarExito('Usuario guardado correctamente.'),
+    //   error: () => this.notifService.mostrarError('Error al guardar el usuario.')
+    // });
+
+    this.notifService.mostrarExito('Usuario guardado correctamente.');
+    this.nuevoUsuario = { tipoUsuario: '', nombre: '', apellido: '', email: '', dni: '', telefono: '', matricula: '', especialidad: '' };
   }
 }
 

@@ -74,14 +74,68 @@
         <button type="submit" id="dispo">Enviar Disponibilidad</button>
       </form>
       <!-- Placeholder para otras secciones -->
-      <div *ngIf="activeSection === 'administrar'">
-        <h3>Sección Habilitación (a implementar)</h3>
+      <div *ngIf="activeSection === 'administrar'" class="admin-section">
+        <h3>Administrar usuarios</h3>
+
+        <form #adminForm="ngForm" (ngSubmit)="guardarUsuario()">
+          <!-- Tipo de usuario -->
+          <label for="tipoUsuario">Tipo de usuario:</label>
+          <select id="tipoUsuario" name="tipoUsuario" [(ngModel)]="nuevoUsuario.tipoUsuario" required>
+            <option value="">Seleccione una opción</option>
+            <option value="medico">Médico</option>
+            <option value="administrativo">Administrativo</option>
+            <option value="tecnico">Técnico</option>
+          </select>
+
+          <hr />
+
+          <!-- Campos básicos -->
+          <div class="form-group">
+            <label>Nombre:</label>
+            <input type="text" name="nombre" [(ngModel)]="nuevoUsuario.nombre" required />
+          </div>
+
+          <div class="form-group">
+            <label>Apellido:</label>
+            <input type="text" name="apellido" [(ngModel)]="nuevoUsuario.apellido" required />
+          </div>
+
+          <div class="form-group">
+            <label>Email:</label>
+            <input type="email" name="email" [(ngModel)]="nuevoUsuario.email" required />
+          </div>
+
+          <div class="form-group">
+            <label>DNI:</label>
+            <input type="text" name="dni" [(ngModel)]="nuevoUsuario.dni" required />
+          </div>
+
+          <div class="form-group">
+            <label>Teléfono:</label>
+            <input type="text" name="telefono" [(ngModel)]="nuevoUsuario.telefono" required />
+          </div>
+
+          <!-- Solo para médico o técnico -->
+          <div *ngIf="esMedicoOTecnico()" class="form-group">
+            <label>Matrícula:</label>
+            <input type="text" name="matricula" [(ngModel)]="nuevoUsuario.matricula" />
+          </div>
+
+          <div *ngIf="esMedicoOTecnico()" class="form-group">
+            <label>Especialidad:</label>
+            <input type="text" name="especialidad" [(ngModel)]="nuevoUsuario.especialidad" />
+          </div>
+
+          <button class="botonGuardar" type="submit">Guardar</button>
+        </form>
       </div>
+
 
       <div *ngIf="activeSection === 'turnos'">
         <h3>Sección Turnos (a implementar)</h3>
       </div>
 
+      <!--Modal para manejar la disponibilidad del medico-->
         <div class="modal" *ngIf="isModalOpen">
         <div class="modal-content">
           <h3>Buscar Médico por DNI</h3>

@@ -632,6 +632,10 @@ form button:active {
     justify-content: space-between;
     }
 
+    .botonGuardar{
+        margin-top: inherit;
+    }
+
 
 /* Dispositivos móviles (pantallas hasta 600px) */
 @media (max-width: 600px) {

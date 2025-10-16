@@ -1,4 +1,4 @@
-import { HttpClient,HttpErrorResponse } from '@angular/common/http';
+import { HttpClient,HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Usuario } from '../entidades/Usuario';
 import { loginUser } from '../entidades/loginUser';
@@ -113,9 +113,9 @@ export class ConsultasBackServiceService {
     return this.http.get<Medico[]>(url);
   }
 
-  guardarDisponibilidad(disponibilidad: any): Observable<any[]> {
+  guardarDisponibilidad(disponibilidad: any): Observable<HttpResponse<any>> {
     console.log("disponibilidad", disponibilidad);
-    return this.http.post<any>(`${this.APIURL}/guardarDisponibilidad`, disponibilidad);
+    return this.http.post<any>(`${this.APIURL}/guardarDisponibilidad`, disponibilidad,{ observe: 'response' });
   }
 
   updateTurno(id: any,option: any){
