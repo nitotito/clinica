@@ -28,7 +28,7 @@ export class PerfilComponent implements OnInit,AfterViewInit  {
     credencial: "",
     matricula: "",
     avatar: "",
-    dniTitular: '',
+    dniTitular: 0,
     parentesco: ''
   }
 

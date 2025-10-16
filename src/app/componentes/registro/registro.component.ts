@@ -18,6 +18,7 @@ import { NotificacionService } from '../../servicio/notificacion.service';
 export class RegistroComponent {
   dniTitularValido: boolean | null = null;
   tieneTitular: boolean = false;
+  dniTitular: string = "";
   public confirmacontra: String = '';
   public confirmaemail: String = '';
   public validar: String = "";
@@ -35,7 +36,7 @@ export class RegistroComponent {
     credencial: '',
     matricula: '',
     avatar: '',
-    dniTitular: '',
+    dniTitular: 0,
     parentesco: ''
   }
 
@@ -57,6 +58,7 @@ export class RegistroComponent {
 
     if (campos == true) {
       console.log("Tipo de usuario : " + this.usuario.tipoUsuario);
+      this.usuario.dniTitular = Number(this.dniTitular);
 
       console.log("registrando paciente");
       this.consultaBackApi.registrar(this.usuario).subscribe({
@@ -200,7 +202,8 @@ export class RegistroComponent {
   }
 
   verificarTitular() {
-    if (this.usuario.dniTitular && this.usuario.dniTitular.length === 8) {
+    this.usuario.dniTitular = Number(this.dniTitular);
+    if (this.usuario.dniTitular && this.usuario.dniTitular.toString().length === 8) {
       this.consultaBackApi.existeTitular(this.usuario.dniTitular).subscribe({
         next: (existe) => {
           this.dniTitularValido = existe;
