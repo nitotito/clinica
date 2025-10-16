@@ -29,7 +29,7 @@
 
           <!-- Si tiene titular, mostrar datos -->
           <div *ngIf="tieneTitular" class="datos-titular">
-            <input type="text" name="dniTitular" [(ngModel)]="usuario.dniTitular"
+            <input type="text" name="dniTitular" [(ngModel)]="dniTitular"
                   (blur)="verificarTitular()" placeholder="DNI del titular" required>
 
             <!-- mensaje de estado -->

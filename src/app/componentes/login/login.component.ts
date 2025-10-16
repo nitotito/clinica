@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       credencial:'',
       matricula:'',
       avatar:'',
-      dniTitular: '',
+      dniTitular: 0,
     parentesco: ''
  }
 

@@ -33,7 +33,7 @@ export class StaffComponent implements OnInit {
       credencial:'',
       matricula:'',
       avatar:'',
-      dniTitular: '',
+      dniTitular: 0,
       parentesco: ''
    }
 

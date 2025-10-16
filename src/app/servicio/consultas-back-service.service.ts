@@ -136,7 +136,7 @@ export class ConsultasBackServiceService {
   return this.http.get<any>(`${this.APIURL}/disponibilidad/${idMedico}`);
   }
 
-  existeTitular(dni: string): Observable<boolean> {
+  existeTitular(dni: number): Observable<boolean> {
     return this.http.get<any>(`${this.APIURL}/buscarPorDni/${dni}`).pipe(
       map(response => !!response), // true si existe
       catchError(() => of(false))  // false si hay error
