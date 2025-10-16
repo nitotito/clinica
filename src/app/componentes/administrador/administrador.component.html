@@ -19,6 +19,7 @@
         <button (click)="setActive('habilitacion')">Habilitación</button>
         <button (click)="setActive('administrar')">Administrar</button>
         <button (click)="setActive('turnos')">Turnos</button>
+        <button (click)="setActive('informes')">Informes</button>
       </div>
   
       <!-- Habilitacion -->
@@ -126,6 +127,11 @@
             <input type="text" name="especialidad" [(ngModel)]="nuevoUsuario.especialidad" />
           </div>
 
+          <div class="form-group">
+            <label>Contraseña:</label>
+            <input type="text" name="telefono" [(ngModel)]="nuevoUsuario.password" required />
+          </div>
+
           <button class="botonGuardar" type="submit">Guardar</button>
         </form>
       </div>
@@ -133,6 +139,10 @@
 
       <div *ngIf="activeSection === 'turnos'">
         <h3>Sección Turnos (a implementar)</h3>
+      </div>
+
+      <div *ngIf="activeSection === 'informes'">
+        <h3>Sección Informes (a implementar)</h3>
       </div>
 
       <!--Modal para manejar la disponibilidad del medico-->

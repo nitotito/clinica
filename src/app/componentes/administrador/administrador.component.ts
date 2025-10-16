@@ -53,7 +53,8 @@ export class AdministradorComponent {
       dni: '',
       telefono: '',
       matricula: '',
-      especialidad: ''
+      especialidad: '',
+      password: ''
   };
 
   disponibilidad = {
