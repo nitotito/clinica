@@ -54,7 +54,7 @@ export class AdministradorComponent {
       telefono: '',
       matricula: '',
       especialidad: '',
-      password: ''
+      contrasenia: ''
   };
 
   disponibilidad = {
@@ -272,14 +272,35 @@ public generarPDF() {
       this.notifService.mostrarError('Por favor complete los campos obligatorios.');
       return;
     }
+    console.log("tipo usuario a guardar: ", this.nuevoUsuario.tipoUsuario);
+    switch(this.nuevoUsuario.tipoUsuario){
+      case "administrativo":
+          this.backservice.registrarAdmin(this.nuevoUsuario).subscribe({
+            next: (res) => {
+              console.log('🧾 Usuario guardado:', res);
+            },
+            error: (err)=>{
+              console.log("error al guardar : ", err);
+            }
 
-    console.log('🧾 Usuario guardado:', this.nuevoUsuario);
+          })
+        break;
 
-    // Ejemplo de cómo podrías enviarlo al backend:
-    // this.backservice.guardarUsuario(this.nuevoUsuario).subscribe({
-    //   next: () => this.notifService.mostrarExito('Usuario guardado correctamente.'),
-    //   error: () => this.notifService.mostrarError('Error al guardar el usuario.')
-    // });
+      case "tecnico":
+      case "medico":  
+          this.backservice.registrarMed(this.nuevoUsuario).subscribe({
+            next: (res) => {
+              console.log('🧾 Usuario guardado:', res);
+            },
+            error: (err)=>{
+              console.log("error al guardar : ", err);
+            }
+
+          })
+        break;
+    }
+
+    
 
     this.notifService.mostrarExito('Usuario guardado correctamente.');
     this.nuevoUsuario = { tipoUsuario: '', nombre: '', apellido: '', email: '', dni: '', telefono: '', matricula: '', especialidad: '' };
