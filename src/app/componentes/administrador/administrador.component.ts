@@ -217,7 +217,7 @@ public enviarDisponibilidad() {
 public generarPDF() {  
   const data = document.getElementById('medicosTable'); // Obtener el elemento de la tabla
   //const logoUrl = 'essets/logo.jpg'; // Ruta del logo
-  console.log("paso 1");
+  console.log("paso 1: ", data);
   // Cargar la imagen del logo antes de generar el PDF
   const img = new Image();
   
