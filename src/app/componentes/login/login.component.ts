@@ -75,6 +75,7 @@ export class LoginComponent implements OnInit {
       if (!consultausuario || consultausuario.length === 0 || !consultausuario[0]?.dni) {
         console.log("Usuario inexistente");
         this.usuarioEncontrado = false;
+        this.notifService.mostrarError("Usuario inexistente");
         return;
       }
 
@@ -84,7 +85,7 @@ export class LoginComponent implements OnInit {
       this.loginUsuario.id = user.id;
       this.loginUsuario.nombre = user.nombre;
       sessionStorage.setItem('user', JSON.stringify(this.loginUsuario));
-
+      this.notifService.mostrarExito("Usuario Registrado con exito");
       this.root.navigateByUrl("/afiliado");
     },
     error: err => {

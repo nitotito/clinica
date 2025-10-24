@@ -52,10 +52,46 @@
         </div>
       </div>
 
-     <!-- Disponibilidad -->
-      <form *ngIf="activeSection === 'disponibilidad'" (ngSubmit)="enviarDisponibilidad()" @fadeInOut>
+     <!-- SECCIÓN DISPONIBILIDAD -->
+    <div *ngIf="activeSection === 'disponibilidad'" @fadeInOut>
+
+      <!-- Tabla de selección de médicos -->
+      <div *ngIf="!medicoSeleccionado" class="table-responsive" @fadeInOut>
+        <h3 style="text-align:center;">Seleccionar médico</h3>
+        <input type="text" [(ngModel)]="filtro" placeholder="Buscar médicos">
+
+        <table class="table table-striped" id="disponibilidadTable">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>DNI</th>
+              <th>Matrícula</th>
+              <th>Especialidad</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let medico of medicos | medicos: filtro">
+              <td>{{ medico.nombre }}</td>
+              <td>{{ medico.apellido }}</td>
+              <td>{{ medico.dni }}</td>
+              <td>{{ medico.matricula }}</td>
+              <td>{{ medico.especialidad }}</td>
+              <td>
+                <button class="btn-primary" (click)="seleccionarMedico(medico)" @fadeInOut>
+                  Ver Disponibilidad
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tu form original, sin tocar -->
+      <form *ngIf="medicoSeleccionado" (ngSubmit)="enviarDisponibilidad()" @fadeInOut>
         <p><strong>Médico:</strong> {{ medicoSeleccionado?.nombre }} {{ medicoSeleccionado?.apellido }}</p>
-        
+
         <label for="desde">Hora Desde:</label>
         <input type="time" id="desde" [(ngModel)]="disponibilidad.desde" name="desde" required>
 
@@ -64,16 +100,23 @@
 
         <label for="dias">Días:</label>
         <div class="dias-container">
-          <button type="button" 
+          <button type="button"
                   *ngFor="let dia of dias"
                   (click)="toggleDia(dia.value)"
-                  [ngClass]="{'selected': disponibilidad.dias.includes(dia.value)}"@fadeInOut>
+                  [ngClass]="{'selected': disponibilidad.dias.includes(dia.value)}"
+                  @fadeInOut>
             {{ dia.nombre }}
           </button>
         </div>
 
-        <button type="submit" id="dispo"@fadeInOut>Enviar Disponibilidad</button>
+        <div class="main-buttons">
+          <button type="submit" id="dispo" @fadeInOut>Enviar Disponibilidad</button>
+          <button type="button" id="dispo" (click)="cancelarSeleccionMedico()" @fadeInOut>Volver</button>
+        </div>
       </form>
+
+    </div>
+      
       <!-- Placeholder para otras secciones -->
       <div *ngIf="activeSection === 'administrar'" class="admin-section" @fadeInOut>
         <h3>Administrar usuarios</h3>
@@ -244,16 +287,5 @@
     </div>
 
 
-      <!--Modal para manejar la disponibilidad del medico-->
-        <div class="modal" *ngIf="isModalOpen" @fadeInOut>
-        <div class="modal-content">
-          <h3>Buscar Médico por DNI</h3>
-          <input type="text" [(ngModel)]="dniMedico" placeholder="Ingrese DNI">
-          <div class="modal-actions">
-            <button (click)="buscarMedico()">Buscar</button>
-            <button (click)="closeModal()">Cancelar</button>
-          </div>
-        </div>
-      </div>
     </main>
   </div>

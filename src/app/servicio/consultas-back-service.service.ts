@@ -33,6 +33,14 @@ export class ConsultasBackServiceService {
   );
 }
 
+getReporteMedico(fechaInicio: string, fechaFin: string) {
+  const params = { inicio: fechaInicio, fin: fechaFin };
+  return this.http.get(`${this.APIURL}/reporteMedico`, {
+    params,
+    responseType: 'blob'  // 👈 importante: el back devuelve un PDF (bytes)
+  });
+}
+
   public registrarMed(usuario:Usuario) {
     return this.http.post(this.APIURL + "/insertarMed", usuario);
   }

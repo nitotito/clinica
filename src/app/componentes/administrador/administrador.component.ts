@@ -102,14 +102,14 @@ export class AdministradorComponent {
 
   constructor(public backservice:ConsultasBackServiceService,private notifService: NotificacionService){};
 
-  setActive(section: string) {
-    if (section === 'disponibilidad') {
-      // en vez de activar directo, abrimos el modal
-      this.openModal();
-    } else {
+      setActive(section: string) {
       this.activeSection = section;
+
+      if (section === 'disponibilidad') {
+        this.medicoSeleccionado = null;
+        this.obtenerMedicos();
+      }
     }
-  }
 
   openModal() {
     this.isModalOpen = true;
@@ -349,15 +349,79 @@ public generarPDF() {
   }
 
   generarInforme(tipo: string) {
-    console.log(`Generando informe: ${tipo}`, this.filtros);
-    // Acá iría la llamada al backend según el tipo
-    // this.servicio.obtenerInforme(tipo, this.filtros).subscribe(...)
-    this.resultadoInforme = {
-      tipo,
-      filtros: { ...this.filtros },
-      datos: [] // simulado
-    };
-    this.cerrarModal();
+  console.log(`Generando informe: ${tipo}`, this.filtros);
+
+  switch (tipo) {
+    case 'turnosPorFecha':
+      const { fechaDesde, fechaHasta } = this.filtros;
+
+      if (!fechaDesde || !fechaHasta) {
+        this.notifService.mostrarError('Debe seleccionar fechas de inicio y fin');
+        return;
+      }
+
+      // 🧩 Llamamos al back que devuelve el PDF
+      this.backservice.getReporteMedico(fechaDesde, fechaHasta).subscribe({
+        next: (pdfBlob: Blob) => {
+          const blob = new Blob([pdfBlob], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+
+          // Abrir en nueva pestaña
+          window.open(url);
+
+          // O descargar directamente:
+          // const a = document.createElement('a');
+          // a.href = url;
+          // a.download = 'reporte_medicos.pdf';
+          // a.click();
+
+          console.log('✅ Reporte PDF generado correctamente');
+          this.notifService.mostrarExito('Reporte generado con éxito.');
+        },
+        error: (err) => {
+          console.error('❌ Error generando reporte:', err);
+          this.notifService.mostrarError('Error al generar el reporte.');
+        }
+      });
+      break;
+
+    case 'medicosPorEspecialidad':
+      console.log('👉 A implementar lógica para médicos por especialidad');
+      break;
+
+    case 'medicosPorDia':
+      console.log('👉 A implementar lógica para médicos por día');
+      break;
   }
+
+  this.cerrarModal();
+}
+
+seleccionarMedico(medico: any) {
+  this.medicoSeleccionado = medico;
+  console.log("👨‍⚕️ Médico seleccionado:", medico);
+
+  this.backservice.getDisponibilidadByMedicoId(medico.id).subscribe({
+    next: (dispo) => {
+      if (dispo) {
+        this.disponibilidad = {
+          ...dispo,
+          dias: dispo.dias ? dispo.dias.split(",") : []
+        };
+      } else {
+        this.disponibilidad = { desde: '', hasta: '', dias: [] };
+        this.notifService.mostrarError('El médico no tiene disponibilidad registrada.');
+      }
+    },
+    error: () => {
+      this.disponibilidad = { desde: '', hasta: '', dias: [] };
+      this.notifService.mostrarError('Error al obtener disponibilidad.');
+    }
+  });
+}
+
+cancelarSeleccionMedico() {
+  this.medicoSeleccionado = null;
+}
 }
 

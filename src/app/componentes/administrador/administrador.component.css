@@ -472,6 +472,7 @@ form button:active {
 
 #dispo{
     margin-top: 15px;
+    width: 27vh;
 }
 
 #disponibilidad select:hover {
