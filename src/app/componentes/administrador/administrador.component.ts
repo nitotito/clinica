@@ -415,7 +415,7 @@ seleccionarMedico(medico: any) {
     },
     error: () => {
       this.disponibilidad = { desde: '', hasta: '', dias: [] };
-      this.notifService.mostrarError('Error al obtener disponibilidad.');
+      this.notifService.mostrarError('Sin disponibilidad. Cargar primera dispo');
     }
   });
 }
