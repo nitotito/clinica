@@ -137,6 +137,7 @@ export class AfiliadoComponent {
         console.error("Error al obtener horarios:", error);
     });
     } else {
+      this.notifService.mostrarError("Error al buscar disponibilidad");
       console.error("El campo 'dias' es undefined o no existe");
     }
   }

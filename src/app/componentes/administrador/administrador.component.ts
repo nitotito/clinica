@@ -350,10 +350,10 @@ public generarPDF() {
 
   generarInforme(tipo: string) {
   console.log(`Generando informe: ${tipo}`, this.filtros);
+  const { fechaDesde, fechaHasta } = this.filtros;
 
   switch (tipo) {
     case 'turnosPorFecha':
-      const { fechaDesde, fechaHasta } = this.filtros;
 
       if (!fechaDesde || !fechaHasta) {
         this.notifService.mostrarError('Debe seleccionar fechas de inicio y fin');
@@ -366,14 +366,16 @@ public generarPDF() {
           const blob = new Blob([pdfBlob], { type: 'application/pdf' });
           const url = window.URL.createObjectURL(blob);
 
-          // Abrir en nueva pestaña
-          window.open(url);
+           // Crear enlace de descarga
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'reporte_medicos.pdf';
+            document.body.appendChild(a);
+            a.click();
 
-          // O descargar directamente:
-          // const a = document.createElement('a');
-          // a.href = url;
-          // a.download = 'reporte_medicos.pdf';
-          // a.click();
+            // Limpiar recursos
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
 
           console.log('✅ Reporte PDF generado correctamente');
           this.notifService.mostrarExito('Reporte generado con éxito.');
@@ -385,12 +387,62 @@ public generarPDF() {
       });
       break;
 
-    case 'medicosPorEspecialidad':
-      console.log('👉 A implementar lógica para médicos por especialidad');
+    case 'turnosCancelados':
+      if (!fechaDesde || !fechaHasta) {
+        this.notifService.mostrarError('Debe seleccionar fechas de inicio y fin');
+        return;
+      }
+
+      // 🧩 Llamamos al back que devuelve el PDF
+      this.backservice.getReporteTurnosCancelados(fechaDesde, fechaHasta).subscribe({
+        next: (pdfBlob: Blob) => {
+          const blob = new Blob([pdfBlob], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+
+           // Crear enlace de descarga
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'reporte_medicos.pdf';
+            document.body.appendChild(a);
+            a.click();
+
+            // Limpiar recursos
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+          console.log('✅ Reporte PDF generado correctamente');
+          this.notifService.mostrarExito('Reporte generado con éxito.');
+        },
+        error: (err) => {
+          console.error('❌ Error generando reporte:', err);
+          this.notifService.mostrarError('Error al generar el reporte.');
+        }
+      });
       break;
 
     case 'medicosPorDia':
-      console.log('👉 A implementar lógica para médicos por día');
+      console.log("dia enviado component: ",this.filtros);
+      this.backservice.getReporteMedicoXDia(this.filtros).subscribe({
+        next: (pdfBlob: Blob) => {
+          const blob = new Blob([pdfBlob], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+
+           // Crear enlace de descarga
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'reporte_medicos.pdf';
+            a.click();
+
+            window.URL.revokeObjectURL(url);
+
+          console.log('✅ Reporte PDF generado correctamente');
+          this.notifService.mostrarExito('Reporte generado con éxito.');
+        },
+        error: (err) => {
+          console.error('❌ Error generando reporte:', err);
+          this.notifService.mostrarError('Error al generar el reporte.');
+        }
+      })
       break;
   }
 

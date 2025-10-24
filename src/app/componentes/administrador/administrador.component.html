@@ -79,7 +79,7 @@
               <td>{{ medico.matricula }}</td>
               <td>{{ medico.especialidad }}</td>
               <td>
-                <button class="btn-primary" (click)="seleccionarMedico(medico)" @fadeInOut>
+                <button class="btn-primary" id="ver-dispo" (click)="seleccionarMedico(medico)" @fadeInOut>
                   Ver Disponibilidad
                 </button>
               </td>
@@ -207,9 +207,9 @@
                 <td>{{ turno.nombrePaciente }} {{ turno.apellidoPaciente }}</td>
                 <td>
                   <span [ngClass]="{
-                    'estado-pendiente': turno.estado === 'Pendiente',
-                    'estado-confirmado': turno.estado === 'Confirmado',
-                    'estado-cancelado': turno.estado === 'Cancelado'
+                    'estado-pendiente': turno.estado === 'PENDIENTE',
+                    'estado-confirmado': turno.estado === 'CONFIRMADO',
+                    'estado-cancelado': turno.estado === 'CANCELADO'
                   }">
                     {{ turno.estado }}
                   </span>
@@ -231,7 +231,7 @@
 
       <div class="main-buttons">
         <button (click)="abrirModal('turnosPorFecha')"@fadeInOut>Turnos médicos por fecha</button>
-        <button (click)="abrirModal('medicosPorEspecialidad')"@fadeInOut>Médicos por especialidad</button>
+        <button (click)="abrirModal('turnosCancelados')"@fadeInOut>Turnos cancelados</button>
         <button (click)="abrirModal('medicosPorDia')"@fadeInOut>Médicos por día</button>
       </div>
 
@@ -254,7 +254,7 @@
         <div class="modal-content">
           <h3>Informe: Médicos por día</h3>
           <label>Día de la semana:</label>
-          <select [(ngModel)]="filtros.dia">
+          <select [(ngModel)]="filtros">
             <option value="">Seleccione un día</option>
             <option *ngFor="let d of dias" [value]="d.value">{{ d.nombre }}</option>
           </select>
@@ -265,15 +265,17 @@
         </div>
       </div>
 
-      <!-- Modal: Médicos por especialidad -->
-      <div class="modal" *ngIf="modalActivo === 'medicosPorEspecialidad'" @fadeInOut>
+      <!-- Modal: Turnos cancelados-->
+      <div class="modal" *ngIf="modalActivo === 'turnosCancelados'" @fadeInOut>
         <div class="modal-content">
-          <h3>Informe: Médicos por especialidad</h3>
-          <label>Especialidad:</label>
-          <input type="text" [(ngModel)]="filtros.especialidad" placeholder="Ej: Cardiología">
+          <h3>Informe: Turnos médicos por fecha</h3>
+          <label>Fecha desde:</label>
+          <input type="date" [(ngModel)]="filtros.fechaDesde">
+          <label>Fecha hasta:</label>
+          <input type="date" [(ngModel)]="filtros.fechaHasta">
           <div class="modal-actions">
-            <button (click)="generarInforme('medicosPorEspecialidad')">Generar</button>
-            <button (click)="cerrarModal()">Cancelar</button>
+            <button (click)="generarInforme('turnosCancelados')"@fadeInOut>Generar</button>
+            <button (click)="cerrarModal()" @fadeInOut>Cancelar</button>
           </div>
         </div>
       </div>

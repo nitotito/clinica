@@ -5,13 +5,25 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ConsultasBackServiceService } from '../../servicio/consultas-back-service.service';
 import { Medico } from '../../entidades/Medico';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-medico',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './medico.component.html',
-  styleUrls: ['./medico.component.css']
+  styleUrls: ['./medico.component.css'],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-10px)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ]),
+      transition(':leave', [
+        animate('200ms ease-in', style({ opacity: 0, transform: 'translateY(-10px)' }))
+      ])
+    ])
+  ]
 })
 export class MedicoComponent implements AfterViewInit {
 
@@ -250,7 +262,7 @@ cerrarModal() {
 guardarObservaciones(turno: any) {
   turno.observaciones = this.observaciones;
   console.log('Guardando observaciones:', this.observaciones, 'para el turno:', turno);
-  this.consultaBackApi.updateObservaciones(turno.id, turno).subscribe(
+  this.consultaBackApi.updateObservaciones(turno.idTurno, turno).subscribe(
     (response) => {
 
         console.log("Actualizado : ",response);

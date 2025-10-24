@@ -352,6 +352,8 @@ form button:active {
 }
 
 .historial-table tr:hover {
+    filter: brightness(0.95);
+    cursor: pointer;
     background-color: #81C784; /* Fondo verde claro al pasar el cursor */
 }
 
@@ -360,11 +362,15 @@ form button:active {
 }
 
 .estado-cancelado {
-    background-color: rgba(255, 0, 0, 0.3); /* Color para estado cancelado */
+  background-color: #ffdddd !important; /* fondo rojo suave */
+  color: #b71c1c !important;            /* texto rojo oscuro */
+  font-weight: bold;
 }
 
 .estado-activo {
-    background-color: rgba(144, 238, 144, 0.5); /* Color para estado activo */
+  background-color: #ddffdd !important; /* fondo verde suave */
+  color: #1b5e20 !important;            /* texto verde oscuro */
+  font-weight: bold;
 }
 
 .clickable {
@@ -385,6 +391,14 @@ form button:active {
     position: relative;
     margin: 1.75rem auto;
   }
+
+    .modal-actions {
+    display: flex;
+    flex-direction: column; /* 🔹 apila los botones verticalmente */
+    align-items: center;    /* 🔹 centra horizontalmente */
+    gap: 10px;              /* 🔹 espacio vertical entre botones */
+    margin-top: 15px;
+    }
 
 
 /* Dispositivos móviles (pantallas hasta 600px) */

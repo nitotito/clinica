@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
       this.loginUsuario.id = user.id;
       this.loginUsuario.nombre = user.nombre;
       sessionStorage.setItem('user', JSON.stringify(this.loginUsuario));
-      this.notifService.mostrarExito("Usuario Registrado con exito");
+      this.notifService.mostrarExito("Ingreso exitoso");
       this.root.navigateByUrl("/afiliado");
     },
     error: err => {

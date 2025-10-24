@@ -31,6 +31,10 @@ header {
     color: #4CAF50;
 }
 
+#ver-dispo{
+    padding: 5px 20px;
+}
+
 nav {
     background-color: #4CAF50;
     color: #fff;
@@ -597,11 +601,15 @@ form button:active {
 }
 
 .estado-cancelado {
-    background-color: rgba(255, 0, 0, 0.3); /* Color para estado cancelado */
+  background-color: #ffdddd !important; /* fondo rojo suave */
+  color: #b71c1c !important;            /* texto rojo oscuro */
+  font-weight: bold;
 }
 
 .estado-activo {
-    background-color: rgba(144, 238, 144, 0.5); /* Color para estado activo */
+  background-color: #ddffdd !important; /* fondo verde suave */
+  color: #1b5e20 !important;            /* texto verde oscuro */
+  font-weight: bold;
 }
 
 .clickable {

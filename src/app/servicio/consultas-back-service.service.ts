@@ -35,7 +35,27 @@ export class ConsultasBackServiceService {
 
 getReporteMedico(fechaInicio: string, fechaFin: string) {
   const params = { inicio: fechaInicio, fin: fechaFin };
+  console.log("ajsdhfjashdfa", params)
   return this.http.get(`${this.APIURL}/reporteMedico`, {
+    params,
+    responseType: 'blob'  // 👈 importante: el back devuelve un PDF (bytes)
+  });
+}
+
+getReporteMedicoXDia(dia: string) {
+  const params = {dia};
+  console.log('🟢 Día enviado:', dia);
+  console.log("params : ", params)
+  return this.http.get(`${this.APIURL}/reporteMedicoXDia`, {
+    params,
+    responseType: 'blob' as 'json' // 👈 importante: el back devuelve un PDF (bytes)
+  }) as Observable<any>;
+}
+
+getReporteTurnosCancelados(fechaInicio: string, fechaFin: string) {
+  const params = { inicio: fechaInicio, fin: fechaFin };
+  console.log("ajsdhfjashdfa", params)
+  return this.http.get(`${this.APIURL}/reporteMedicoXCancelado`, {
     params,
     responseType: 'blob'  // 👈 importante: el back devuelve un PDF (bytes)
   });
@@ -156,6 +176,9 @@ getReporteMedico(fechaInicio: string, fechaFin: string) {
     );
   }
   
+    cancelarTurno(id: number) {
+    return this.http.put(`${this.APIURL}/turnos/cancelar/${id}`, {});
+  }
 
   // Función que manejará los errores
   private handleError(error: HttpErrorResponse) {

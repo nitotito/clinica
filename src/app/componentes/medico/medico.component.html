@@ -1,144 +1,119 @@
 <div class="container">
-    <header>
-    </header>
+  <header></header>
 
-    <main class="perfil fade-in">
-        <h1 style="text-align: center;">¡Bienvenido {{ nombreMedico}} ! ¿Qué necesitás hoy?</h1>
-        <div class="main-buttons">
-            <!-- <button (click)="toggleDisponibilidadForm()">Disponibilidad</button> -->
-            <button (click)="mostrarHistorialTurnosMed()">Historial</button>
-            <button (click)="toggleTurnosList()" [disabled]="isLoading">
-                  Turnos Pacientes
-              </button>
-        </div>
+  <main>
+    <h1 style="text-align: center;">¡Bienvenido {{ nombreMedico }}!</h1>
+    <h2 style="text-align: center;">Seleccione una opción para continuar</h2>
 
-        <!-- Formulario de disponibilidad -->
-       <!--  <form *ngIf="showDisponibilidadForm" (ngSubmit)="enviarDisponibilidad()">
-            <label for="desde">Hora Desde:</label>
-            <input type="time" id="desde" [(ngModel)]="disponibilidad.desde" name="desde" required>
+    <div class="main-buttons" @fadeInOut>
+      <button (click)="toggleTurnosList()" @fadeInOut>Turnos Pacientes</button>
+      <button (click)="mostrarHistorialTurnosMed()" @fadeInOut>Historial</button>
+    </div>
 
-            <label for="hasta">Hora Hasta:</label>
-            <input type="time" id="hasta" [(ngModel)]="disponibilidad.hasta" name="hasta" required>
+    <!-- SECCIÓN TURNOS PACIENTES -->
+    <div class="table-responsive" *ngIf="showTurnosList" @fadeInOut>
+      <h2 class="col-6">Lista de Turnos</h2>
+      <button (click)="generarCSV()" @fadeInOut>Exportar a CSV</button>
 
-            <label for="dias">Días:</label>
-            <div class="dias-container">
-                <button type="button" 
-                        *ngFor="let dia of dias"
-                        (click)="toggleDia(dia.value)"
-                        [ngClass]="{'selected': disponibilidad.dias.includes(dia.value)}">
-                  {{ dia.nombre }}
-                </button>
-              </div>
+      <table class="table table-striped" @fadeInOut>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>DNI</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Estado</th>
+            <th>Procesar Turno</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let turno of turnos" @fadeInOut>
+            <td>{{ turno.paciente }}</td>
+            <td>{{ turno.dniPaciente }}</td>
+            <td>{{ turno.fecha }}</td>
+            <td>{{ turno.hora }}</td>
+            <td>{{ turno.estado }}</td>
+            <td>
+              <button (click)="openModal(turno)" @fadeInOut>Seleccionar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-            <button type="submit" id="dispo">Enviar Disponibilidad</button>
-        </form> -->
+      <!-- Modal de opciones de turno -->
+      <div class="modal" *ngIf="isModalOpen" @fadeInOut>
+        <div class="modal-content" @fadeInOut>
+          <h3>Seleccione una opción</h3>
+          <form (ngSubmit)="enviarOpciones()">
+            <label>
+              <input type="radio" name="opcion" [(ngModel)]="opcionSeleccionada" value="CONFIRMADO" required />
+              Aceptar
+            </label>
+            <label>
+              <input type="radio" name="opcion" [(ngModel)]="opcionSeleccionada" value="CANCELADO" />
+              Rechazar
+            </label>
+            <label>
+              <input type="radio" name="opcion" [(ngModel)]="opcionSeleccionada" value="FINALIZADO" />
+              Finalizar
+            </label>
 
-        <!-- Lista de turnos -->
-        <div class="row" *ngIf="showTurnosList">
-            <h2 class="col-6">Lista de Turnos</h2>
-            <button (click)="generarCSV()">Exportar a CSV</button>
-            <div class="col-12">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>DNI</th>
-                            <th>Fecha</th>
-                            <th>Hora</th>
-                            <th>Estado</th>
-                            <th>Pocesar Turno</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let turno of turnos">
-                            <td>{{ turno.paciente }}</td>
-                            <td>{{ turno.dniPaciente }}</td>
-                            <td>{{ turno.fecha }}</td>
-                            <td>{{ turno.hora }}</td>
-                            <td>{{ turno.estado }}</td>
-                            <td>
-                                <label class="switch">
-                                    <button (click)="openModal(turno)">Seleccionar</button>
-                                    <span class="slider"></span>
-                                </label>
-                            </td>
-                            <td><i class="fa fa-pencil" aria-hidden="true"></i></td>
-                        </tr>
-                    </tbody>
-                    
-                    <!-- Modal -->
-                    <div class="modal" *ngIf="isModalOpen">
-                        <div class="modal-content">
-                            <h2>Seleccione una opción</h2>
-                            
-                            <form (ngSubmit)="enviarOpciones()">
-                                <label>
-                                    <input type="radio" name="opcion" [(ngModel)]="opcionSeleccionada" value="confirmado" required>
-                                    Aceptar
-                                </label>
-                                <label>
-                                    <input type="radio" name="opcion" [(ngModel)]="opcionSeleccionada" value="Rechazado">
-                                    Rechazar
-                                </label>
-                                <label>
-                                    <input type="radio" name="opcion" [(ngModel)]="opcionSeleccionada" value="Finalizado">
-                                    Finalizar
-                                </label>
-                                
-                                <div class="modal-buttons">
-                                    <button type="submit">Enviar</button>
-                                    <button type="button" (click)="closeModal()">Cancelar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </table>
+            <div class="modal-actions">
+              <button type="submit" @fadeInOut>Enviar</button>
+              <button type="button" (click)="closeModal()" @fadeInOut>Cancelar</button>
             </div>
+          </form>
         </div>
+      </div>
+    </div>
 
-        <div *ngIf="mostrarHistorial">
-            <h2>Historial de Turnos</h2>
-            <h5>Seleccione un turno para ver las observaciones</h5>
-            <table class="historial-table">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Estado</th>
-                        <th>Observaciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let turno of historialTurnos"
-                        [ngClass]="{
-                            'estado-cancelado': turno.estado.trim().toLowerCase() === 'cancelado',
-                            'estado-activo': turno.estado.trim().toLowerCase() === 'confirmado'
-                        }">
-                        <td (click)="mostrarObservaciones(turno)" class="clickable">{{ turno.fecha }}</td>
-                        <td (click)="mostrarObservaciones(turno)" class="clickable">{{ turno.hora }}</td>
-                        <td (click)="mostrarObservaciones(turno)" class="clickable">{{ turno.estado }}</td>
-                        <td (click)="mostrarObservaciones(turno)" class="clickable">{{ turno.observaciones || 'Sin observaciones' }}</td>
-                    </tr>
-                </tbody>
-            </table>
+    <!-- SECCIÓN HISTORIAL -->
+    <div *ngIf="mostrarHistorial" @fadeInOut>
+      <h2>Historial de Turnos</h2>
+      <h5>Seleccione un turno para ver las observaciones</h5>
+
+      <table class="historial-table" @fadeInOut>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Estado</th>
+            <th>Observaciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let turno of historialTurnos"
+            [ngClass]="{
+            'estado-cancelado': turno.estado?.trim().toLowerCase() === 'cancelado',
+            'estado-activo': turno.estado?.trim().toLowerCase() === 'confirmado'
+            }"
+            (click)="mostrarObservaciones(turno)"
+            @fadeInOut>
+        <td>{{ turno.fecha }}</td>
+        <td>{{ turno.hora }}</td>
+        <td>{{ turno.estado }}</td>
+        <td>{{ turno.observaciones || 'Sin observaciones' }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- MODAL DE OBSERVACIONES -->
+    <div class="modal" *ngIf="mostrarModal" @fadeInOut>
+      <div class="modal-content" @fadeInOut>
+        <h3>Agregar Observaciones</h3>
+        <textarea
+          [(ngModel)]="observaciones"
+          rows="4"
+          cols="50"
+          placeholder="Escribe tus observaciones aquí..."
+        ></textarea>
+
+        <div class="modal-actions">
+          <button (click)="guardarObservaciones(turno)" @fadeInOut>Guardar</button>
+          <button (click)="cerrarModal()" @fadeInOut>Cancelar</button>
         </div>
-
-        <div class="modal" tabindex="-1" role="dialog" [ngClass]="{ 'show': mostrarModal }" style="display: {{ mostrarModal ? 'block' : 'none' }};">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Agregar Observaciones</h5>
-                  
-                </div>
-                <div class="modal-body">
-                  <textarea [(ngModel)]="observaciones" rows="4" cols="50" placeholder="Escribe tus observaciones aquí..."></textarea>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" (click)="guardarObservaciones(turno)">Guardar</button>
-                  <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cerrar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-    </main>
+      </div>
+    </div>
+  </main>
 </div>
