@@ -6,6 +6,7 @@ import { Observable, catchError, map, of} from 'rxjs';
 import { throwError } from 'rxjs';
 import { Medico } from '../entidades/Medico';
 import { Disponibilidad } from '../entidades/Disponibilidad';
+import { Turno } from '../entidades/Turno';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,10 @@ export class ConsultasBackServiceService {
 
   public registrarAdmin(usuario:Usuario) {
     return this.http.post(this.APIURL + "/insertarAdmin", usuario);
+  }
+
+    getTurnosPorFecha(fecha: string) {
+    return this.http.get<Turno[]>(`${this.APIURL}/turnos/${fecha}`);
   }
   
 

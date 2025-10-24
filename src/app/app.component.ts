@@ -8,6 +8,7 @@ import { LoadingService } from './servicio/loading.service';
 import { Observable } from 'rxjs';
 import { ToastComponent } from './componentes/toast/toast.component';
 import { delay } from 'rxjs/operators';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 
 @Component({
@@ -15,7 +16,18 @@ import { delay } from 'rxjs/operators';
   standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [CommonModule, RouterOutlet, MenuComponent, FooterComponent, SpinnerComponent,ToastComponent]
+  imports: [CommonModule, RouterOutlet, MenuComponent, FooterComponent, SpinnerComponent,ToastComponent ],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [ // cuando aparece
+        style({ opacity: 0, transform: 'translateY(-10px)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ]),
+      transition(':leave', [ // cuando desaparece
+        animate('200ms ease-in', style({ opacity: 0, transform: 'translateY(-10px)' }))
+      ])
+    ])
+  ]
 })
 export class AppComponent {
 

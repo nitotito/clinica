@@ -7,6 +7,7 @@ import { Medico } from '../../entidades/Medico';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { NotificacionService } from '../../servicio/notificacion.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 
 @Component({
@@ -14,7 +15,18 @@ import { NotificacionService } from '../../servicio/notificacion.service';
   standalone: true,
   imports: [MedicosPipe,CommonModule,FormsModule],
   templateUrl: './administrador.component.html',
-  styleUrl: './administrador.component.css'
+  styleUrl: './administrador.component.css',
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-10px)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ]),
+      transition(':leave', [
+        animate('200ms ease-in', style({ opacity: 0, transform: 'translateY(-10px)' }))
+      ])
+    ])
+  ]
 })
 
 
@@ -30,6 +42,11 @@ export class AdministradorComponent {
   dniMedico: number | null = null;
   showHabilitar = false;
   activeSection: string | null = null;
+  modalActivo: string | null = null;
+  resultadoInforme: any = null;
+  filtros: any = {};
+  turnos: any[] = [];
+  fechaActual: Date = new Date();
 
   medico: Medico= {
     id:null,
@@ -71,6 +88,15 @@ export class AdministradorComponent {
     { nombre: 'Viernes', value: 'vi' }
   ];
 
+  abrirModal(tipo: string) {
+    this.modalActivo = tipo;
+    this.filtros = {}; // limpia datos previos
+  }
+
+  cerrarModal() {
+    this.modalActivo = null;
+  }
+
   public medicos: Medico[] = [];
   medicoSeleccionado: any = null;
 
@@ -97,6 +123,7 @@ export class AdministradorComponent {
   ngOnInit() {
     this.obtenerMedicos();
     this.obtenerDato();
+    this.obtenerTurnosDelDia();
   }
 
   toggleHabilitacion() {
@@ -104,6 +131,23 @@ export class AdministradorComponent {
     if (this.showHabilitar && this.medicos.length === 0) {
       this.obtenerMedicos(); 
     }
+  }
+
+  obtenerTurnosDelDia() {
+    const fecha = this.fechaActual.toISOString().split('T')[0]; // yyyy-mm-dd
+    console.log("📅 Consultando turnos del día:", fecha);
+
+    this.backservice.getTurnosPorFecha(fecha).subscribe({
+      next: (data: any[]) => {
+        this.turnos = data || [];
+        console.log("✅ Turnos del día:", this.turnos);
+      },
+      error: (err: any) => {
+        console.error("❌ Error al obtener turnos:", err);
+        this.turnos = [];
+        this.notifService.mostrarError('Error al cargar los turnos del día.');
+      }
+    });
   }
 
  public obtenerMedicos() {
@@ -299,11 +343,20 @@ public generarPDF() {
           })
         break;
     }
-
-    
-
     this.notifService.mostrarExito('Usuario guardado correctamente.');
     this.nuevoUsuario = { tipoUsuario: '', nombre: '', apellido: '', email: '', dni: '', telefono: '', matricula: '', especialidad: '' };
+  }
+
+  generarInforme(tipo: string) {
+    console.log(`Generando informe: ${tipo}`, this.filtros);
+    // Acá iría la llamada al backend según el tipo
+    // this.servicio.obtenerInforme(tipo, this.filtros).subscribe(...)
+    this.resultadoInforme = {
+      tipo,
+      filtros: { ...this.filtros },
+      datos: [] // simulado
+    };
+    this.cerrarModal();
   }
 }
 

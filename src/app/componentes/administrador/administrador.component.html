@@ -11,16 +11,16 @@
       </h1>
 
       <h1 style="text-align: center;">Seleccione una opción para continuar</h1>
-      <div class="main-buttons">
-        <button (click)="setActive('habilitacion')">Habilitación</button>
-        <button (click)="setActive('turnos')">Turnos</button>
-        <button (click)="setActive('disponibilidad')">Disponibilidad</button>
-        <button (click)="setActive('informes')">Informes</button>
-        <button (click)="setActive('administrar')">Administrar</button>
+      <div class="main-buttons" @fadeInOut>
+        <button (click)="setActive('habilitacion')" @fadeInOut>Habilitación</button >
+        <button (click)="setActive('turnos')"@fadeInOut>Turnos</button>
+        <button (click)="setActive('disponibilidad')"@fadeInOut>Disponibilidad</button>
+        <button (click)="setActive('informes')"@fadeInOut>Informes</button>
+        <button (click)="setActive('administrar')"@fadeInOut>Administrar</button>
       </div>
   
       <!-- Habilitacion -->
-      <div class="table-responsive" *ngIf="activeSection === 'habilitacion'">
+      <div class="table-responsive" *ngIf="activeSection === 'habilitacion'" @fadeInOut>
         <input type="text" [(ngModel)]="filtro" placeholder="Buscar médicos">
         <table class="table table-striped" id="medicosTable">
           <thead>
@@ -41,19 +41,19 @@
               <td>{{ medico.matricula }}</td>
               <td>{{ medico.especialidad }}</td>
               <td>
-                <button class="btn-success" *ngIf="medico.habilitacion == true" (click)="accion(medico)">Habilitado</button>
-                <button class="btn-danger" *ngIf="medico.habilitacion == false" (click)="accion(medico)">No habilitado</button>
+                <button class="btn-success" *ngIf="medico.habilitacion == true" (click)="accion(medico)"@fadeInOut>Habilitado</button>
+                <button class="btn-danger" *ngIf="medico.habilitacion == false" (click)="accion(medico)"@fadeInOut>No habilitado</button>
               </td>
             </tr>
           </tbody>
         </table>
         <div class="main-buttons">
-          <button (click)="generarPDF()">Imprimir Lista</button>
+          <button (click)="generarPDF()"@fadeInOut>Imprimir Lista</button>
         </div>
       </div>
 
      <!-- Disponibilidad -->
-      <form *ngIf="activeSection === 'disponibilidad'" (ngSubmit)="enviarDisponibilidad()">
+      <form *ngIf="activeSection === 'disponibilidad'" (ngSubmit)="enviarDisponibilidad()" @fadeInOut>
         <p><strong>Médico:</strong> {{ medicoSeleccionado?.nombre }} {{ medicoSeleccionado?.apellido }}</p>
         
         <label for="desde">Hora Desde:</label>
@@ -67,15 +67,15 @@
           <button type="button" 
                   *ngFor="let dia of dias"
                   (click)="toggleDia(dia.value)"
-                  [ngClass]="{'selected': disponibilidad.dias.includes(dia.value)}">
+                  [ngClass]="{'selected': disponibilidad.dias.includes(dia.value)}"@fadeInOut>
             {{ dia.nombre }}
           </button>
         </div>
 
-        <button type="submit" id="dispo">Enviar Disponibilidad</button>
+        <button type="submit" id="dispo"@fadeInOut>Enviar Disponibilidad</button>
       </form>
       <!-- Placeholder para otras secciones -->
-      <div *ngIf="activeSection === 'administrar'" class="admin-section">
+      <div *ngIf="activeSection === 'administrar'" class="admin-section" @fadeInOut>
         <h3>Administrar usuarios</h3>
 
         <form #adminForm="ngForm" (ngSubmit)="guardarUsuario()">
@@ -132,21 +132,120 @@
             <input type="text" name="telefono" [(ngModel)]="nuevoUsuario.contrasenia" required />
           </div>
 
-          <button class="botonGuardar" type="submit">Guardar</button>
+          <button class="botonGuardar" type="submit"@fadeInOut>Guardar</button>
         </form>
       </div>
 
 
-      <div *ngIf="activeSection === 'turnos'">
-        <h3>Sección Turnos (a implementar)</h3>
+      <!-- SECCIÓN TURNOS -->
+      <div *ngIf="activeSection === 'turnos'" @fadeInOut>
+        <h3 style="text-align: center;">Turnos del día {{ fechaActual | date:'dd/MM/yyyy' }}</h3>
+
+        <div class="turnos-container">
+          <div class="filters">
+            <button (click)="obtenerTurnosDelDia()" class="botonActualizar">🔄 Actualizar</button>
+          </div>
+
+          <table class="table table-striped" *ngIf="turnos && turnos.length > 0" @fadeInOut>
+            <thead>
+              <tr>
+                <th>Hora</th>
+                <th>Médico</th>
+                <th>Especialidad</th>
+                <th>Paciente</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let turno of turnos" @fadeInOut>
+                <td>{{ turno.hora }}</td>
+                <td>{{ turno.nombreMedico }} {{ turno.apellidoMedico }}</td>
+                <td>{{ turno.especialidad }}</td>
+                <td>{{ turno.nombrePaciente }} {{ turno.apellidoPaciente }}</td>
+                <td>
+                  <span [ngClass]="{
+                    'estado-pendiente': turno.estado === 'Pendiente',
+                    'estado-confirmado': turno.estado === 'Confirmado',
+                    'estado-cancelado': turno.estado === 'Cancelado'
+                  }">
+                    {{ turno.estado }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div *ngIf="turnos && turnos.length === 0" class="no-turnos" @fadeInOut>
+            <p>No hay turnos registrados para hoy.</p>
+          </div>
+        </div>
       </div>
+
 
       <div *ngIf="activeSection === 'informes'">
-        <h3>Sección Informes (a implementar)</h3>
+      <h3 style="text-align: center;">Sección de Informes</h3>
+      <p style="text-align: center;">Seleccione el tipo de informe que desea generar:</p>
+
+      <div class="main-buttons">
+        <button (click)="abrirModal('turnosPorFecha')"@fadeInOut>Turnos médicos por fecha</button>
+        <button (click)="abrirModal('medicosPorEspecialidad')"@fadeInOut>Médicos por especialidad</button>
+        <button (click)="abrirModal('medicosPorDia')"@fadeInOut>Médicos por día</button>
       </div>
 
+      <!-- Modal: Turnos por fecha -->
+      <div class="modal" *ngIf="modalActivo === 'turnosPorFecha'" @fadeInOut>
+        <div class="modal-content">
+          <h3>Informe: Turnos médicos por fecha</h3>
+          <label>Fecha desde:</label>
+          <input type="date" [(ngModel)]="filtros.fechaDesde">
+          <label>Fecha hasta:</label>
+          <input type="date" [(ngModel)]="filtros.fechaHasta">
+          <div class="modal-actions">
+            <button (click)="generarInforme('turnosPorFecha')"@fadeInOut>Generar</button>
+            <button (click)="cerrarModal()" @fadeInOut>Cancelar</button>
+          </div>
+        </div>
+      </div>
+      <!-- Modal: Médicos por día -->
+      <div class="modal" *ngIf="modalActivo === 'medicosPorDia'" @fadeInOut>
+        <div class="modal-content">
+          <h3>Informe: Médicos por día</h3>
+          <label>Día de la semana:</label>
+          <select [(ngModel)]="filtros.dia">
+            <option value="">Seleccione un día</option>
+            <option *ngFor="let d of dias" [value]="d.value">{{ d.nombre }}</option>
+          </select>
+          <div class="modal-actions">
+            <button (click)="generarInforme('medicosPorDia')"@fadeInOut>Generar</button>
+            <button (click)="cerrarModal()"@fadeInOut>Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal: Médicos por especialidad -->
+      <div class="modal" *ngIf="modalActivo === 'medicosPorEspecialidad'" @fadeInOut>
+        <div class="modal-content">
+          <h3>Informe: Médicos por especialidad</h3>
+          <label>Especialidad:</label>
+          <input type="text" [(ngModel)]="filtros.especialidad" placeholder="Ej: Cardiología">
+          <div class="modal-actions">
+            <button (click)="generarInforme('medicosPorEspecialidad')">Generar</button>
+            <button (click)="cerrarModal()">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Resultado -->
+      <div class="informe-result" *ngIf="resultadoInforme">
+        <h4>Resultado del informe:</h4>
+        <pre>{{ resultadoInforme | json }}</pre>
+      </div>
+    </div>
+
+
       <!--Modal para manejar la disponibilidad del medico-->
-        <div class="modal" *ngIf="isModalOpen">
+        <div class="modal" *ngIf="isModalOpen" @fadeInOut>
         <div class="modal-content">
           <h3>Buscar Médico por DNI</h3>
           <input type="text" [(ngModel)]="dniMedico" placeholder="Ingrese DNI">
