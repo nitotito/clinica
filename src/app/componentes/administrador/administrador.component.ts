@@ -121,6 +121,7 @@ export class AdministradorComponent {
   }
   
   ngOnInit() {
+    console.log("🟢 AdministradorComponent inicializado");
     this.obtenerMedicos();
     this.obtenerDato();
     this.obtenerTurnosDelDia();
