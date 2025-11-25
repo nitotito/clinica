@@ -12,10 +12,12 @@ import { GraficoCalificacionesComponent } from './componentes/grafico-calificaci
 import { PerfilComponent  } from './componentes/perfil/perfil.component';
 import { StaffComponent } from './componentes/staff/staff.component';
 import { ResetPasswordComponent } from './componentes/reset-password/reset-password.component';
+import { CredencialComponent } from './componentes/credencial/credencial.component';
 
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
     {path:'afiliado',component:AfiliadoComponent, canActivate:[canActivateGuardAfiliado]},
+    {path:'credencial',component:CredencialComponent, canActivate:[canActivateGuardAfiliado]},
     {path:'admin',component:AdministradorComponent, canActivate:[canActivateGuard]},
     {path:'registro', component:RegistroComponent},
     {path:'medico', component:MedicoComponent, canActivate:[canActivateGuardMedico]},

@@ -1,0 +1,25 @@
+<div class="card">
+    <h2>Credencial Virtual</h2>
+    <h3>Consultorio Médico</h3>
+
+    <!-- QR -->
+    <div class="qr-container">
+        <qrcode
+            [qrdata]="getQrData()"
+            [width]="200"
+            [errorCorrectionLevel]="'M'">
+        </qrcode>
+    </div>
+
+    <div class="info">
+        <p><span class="label">Nombre:</span> {{ nombre }}</p>
+        <p><span class="label">Apellido:</span> {{ apellido }}</p>
+        <p><span class="label">DNI:</span> {{ dni }}</p>
+        <p><span class="label">Credencial:</span> {{ credencial }}</p>
+        <p><span class="label">Teléfono:</span> {{ telefono }}</p>
+        <p><span class="label">Email:</span> {{ email }}</p>
+    </div>
+    
+    <p><span class="label">Token:</span> {{token}}</p>
+
+</div>
