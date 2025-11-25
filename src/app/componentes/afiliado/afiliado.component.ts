@@ -41,7 +41,9 @@ export class AfiliadoComponent {
   calificacionSeleccionada: number | null = null;
   mensajeGraciasVisible: boolean = false;
   isLoading: boolean = false;
-  isLoadingAux: boolean = false
+  isLoadingAux: boolean = false;
+  isHasHistory: boolean = true;
+  isHasTurno: boolean = true;
 
   ngOnInit() {
     const afiliadoData = sessionStorage.getItem('user');
@@ -133,9 +135,9 @@ export class AfiliadoComponent {
         console.log("horas disponibles:", hoursDoctor);
         console.log("horas final:", this.availableHours);
     
-    }, (error) => {
+      }, (error) => {
         console.error("Error al obtener horarios:", error);
-    });
+      });
     } else {
       this.notifService.mostrarError("Error al buscar disponibilidad");
       console.error("El campo 'dias' es undefined o no existe");
@@ -310,11 +312,19 @@ export class AfiliadoComponent {
           const pacienteId = user.id;
 
           this.consultaBackApi.getHistorialTurnos(pacienteId,1).subscribe((response) => {
+            if (response.length == 0) {
+              this.isHasHistory = false;
+            } else {
+              this.isHasHistory = true;
+            }
+            
             this.historialTurnos = response;
             this.isLoading = false;
-              }, (error) => {
-                  console.error("Error al obtener el historial de turnos:", error);
-                  this.isLoading = false;
+
+            }, (error) => {
+                console.error("Error al obtener el historial de turnos:", error);
+                this.isHasHistory = false;
+                this.isLoading = false;
             });
 
         } catch (error) {
@@ -386,12 +396,20 @@ export class AfiliadoComponent {
           const pacienteId = user.id;
 
           this.consultaBackApi.getHistorialTurnos(pacienteId,2).subscribe((response) => {
+
+            if (response.length == 0) {
+              this.isHasTurno = false;
+            } else {
+              this.isHasTurno = true;
+            }
+
             console.log("turnos lala : ",response)
             this.historialTurnos = response;
             this.isLoadingAux = false; 
               }, (error) => {
                   console.error("Error al obtener el historial de turnos:", error);
                   this.isLoadingAux = false;
+                  this.isHasTurno = false;
             });
 
         } catch (error) {

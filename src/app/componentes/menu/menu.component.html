@@ -30,6 +30,11 @@
           <button *ngIf="isLoggedIn() && (user.tipoUsuario === 'Paciente' || user.tipoUsuario === 'medico')" class="btn btn-outline-light"
             routerLink="/perfil">Perfil</button>
         </ng-container>
+
+        <ng-container>
+          <button *ngIf="isLoggedIn() && (user.tipoUsuario === 'Paciente')" class="btn btn-outline-light"
+            routerLink="/credencial">Ver credencial</button>
+        </ng-container>
       
         <!-- Botón Administrar para Admin -->
         <ng-container>

@@ -534,3 +534,38 @@ li {
         padding: 12px;
     }
 }
+
+.no-history-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 10px;
+}
+
+.no-history-card {
+  text-align: center;
+  background: #f9f9f9;
+  padding: 25px 30px;
+  border-radius: 12px;
+  border: 1px solid #e5e5e5;
+  max-width: 350px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.no-history-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+  opacity: 0.7;
+}
+
+.no-history-title {
+  font-weight: 600;
+  font-size: 18px;
+  margin: 0;
+}
+
+.no-history-subtitle {
+  font-size: 14px;
+  margin-top: 6px;
+  color: #555;
+}

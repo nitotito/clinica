@@ -21,7 +21,7 @@
   
       <!-- Habilitacion -->
       <div class="table-responsive" *ngIf="activeSection === 'habilitacion'" @fadeInOut>
-        <input type="text" [(ngModel)]="filtro" placeholder="Buscar médicos">
+        <input type="text" [(ngModel)]="filtro" placeholder="Buscar por especialidad">
         <table class="table table-striped" id="medicosTable">
           <thead>
             <tr>
@@ -58,7 +58,7 @@
       <!-- Tabla de selección de médicos -->
       <div *ngIf="!medicoSeleccionado" class="table-responsive" @fadeInOut>
         <h3 style="text-align:center;">Seleccionar médico</h3>
-        <input type="text" [(ngModel)]="filtro" placeholder="Buscar médicos">
+        <input type="text" [(ngModel)]="filtro" placeholder="Buscar por especialidad">
 
         <table class="table table-striped" id="disponibilidadTable">
           <thead>
