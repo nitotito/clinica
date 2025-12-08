@@ -41,14 +41,25 @@
 
                 <!-- Selección de hora -->
                 <div *ngIf="selectedDate">
-                    <label for="hour-buttons">Hora disponible:</label>
-                    <div id="hour-buttons" class="hour-buttons-container">
-                        <!-- Crear un botón por cada hora disponible -->
-                        <button *ngFor="let hour of availableHours" [class.selected]="hour === selectedHour"
-                            (click)="confirmarTurno(hour)">
-                            {{ hour }}
-                        </button>
+                    
+                    <div *ngIf="hasAvailableHours; else noHours">
+                        <label for="hour-buttons">Hora disponible:</label>
+                        <div id="hour-buttons" class="hour-buttons-container">
+                            <!-- Crear un botón por cada hora disponible -->
+                            <button 
+                                *ngFor="let hour of availableHours" 
+                                [class.selected]="hour === selectedHour"
+                                (click)="confirmarTurno(hour)">
+                                {{ hour }}
+                            </button>
+                        </div>
                     </div>
+
+                    <!-- Template para cuando NO hay horas -->
+                    <ng-template #noHours>
+                        <p class="no-hours-message">No hay horarios disponibles para esta fecha.</p>
+                    </ng-template>
+
                 </div>
             </div>
         </div>

@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
   }
 
   constructor(private consultaBackApi: ConsultasBackServiceService ,private root:Router, private fb: FormBuilder, private notifService: NotificacionService) {  // INSTANCIO MI CLASE DE BACK PARA TODOS LOS OOPERADORES
-
   }
 
   ngOnInit(): void {
@@ -62,62 +61,63 @@ export class LoginComponent implements OnInit {
     });
   }
 
- public login(){
-  this.isLoading = true; 
-  if(this.loginForm.valid){
-    this.loginUsuario.dni = this.loginForm.value.dni;
-    this.loginUsuario.contra = this.loginForm.value.password;
-    this.loginUsuario.tipoUsuario = this.loginForm.value.tipoUsuario;
-    console.log("tipo usuario :", this.loginUsuario.tipoUsuario);
-    console.log("valor de isloading: ", this.isLoading);
-   this.consultaBackApi.login(this.loginUsuario).subscribe({
-    next: (consultausuario: loginUser[]) => {
-      if (!consultausuario || consultausuario.length === 0 || !consultausuario[0]?.dni) {
-        console.log("Usuario inexistente");
-        this.usuarioEncontrado = false;
-        this.notifService.mostrarError("Usuario inexistente");
-        return;
-      }
-
-      const user = consultausuario[0];
-      console.log("Usuario encontrado:", user);
-
-      this.loginUsuario.id = user.id;
-      this.loginUsuario.nombre = user.nombre;
-      sessionStorage.setItem('user', JSON.stringify(this.loginUsuario));
-      this.notifService.mostrarExito("Ingreso exitoso");
-      this.root.navigateByUrl("/afiliado");
-    },
-    error: err => {
-      console.error("Error en login:", err);
-      this.notifService.mostrarError("Usuario inexistente");
-      this.usuarioEncontrado = false;
-    }
-  });
-    setTimeout(() => {
-      this.isLoading = false; 
-    }, 400); 
-  }else{ 
-    this.isLoading = false; 
-    this.markFormGroupTouched(this.loginForm);
-  }
-  }
-
-      openForgotPassword() {
-      const email = prompt("Ingrese su correo para recuperar la contraseña");
-
-      if (email) {
-        this.consultaBackApi.forgotPassword(email).subscribe({
-          next: (res) => {
-            this.notifService.mostrarExito("Si el email existe, recibirás un correo con instrucciones");
-          },
-          error: (err) => {
-            console.error("Error en recuperación:", err);
-            this.notifService.mostrarError("Hubo un error, intente más tarde");
+  public login(){
+    this.isLoading = true; 
+    if(this.loginForm.valid){
+      this.loginUsuario.dni = this.loginForm.value.dni;
+      this.loginUsuario.contra = this.loginForm.value.password;
+      this.loginUsuario.tipoUsuario = this.loginForm.value.tipoUsuario;
+      console.log("tipo usuario :", this.loginUsuario.tipoUsuario);
+      console.log("valor de isloading: ", this.isLoading);
+      this.consultaBackApi.login(this.loginUsuario).subscribe({
+        next: (consultausuario: loginUser[]) => {
+          if (!consultausuario || consultausuario.length === 0 || !consultausuario[0]?.dni) {
+            console.log("Usuario inexistente");
+            this.usuarioEncontrado = false;
+            this.notifService.mostrarError("Usuario inexistente");
+            return;
           }
-        });
-      }
+
+          const user = consultausuario[0];
+          console.log("Usuario encontrado:", user);
+
+          this.loginUsuario.id = user.id;
+          this.loginUsuario.nombre = user.nombre;
+          sessionStorage.setItem('user', JSON.stringify(this.loginUsuario));
+          this.notifService.mostrarExito("Ingreso exitoso");
+          this.root.navigateByUrl("/afiliado");
+        },
+        error: err => {
+          console.error("Error en login:", err);
+          this.notifService.mostrarError("Usuario inexistente");
+          this.usuarioEncontrado = false;
+        }
+      });
+        
+      setTimeout(() => {
+        this.isLoading = false; 
+      }, 400); 
+    }else{ 
+      this.isLoading = false; 
+      this.markFormGroupTouched(this.loginForm);
     }
+  }
+
+  openForgotPassword() {
+    const email = prompt("Ingrese su correo para recuperar la contraseña");
+
+    if (email) {
+      this.consultaBackApi.forgotPassword(email).subscribe({
+        next: (res) => {
+          this.notifService.mostrarExito("Recibirás un correo con las instrucciones.");
+        },
+        error: (err) => {
+          console.error("Error en recuperación:", err);
+          this.notifService.mostrarError("Hubo un error, intente más tarde");
+        }
+      });
+    }
+  }
 
 
   private markFormGroupTouched(formGroup: FormGroup) {

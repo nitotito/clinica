@@ -44,6 +44,7 @@ export class AfiliadoComponent {
   isLoadingAux: boolean = false;
   isHasHistory: boolean = true;
   isHasTurno: boolean = true;
+  hasAvailableHours: boolean = true;
 
   ngOnInit() {
     const afiliadoData = sessionStorage.getItem('user');
@@ -101,7 +102,7 @@ export class AfiliadoComponent {
     if (disponibilidad && disponibilidad.dias) {
       const daysOfWeek = String(disponibilidad.dias).split(',');
       console.log(`daysOfWeek: ${daysOfWeek}`);
-    
+      console.log("horas disponibles: ", disponibilidad.desde, " hasta " , disponibilidad.hasta)
       const hoursDoctor = this.generarHorasDisponibles(disponibilidad.desde, disponibilidad.hasta);
       const medicoId = this.disponibilidad.id_medico; 
       const diaSelect = this.selectedDate;
@@ -131,6 +132,14 @@ export class AfiliadoComponent {
         } else {
           this.availableHours = [];
         }
+
+        if(this.availableHours.length == 0) {
+          this.hasAvailableHours = false;
+          
+        } else {
+          this.hasAvailableHours = true;
+        }
+
         console.log("horas obtenidas: ", this.hoursTuno);
         console.log("horas disponibles:", hoursDoctor);
         console.log("horas final:", this.availableHours);
@@ -241,31 +250,32 @@ export class AfiliadoComponent {
     const myData: string | null = sessionStorage.getItem('user'); 
     if (myData) {
         try {
-            
-            const user = JSON.parse(myData);
-            const pacienteId = user.id; 
-            const medicoId = this.disponibilidad.id_medico;  
-            // Preparar el objeto del turno
-            const turno = {
-                id_paciente: pacienteId, // ID del paciente
-                id_medico: medicoId, 
-                especialidad: this.especialidadSeleccionada,
-                fecha: this.selectedDate,
-                hora: this.selectedHour
-            };
-            console.log("Turno a guardar: ", turno);
-            // Llamar a la API para guardar el turno
-            this.consultaBackApi.guardarTurno(turno).subscribe((response) => {
-                console.log("Turno guardado con éxito:", response);
+          const user = JSON.parse(myData);
+          const pacienteId = user.id; 
+          const medicoId = this.disponibilidad.id_medico;  
+          // Preparar el objeto del turno
+          const turno = {
+            id_paciente: pacienteId, // ID del paciente
+            id_medico: medicoId, 
+            especialidad: this.especialidadSeleccionada,
+            fecha: this.selectedDate,
+            hora: this.selectedHour
+          };
+          console.log("Turno a guardar: ", turno);
+          // Llamar a la API para guardar el turno
+          this.consultaBackApi.guardarTurno(turno).subscribe((response) => {
+            console.log("Turno guardado con éxito:", response);
 
-                setTimeout(() => {
-                  this.especialidadesVisible = false; // Oculta el contenido
-                  this.mostrarMensajeExito = true; // Muestra el mensaje de éxito
-                }, 1000); // Simulación de delay para el guardado
+            setTimeout(() => {
+              this.especialidadesVisible = false; // Oculta el contenido
+              this.mostrarMensajeExito = true; // Muestra el mensaje de éxito
+            }, 1000); // Simulación de delay para el guardado
 
-            }, (error) => {
-                console.error("Error al guardar el turno:", error);
-            }); 
+          }, (error) => {
+              console.error("Error al guardar el turno:", error);
+          });
+
+          this.notifService.mostrarExito("Turno guardado con éxito."); 
         } catch (error) {
             console.error('Error al parsear el JSON:', error);
         }
