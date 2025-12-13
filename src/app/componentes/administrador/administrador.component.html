@@ -13,10 +13,10 @@
       <h1 style="text-align: center;">Seleccione una opción para continuar</h1>
       <div class="main-buttons" @fadeInOut>
         <button (click)="setActive('habilitacion')" @fadeInOut>Habilitación</button >
-        <button (click)="setActive('turnos')"@fadeInOut>Turnos</button>
+        <button (click)="setActive('turnos')"@fadeInOut>Turnos Actuales</button>
         <button (click)="setActive('disponibilidad')"@fadeInOut>Disponibilidad</button>
         <button (click)="setActive('informes')"@fadeInOut>Informes</button>
-        <button (click)="setActive('administrar')"@fadeInOut>Administrar</button>
+        <button (click)="setActive('administrar')"@fadeInOut>Alta de Perfiles</button>
       </div>
   
       <!-- Habilitacion -->
@@ -172,7 +172,7 @@
 
           <div class="form-group">
             <label>Contraseña:</label>
-            <input type="text" name="telefono" [(ngModel)]="nuevoUsuario.contrasenia" required />
+            <input type="password" name="telefono" [(ngModel)]="nuevoUsuario.contrasenia" required />
           </div>
 
           <button class="botonGuardar" type="submit"@fadeInOut>Guardar</button>
