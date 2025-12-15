@@ -169,9 +169,9 @@ export class MedicoComponent implements AfterViewInit {
   generarCSV() {
     if (this.turnos.length > 0) {
       const csvData = this.turnos.map(turno => ({
-        DNI: turno.DNI_paciente || '',
-        Nombre: turno.Paciente || '',
-        Fecha: turno.dia || '',
+        DNI: turno.dniPaciente || '',
+        Nombre: turno.paciente || '',
+        Fecha: turno.fecha || '',
         Hora: turno.hora || '',
         Estado: turno.estado || ''
       }));
@@ -183,7 +183,7 @@ export class MedicoComponent implements AfterViewInit {
         decimalseparator: '.',
         showLabels: true,
         showTitle: true,
-        title: 'Lista de Turnos para el Medico: ' + this.turnos[0].Medico,
+        title: 'Lista de Turnos para el Medico: ' + this.turnos[0].medico,
         useBom: true,
         headers: ["DNI", "Nombre", "Fecha", "Hora", "Estado"]
       };
