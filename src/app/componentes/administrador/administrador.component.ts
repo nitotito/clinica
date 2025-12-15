@@ -316,17 +316,20 @@ public generarPDF() {
     if (!this.nuevoUsuario.tipoUsuario || !this.nuevoUsuario.nombre || !this.nuevoUsuario.dni) {
       this.notifService.mostrarError('Por favor complete los campos obligatorios.');
       return;
+    }   
+    if (!this.nuevoUsuario.contrasenia) {
+      this.notifService.mostrarError('La contraseña es obligatoria.');
+      return;
     }
-    if (this.nuevoUsuario.contrasenia) {
-      const regexEspecial = new RegExp('[!@#$%^&*(),.?":{}|<>]');
-      if (!regexEspecial.test(this.nuevoUsuario.contrasenia)) {
-        this.notifService.mostrarError('La contraseña debe contener al menos un carácter especial.');
-        return;
-      }
-    } 
+    const password = this.nuevoUsuario.contrasenia.trim();
+    const regexEspecial = new RegExp('[!@#$%^&*(),.?":{}|<>]');
+    if (!regexEspecial.test(password)) {
+      this.notifService.mostrarError('La contraseña debe contener al menos un carácter especial.');
+       return;
+    }
     if (this.nuevoUsuario.dni.toString().length !== 8 ) {
       this.notifService.mostrarError('El dni tiene que tener 8 caracteres.');
-      console.log('La contraseña debe tener al menos 8 caracteres');
+      console.log('El dni debe tener al menos 8 caracteres');
       return;
     }
     console.log("tipo usuario a guardar: ", this.nuevoUsuario.tipoUsuario);
