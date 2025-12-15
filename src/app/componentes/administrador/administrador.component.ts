@@ -321,6 +321,12 @@ public generarPDF() {
       this.notifService.mostrarError('La contraseña es obligatoria.');
       return;
     }
+    if (this.nuevoUsuario.contrasenia.toString().length < 8 ) {
+      this.notifService.mostrarError('La contrasenia tiene que tener un minimo de 8 caracteres');
+      console.log('La contrasenia tiene que tener un minimo de 8 caracteres');
+      return;
+    }
+
     const password = this.nuevoUsuario.contrasenia.trim();
     const regexEspecial = new RegExp('[!@#$%^&*(),.?":{}|<>]');
     if (!regexEspecial.test(password)) {
