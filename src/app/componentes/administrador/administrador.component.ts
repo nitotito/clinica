@@ -317,6 +317,11 @@ public generarPDF() {
       this.notifService.mostrarError('Por favor complete los campos obligatorios.');
       return;
     }
+    if (this.nuevoUsuario.dni.toString().length !== 8 ) {
+      this.notifService.mostrarError('Tiene que tener 8 caracteres.');
+      console.log('La contraseña debe tener al menos 8 caracteres');
+      return;
+    }
     console.log("tipo usuario a guardar: ", this.nuevoUsuario.tipoUsuario);
     switch(this.nuevoUsuario.tipoUsuario){
       case "administrativo":
@@ -330,8 +335,7 @@ public generarPDF() {
 
           })
         break;
-
-      case "tecnico":
+      case "tecnico":   
       case "medico":  
           this.backservice.registrarMed(this.nuevoUsuario).subscribe({
             next: (res) => {
