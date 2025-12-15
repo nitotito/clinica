@@ -330,8 +330,16 @@ public generarPDF() {
 
           })
         break;
-
-      case "tecnico":
+      case "tecnico":   
+          this.backservice.registrarMed(this.nuevoUsuario).subscribe({
+            next: (res) => {
+              console.log('🧾 Técnico guardado:', res);
+            },
+            error: (err) => {
+              console.log('error al guardar técnico:', err);
+            }
+          });
+          break;
       case "medico":  
           this.backservice.registrarMed(this.nuevoUsuario).subscribe({
             next: (res) => {
