@@ -322,7 +322,7 @@ public generarPDF() {
       return;
     }
     if (this.nuevoUsuario.contrasenia.toString().length < 8 ) {
-      this.notifService.mostrarError('La contrasenia tiene que tener un minimo de 8 caracteres');
+      this.notifService.mostrarError('La contraseña tiene que tener un minimo de 8 caracteres');
       console.log('La contrasenia tiene que tener un minimo de 8 caracteres');
       return;
     }
