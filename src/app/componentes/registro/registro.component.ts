@@ -96,7 +96,6 @@ export class RegistroComponent {
     }
     console.log("primer ingreso no valida : " + this.validar);
     let admin = this.validarIngresoAdmin();
-
     if (admin == true) {
       this.validar = "admin";
       return false;
@@ -107,19 +106,37 @@ export class RegistroComponent {
     } else {
       this.validar = "lleno";
     }
-
     if (String(this.usuario.dni).length != 8) {
       this.validar = "falta";
       return false;
     } else {
       this.validar = "lleno";
     }
-
+    if (this.usuario.dni.toString().length !== 8 ) {
+      this.notifService.mostrarError('El dni tiene que tener 8 caracteres.');
+      console.log('El dni debe tener al menos 8 caracteres');
+      return;
+    }
     if (this.usuario.contra == "" || this.usuario.email == "") {
       this.validar = "vacio";
       return false;
     } else {
       this.validar = "lleno";
+    }
+    if (!this.usuario.contra) {
+      this.notifService.mostrarError('La contraseña es obligatoria.');
+      return;
+    }
+    if (this.usuario.contra.toString().length < 8 ) {
+      this.notifService.mostrarError('La contraseña tiene que tener un minimo de 8 caracteres');
+      console.log('La contraseña tiene que tener un minimo de 8 caracteres');
+      return;
+    }
+    const password = this.usuario.contra.trim();
+    const regexEspecial = new RegExp('[!@#$%^&*(),.?":{}|<>]');
+    if (!regexEspecial.test(password)) {
+      this.notifService.mostrarError('La contraseña debe contener al menos un carácter especial.');
+       return;
     }
     if (this.usuario.contra != this.confirmacontra) {
       console.error("Por favor verifique los datos ingresados");
@@ -128,7 +145,6 @@ export class RegistroComponent {
     } else {
       this.validar == "lleno";
     }
-
     if (this.usuario.email != this.confirmaemail) {
       console.error("Por favor verifique los datos ingresados");
       this.validar = "email";
@@ -136,7 +152,6 @@ export class RegistroComponent {
     } else {
       this.validar = "lleno";
     }
-
     console.log("Todos los campos estan ok");
     return true;
 
