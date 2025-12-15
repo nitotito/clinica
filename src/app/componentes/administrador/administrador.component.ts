@@ -308,6 +308,7 @@ public generarPDF() {
 
   }
 
+  
   esMedicoOTecnico(): boolean {
     return this.nuevoUsuario.tipoUsuario === 'medico' || this.nuevoUsuario.tipoUsuario === 'tecnico';
   }
