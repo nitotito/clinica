@@ -316,7 +316,7 @@ public generarPDF() {
     if (!this.nuevoUsuario.tipoUsuario || !this.nuevoUsuario.nombre || !this.nuevoUsuario.dni) {
       this.notifService.mostrarError('Por favor complete los campos obligatorios.');
       return;
-    }
+    }   
     if (!this.nuevoUsuario.contrasenia) {
       this.notifService.mostrarError('La contraseña es obligatoria.');
       return;
@@ -330,7 +330,7 @@ public generarPDF() {
     const password = this.nuevoUsuario.contrasenia.trim();
     const regexEspecial = new RegExp('[!@#$%^&*(),.?":{}|<>]');
     if (!regexEspecial.test(password)) {
-      this.notifService.mostrarError('La contraseña debe contener al menos un carácter especial');
+      this.notifService.mostrarError('La contraseña debe contener al menos un carácter especial.');
        return;
     }
     if (this.nuevoUsuario.dni.toString().length !== 8 ) {
