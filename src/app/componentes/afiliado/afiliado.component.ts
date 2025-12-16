@@ -265,7 +265,7 @@ export class AfiliadoComponent {
           // Llamar a la API para guardar el turno
           this.consultaBackApi.guardarTurno(turno).subscribe((response) => {
             console.log("Turno guardado con éxito:", response);
-
+            this.notifService.mostrarExito("Turno guardado con éxito."); 
             setTimeout(() => {
               this.especialidadesVisible = false; // Oculta el contenido
               this.mostrarMensajeExito = true; // Muestra el mensaje de éxito
@@ -274,11 +274,10 @@ export class AfiliadoComponent {
           }, (error) => {
               console.error("Error al guardar el turno:", error);
           });
-
-          this.notifService.mostrarExito("Turno guardado con éxito."); 
         } catch (error) {
             console.error('Error al parsear el JSON:', error);
         }
+        
     } else {
         console.log('No hay datos de usuario en el sessionStorage.');
     }
