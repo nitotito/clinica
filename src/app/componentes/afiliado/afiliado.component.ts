@@ -45,6 +45,7 @@ export class AfiliadoComponent {
   isHasHistory: boolean = true;
   isHasTurno: boolean = true;
   hasAvailableHours: boolean = true;
+  calificado : boolean = false;
 
   ngOnInit() {
     const afiliadoData = sessionStorage.getItem('user');
@@ -348,6 +349,10 @@ export class AfiliadoComponent {
     this.turnoSeleccionado = turno; 
     this.calificacionSeleccionada = null; 
     this.mensajeCalificacionVisible = true;
+
+    if(this.calificado) {
+      turno.calificacion = "CALIFICADO"
+    }
   }
   ocultarMensajeCalificacion() {
     this.mensajeCalificacionVisible = false; 
@@ -363,8 +368,10 @@ export class AfiliadoComponent {
   enviarCalificacion() {
 
     const calificacion = this.calificacionSeleccionada;
-    const id = this.turnoSeleccionado.id;
+    const id = this.turnoSeleccionado.idTurno;
     console.log(" turno seleccionado  ", this.turnoSeleccionado);
+    console.log(" calificacion seleccionado  ", this.calificacionSeleccionada);
+
     if(calificacion && id){
 
       const turnoSearch = {
@@ -438,6 +445,24 @@ ngAfterViewInit() {
       perfilElement?.classList.add('visible');
   }, 100); 
 }
+
+cancelarTurno(turno: any) {
+  if (confirm('¿Seguro que querés cancelar este turno?')) {
+    console.log("turno: ", turno)
+    this.consultaBackApi.cancelarTurno(turno.idTurno).subscribe((response) => {
+
+      turno.estado = 'Cancelado';
+    }
+    )
+    turno.estado = 'Cancelado';
+  }
+}
+
+esClickeable(turno: any): boolean {
+  return turno.estado?.trim().toLowerCase() === 'finalizado'
+      && turno.calificacion?.trim().toLowerCase() === 'pendiente';
+}
+
 }
 
 

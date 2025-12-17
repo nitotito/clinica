@@ -176,8 +176,8 @@ getReporteTurnosCancelados(fechaInicio: string, fechaFin: string) {
     );
   }
   
-    cancelarTurno(id: number) {
-    return this.http.put(`${this.APIURL}/turnos/cancelar/${id}`, {});
+  cancelarTurno(id: number) {
+    return this.http.get(`${this.APIURL}/cancelarTurno/${id}`, {});
   }
 
   // Función que manejará los errores

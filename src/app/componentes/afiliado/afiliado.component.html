@@ -12,7 +12,7 @@
             <!--- Botones principales --->
             <div class="main-buttons">
                 <button id="btnNuevoTurno" (click)="mostrarEspecialidades()">Nuevo turno</button>
-                <button (click)="mostrarHistorialTurnos()" [disabled]="isLoading">Turnos finalizados</button>
+                <button (click)="mostrarHistorialTurnos()" [disabled]="isLoading">Turnos previos</button>
                 <button (click)="misTurnos()" [disabled]="isLoadingAux">Turnos en progreso</button>
             </div>
         </div>
@@ -66,7 +66,7 @@
         
         <!-- Turnos finalizados -->
         <div *ngIf="mostrarHistorial">
-            <h2>Historial de Turnos Finalizados</h2>
+            <h2>Historial de Turnos Previos</h2>
             <div *ngIf="isHasHistory; else noHistory">
                 <h5>Seleccione un turno para calificarlo</h5>
                 <table class="historial-table">
@@ -83,13 +83,14 @@
                         <tr *ngFor="let turno of historialTurnos"
                                 [ngClass]="{
                                     'estado-cancelado': turno.estado.trim().toLowerCase() === 'cancelado',
-                                    'estado-activo': turno.estado.trim().toLowerCase() === 'confirmado'
+                                    'estado-finalizado' : turno.estado.trim().toLowerCase() === 'finalizado',
+                                    'no-click': !esClickeable(turno)
                                 }">
-                                <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.fecha }}</td>
-                                <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.hora }}</td>
-                                <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.especialidad }}</td>
-                                <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.estado }}</td>
-                                <td (click)="mostrarMensajeCalificacion(turno)" class="clickable">{{ turno.calificacion }}</td>
+                                <td (click)="esClickeable(turno) && mostrarMensajeCalificacion(turno)" [class.clickable]="esClickeable(turno)">{{ turno.fecha }}</td>
+                                <td (click)="esClickeable(turno) && mostrarMensajeCalificacion(turno)" [class.clickable]="esClickeable(turno)">{{ turno.hora }}</td>
+                                <td (click)="esClickeable(turno) && mostrarMensajeCalificacion(turno)" [class.clickable]="esClickeable(turno)">{{ turno.especialidad }}</td>
+                                <td (click)="esClickeable(turno) && mostrarMensajeCalificacion(turno)" [class.clickable]="esClickeable(turno)">{{ turno.estado }}</td>
+                                <td (click)="esClickeable(turno) && mostrarMensajeCalificacion(turno)" [class.clickable]="esClickeable(turno)">{{ turno.calificacion }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -100,8 +101,8 @@
                 <div class="no-history-container">
                     <div class="no-history-card">
                         <span class="no-history-icon">🗂️</span>
-                        <p class="no-history-title">No tenés turnos finalizados</p>
-                        <p class="no-history-subtitle">Cuando finalices alguno, aparecerán acá.</p>
+                        <p class="no-history-title">No tenés turnos previos</p>
+                        <p class="no-history-subtitle">Cuando finalices o canceles uno, aparecerá acá.</p>
                     </div>
                 </div>
             </ng-template>
@@ -144,6 +145,7 @@
                             <th>Hora</th>
                             <th>Especialidad</th>
                             <th>Estado</th>
+                            <th class="text-center">Acciones</th>
                         </tr>
                     </thead>
 
@@ -151,12 +153,21 @@
                         <tr *ngFor="let turno of historialTurnos"
                             [ngClass]="{
                                 'estado-cancelado': turno.estado.trim().toLowerCase() === 'cancelado',
-                                'estado-activo': turno.estado.trim().toLowerCase() === 'confirmado'
+                                'estado-activo': turno.estado.trim().toLowerCase() === 'confirmado',
+                                'estado-pendiente': turno.estado.trim().toLowerCase() === 'pendiente'
                             }">
                             <td>{{ turno.fecha }}</td>
                             <td>{{ turno.hora }}</td>
                             <td>{{ turno.especialidad }}</td>
                             <td>{{ turno.estado }}</td>
+                            <td class="text-center">
+                                <button
+                                    *ngIf="turno.estado.trim().toLowerCase() === 'confirmado' || turno.estado.trim().toLowerCase() === 'pendiente'"
+                                    class="btn btn-danger btn-sm py-0"
+                                    (click)="cancelarTurno(turno)">
+                                    Cancelar turno
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
