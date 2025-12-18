@@ -80,7 +80,10 @@ export class AfiliadoComponent {
 
   getMedicos() {  // busco medicos  y parseo la especialidad
     this.consultaBackApi.getMedicos().subscribe((medicos: Medico[]) => {
-      this.especialidades = medicos.map(medico => medico.especialidad);
+      console.log("daskdoaskdoasdkoasodkasodasokdoaskdoka: ", medicos)
+      this.especialidades = medicos
+      .filter(medico =>  medico.habilitacion)
+      .map(medico => medico.especialidad);
     });
   }
 
