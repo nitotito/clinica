@@ -29,6 +29,11 @@ export class ResetPasswordComponent {
     return;
   }
 
+  if (this.password == " ") {
+    this.notifService.mostrarError('Las contraseña no puede estar vacia.');
+    return;
+  }
+
   if (this.password !== this.confirmPassword) {
     this.notifService.mostrarError('Las contraseñas no coinciden.');
     return;
