@@ -24,10 +24,26 @@ export class ResetPasswordComponent {
   }
 
   resetPassword(): void {
-    if (this.password !== this.confirmPassword) {
-      this.notifService.mostrarError('Contraseñas no coinciden');
-      return;
-    }
+    if (!this.password || !this.confirmPassword) {
+    this.notifService.mostrarError('La contraseña es obligatoria.');
+    return;
+  }
+
+  if (this.password !== this.confirmPassword) {
+    this.notifService.mostrarError('Las contraseñas no coinciden.');
+    return;
+  }
+
+  if (this.password.length < 8) {
+    this.notifService.mostrarError('La contraseña debe tener al menos 8 caracteres.');
+    return;
+  }
+
+  const regexEspecial = new RegExp('[!@#$%^&*(),.?":{}|<>]');;
+  if (!regexEspecial.test(this.password)) {
+    this.notifService.mostrarError('La contraseña debe contener al menos un carácter especial.');
+    return;
+  }
 
     this.http.post(`http://localhost:8080/auth/reset-password?token=${this.token}`, { password: this.password })
       .subscribe({
